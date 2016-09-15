@@ -44,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "aircard.ofalvai.com.aircard"
+        applicationId "com.ofalvai.aircard"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
@@ -53,6 +53,7 @@ android {
 
         resConfigs "en", "hu"
         resValue "string", "APP_VERSION", versionName
+        manifestPlaceholders = [googleApiKey: localConfig.googleApiKey]
     }
 
     buildTypes {
@@ -89,5 +90,6 @@ ribbonizer {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.android.gms:play-services-nearby:9.4.0'
 }

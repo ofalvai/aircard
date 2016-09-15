@@ -1,4 +1,4 @@
-package aircard.ofalvai.com.aircard;
+package com.ofalvai.aircard.aircard;
 
 import org.junit.Test;
 
