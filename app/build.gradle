@@ -1,0 +1,93 @@
+/*
+ * Copyright 2016 Olivér Falvai
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.github.gfx.ribbonizer'
+
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// keystore.properties file, in the rootProject folder.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
+// This file contains private information, create your own by renaming
+// localconfig.example.properties in the project folder
+def localConfig = new Properties()
+localConfig.load(new FileInputStream(project.file("localconfig.properties")))
+
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    defaultConfig {
+        applicationId "aircard.ofalvai.com.aircard"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        signingConfig signingConfigs.config
+
+        resConfigs "en", "hu"
+        resValue "string", "APP_VERSION", versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    productFlavors {
+        fastBuild {
+            minSdkVersion 21
+        }
+        regular {
+            minSdkVersion 16
+        }
+    }
+}
+
+ribbonizer {
+    builder { variant, iconFile ->
+        if (variant.buildType.name == "debug") {
+            return grayRibbonFilter(variant, iconFile)
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+}
