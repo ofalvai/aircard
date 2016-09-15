@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AirCard</string>
+    <string name="button_clear_log">Clear log</string>
 </resources>
