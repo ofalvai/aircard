@@ -21,7 +21,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +37,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -49,21 +52,15 @@ public class MainActivity extends AppCompatActivity
 
     private MessageListener mMessageListener;
 
-    private TextView mDebugTextView;
+    @BindView(R.id.debug_log)
+    TextView mDebugTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDebugTextView = (TextView) findViewById(R.id.debug_log);
-
-        findViewById(R.id.clear_debug_log).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDebugTextView.setText("");
-            }
-        });
+        ButterKnife.bind(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Nearby.MESSAGES_API)
@@ -176,5 +173,10 @@ public class MainActivity extends AppCompatActivity
         String timestamp = simpleDateFormat.format(now);
 
         mDebugTextView.setText(mDebugTextView.getText() + "\n" + timestamp + "   " + message);
+    }
+
+    @OnClick(R.id.clear_debug_log)
+    void clearDebugLog() {
+        mDebugTextView.setText("");
     }
 }
