@@ -20,7 +20,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -34,7 +37,9 @@ import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -52,8 +57,16 @@ public class MainActivity extends AppCompatActivity
 
     private MessageListener mMessageListener;
 
+    private CardAdapter mNearbyCardsArrayAdapter;
+
     @BindView(R.id.debug_log)
     TextView mDebugTextView;
+
+    @BindView(R.id.publish)
+    Button mPublishButton;
+
+    @BindView(R.id.nearby_cards_list)
+    ListView mNearbyCardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +84,31 @@ public class MainActivity extends AppCompatActivity
         mMessageListener = new MessageListener() {
             @Override
             public void onFound(Message message) {
-                String messageAsString = new String(message.getContent());
-                Log.i(TAG, "Found message: " + messageAsString);
-                appendLog("Found message: " + messageAsString);
+                Card card = Card.fromNearbyMessage(message);
+
+                Log.i(TAG, "Found message: " + card.getName());
+                appendLog("Found message: " + card.getName());
+
+                mNearbyCardsArrayAdapter.add(card);
             }
 
             @Override
             public void onLost(Message message) {
-                String messageAsString = new String(message.getContent());
-                Log.i(TAG, "Lost sight of message: " + messageAsString);
-                appendLog("Lost sight of message: " + messageAsString);
+                Card card = Card.fromNearbyMessage(message);
+
+                Log.i(TAG, "Lost sight of message: " + card.getName());
+                appendLog("Lost sight of message: " + card.getName());
+
+                mNearbyCardsArrayAdapter.remove(card);
+                mNearbyCardsArrayAdapter.notifyDataSetChanged();
             }
         };
+
+        final List<Card> nearbyCardList = new ArrayList<>();
+        mNearbyCardsArrayAdapter = new CardAdapter(this, R.layout.list_item_card, nearbyCardList);
+        mNearbyCardList.setAdapter(mNearbyCardsArrayAdapter);
+
+        mDebugTextView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
@@ -96,9 +122,6 @@ public class MainActivity extends AppCompatActivity
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "onConnected: ");
         appendLog("onConnected()");
-
-        int random = new Random().nextInt(1000);
-        publish("Hello World #" + random);
 
         subscribe();
 
@@ -116,12 +139,38 @@ public class MainActivity extends AppCompatActivity
         appendLog("onConnectionFailed()");
     }
 
-    private void publish(String message) {
-        Log.i(TAG, "Publishing message: " + message);
-        appendLog("Publishing message: " + message);
+    @OnClick(R.id.clear_debug_log)
+    void clearDebugLog() {
+        mDebugTextView.setText("");
+    }
 
-        mActiveMessage = new Message(message.getBytes());
+    @OnClick(R.id.publish)
+    public void publish() {
+        mActiveMessage = newRandomCardMessage();
         Nearby.Messages.publish(mGoogleApiClient, mActiveMessage);
+
+        Card card = Card.fromNearbyMessage(mActiveMessage);
+
+        Log.i(TAG, "Publishing message: " + card.getCustomFields().get(0).getValue());
+        appendLog("Publishing message: " + card.getCustomFields().get(0).getValue());
+    }
+
+    private Message newRandomCardMessage() {
+        List<CustomField> customFields = new ArrayList<>();
+        customFields.add(new CustomField("Random ID: ", String.valueOf(new Random().nextInt(1000))));
+
+        return Card.newNearbyMessage(
+                "Hello World",
+                "+36201234567",
+                "mail@example.com",
+                "Address",
+                "Coordinates",
+                "http://example.com",
+                "Hello World note",
+                customFields,
+                "Roboto",
+                "ffffff"
+        );
     }
 
     private void subscribe() {
@@ -175,8 +224,5 @@ public class MainActivity extends AppCompatActivity
         mDebugTextView.setText(mDebugTextView.getText() + "\n" + timestamp + "   " + message);
     }
 
-    @OnClick(R.id.clear_debug_log)
-    void clearDebugLog() {
-        mDebugTextView.setText("");
-    }
+
 }
