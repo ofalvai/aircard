@@ -38,7 +38,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
         Card card = mCards.get(position);
-        holder.bindCard(card);
+        holder.bindCard(card, mContext);
 
         if (card.getNote() != null && !card.getNote().isEmpty()) {
             StaggeredGridLayoutManager.LayoutParams layoutParams =

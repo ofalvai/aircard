@@ -1,7 +1,10 @@
 package com.ofalvai.aircard.presentation;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +12,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CardViewHolder extends RecyclerView.ViewHolder {
 
     private CardView mCardView;
 
@@ -46,7 +53,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         ButterKnife.bind(this, itemView);
     }
 
-    public void bindCard(@NonNull Card card) {
+    public void bindCard(@NonNull final Card card, @NonNull final Context context) {
         // Title
         mCardTitle.setText(card.getName());
         setTypeface(mCardTitle, card.getTypeface());
@@ -55,6 +62,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         if (card.getMail() != null && !card.getMail().isEmpty()) {
             mCardMail.setText(card.getMail());
             setTypeface(mCardMail, card.getTypeface());
+            mCardMail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startEmailIntent(card.getMail(), context);
+                }
+            });
         } else {
             mCardMail.setVisibility(View.GONE);
             mCardView.findViewById(R.id.card_icon_mail).setVisibility(View.GONE);
@@ -64,6 +77,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         if (card.getTel() != null && !card.getTel().isEmpty()) {
             mCardTel.setText(card.getTel());
             setTypeface(mCardTel, card.getTypeface());
+            mCardTel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startTelIntent(card.getTel(), context);
+                }
+            });
         } else {
             mCardTel.setVisibility(View.GONE);
             mCardView.findViewById(R.id.card_icon_tel).setVisibility(View.GONE);
@@ -73,6 +92,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         if (card.getAddress() != null && !card.getAddress().isEmpty()) {
             mCardLocation.setText(card.getAddress());
             setTypeface(mCardLocation, card.getTypeface());
+            mCardLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickLocation(card.getAddress(), context);
+                }
+            });
         } else {
             mCardLocation.setVisibility(View.GONE);
             mCardView.findViewById(R.id.card_icon_location).setVisibility(View.GONE);
@@ -91,12 +116,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
         }
 
-        mSaveButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        Log.d("CardViewHolder", "onClick: ");
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickSave();
+            }
+        });
     }
 
     private void setTypeface(TextView textView, int typeface) {
@@ -112,6 +137,52 @@ public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                     break;
             }
         }
+    }
+
+    private void clickSave() {
+        Log.d("CardViewHolder", "onClick: ");
+    }
+
+    private void startEmailIntent(String address, Context context) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, context.getString(R.string.error_intent_email), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void startTelIntent(String number, Context context) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + number));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, context.getString(R.string.error_intent_tel), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void clickLocation(String location, Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        try {
+            String locationEncoded = URLEncoder.encode(location, "utf-8");
+            intent.setData(Uri.parse("geo:0,0?q=" + locationEncoded));
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, context.getString(R.string.error_intent_location),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        } catch (UnsupportedEncodingException ex) {
+            Toast.makeText(context, context.getString(R.string.error_intent_location_invalid),
+                    Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
