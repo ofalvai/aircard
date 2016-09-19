@@ -11,6 +11,12 @@ public class Card {
 
     private static final Gson gson = new Gson();
 
+    public static final int TYPEFACE_NORMAL = 1;
+
+    public static final int TYPEFACE_MONOSPACE = 2;
+
+    public static final int TYPEFACE_SERIF = 3;
+
     private String name;
 
     private String tel;
@@ -27,7 +33,7 @@ public class Card {
 
     private List<CustomField> customFields;
 
-    private String font;
+    private int typeface;
 
     private String color;
 
@@ -35,7 +41,7 @@ public class Card {
         this.customFields = new ArrayList<>();
     }
 
-    public Card(String name, String tel, String mail, String address, String coordinates, String url, String note, List<CustomField> customFields, String font, String color) {
+    public Card(String name, String tel, String mail, String address, String coordinates, String url, String note, List<CustomField> customFields, int typeface, String color) {
         this.name = name;
         this.tel = tel;
         this.mail = mail;
@@ -44,7 +50,7 @@ public class Card {
         this.url = url;
         this.note = note;
         this.customFields = customFields;
-        this.font = font;
+        this.typeface = typeface;
         this.color = color;
     }
 
@@ -58,8 +64,8 @@ public class Card {
 
     public static Message newNearbyMessage(String name, String tel, String mail, String address,
                                            String coordinates, String url, String note,
-                                           List<CustomField> customFields, String font, String color) {
-        Card card = new Card(name, tel, mail, address, coordinates, url, note, customFields, font, color);
+                                           List<CustomField> customFields, int typeface, String color) {
+        Card card = new Card(name, tel, mail, address, coordinates, url, note, customFields, typeface, color);
 
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
     }
@@ -96,8 +102,8 @@ public class Card {
         return customFields;
     }
 
-    public String getFont() {
-        return font;
+    public int getTypeface() {
+        return typeface;
     }
 
     public String getColor() {

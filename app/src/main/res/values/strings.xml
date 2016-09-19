@@ -2,4 +2,6 @@
     <string name="app_name">AirCard</string>
     <string name="button_clear_log">Clear log</string>
     <string name="title_activity_nearby_cards">NearbyCardsActivity</string>
+    <string name="card_action_save">Save card</string>
+    <string name="card_click_message">Card clicked</string>
 </resources>

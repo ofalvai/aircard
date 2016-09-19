@@ -6,15 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ofalvai.aircard.presentation.CardAdapter;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.presentation.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,9 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
             final List<Card> nearbyCardList = new ArrayList<>();
             mCardAdapter = new CardAdapter(nearbyCardList, NearbyCardsActivity.this);
             mNearbyCardList.setAdapter(mCardAdapter);
-            mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
+            //mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
+            mNearbyCardList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
         }
 
         mPresenter.getTestCards();

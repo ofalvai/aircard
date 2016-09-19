@@ -17,4 +17,39 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="CardActionButton">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="CardIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:baselineAlignBottom">true</item>
+    </style>
+
+    <style name="CardRow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
+    <style name="CardRow.WithIcon" parent="CardRow">
+        <item name="android:paddingLeft">0dp</item>
+    </style>
+
+    <style name="CardRow.WithIcon.Link" parent="CardRow.WithIcon">
+        <item name="android:textColor">@color/link</item>
+    </style>
+
 </resources>

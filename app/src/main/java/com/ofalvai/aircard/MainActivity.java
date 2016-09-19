@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
                 "http://example.com",
                 "Hello World note",
                 customFields,
-                "Roboto",
+                0,
                 "ffffff"
         );
     }

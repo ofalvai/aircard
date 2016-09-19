@@ -20,26 +20,52 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                     "John Doe",
                     "+36201234567",
                     "mail@example.com",
-                    "Address",
+                    "1234 Példa út 15",
                     "Coordinates",
                     "http://example.com",
-                    "Hello World note",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida porttitor tortor molestie commodo. Vestibulum eget bibendum magna, imperdiet aliquet lacus.",
                     new ArrayList<>(Arrays.asList(testCustomFields)),
-                    "Roboto",
-                    "ffffff"
+                    1,
+                    ""
             ),
 
             new Card(
                     "John Doe",
                     "+36201234567",
                     "mail@example.com",
-                    "Address",
+                    "5678 Minta körút 13",
                     "Coordinates",
                     "http://example.com",
-                    "Hello World note",
+                    "Praesent ac elementum nulla, id accumsan quam.",
                     new ArrayList<>(Arrays.asList(testCustomFields)),
-                    "Roboto",
-                    "ffffff"
+                    3,
+                    "FFF9C4"
+            ),
+
+            new Card(
+                    "John Doe",
+                    "+36201234567",
+                    "mail@example.com",
+                    "5678 Minta körút 13",
+                    "Coordinates",
+                    "http://example.com",
+                    "",
+                    new ArrayList<>(Arrays.asList(testCustomFields)),
+                    1,
+                    ""
+            ),
+
+            new Card(
+                    "Ez elég hiányos",
+                    "",
+                    "",
+                    "",
+                    "Coordinates",
+                    "",
+                    "",
+                    new ArrayList<>(Arrays.asList(testCustomFields)),
+                    1,
+                    ""
             )
     };
 
