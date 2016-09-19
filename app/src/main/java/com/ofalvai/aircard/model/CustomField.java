@@ -1,4 +1,4 @@
-package com.ofalvai.aircard;
+package com.ofalvai.aircard.model;
 
 public class CustomField {
 

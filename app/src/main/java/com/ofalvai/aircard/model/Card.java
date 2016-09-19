@@ -1,4 +1,4 @@
-package com.ofalvai.aircard;
+package com.ofalvai.aircard.model;
 
 import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;

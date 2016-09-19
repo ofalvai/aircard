@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AirCard</string>
     <string name="button_clear_log">Clear log</string>
+    <string name="title_activity_nearby_cards">NearbyCardsActivity</string>
 </resources>

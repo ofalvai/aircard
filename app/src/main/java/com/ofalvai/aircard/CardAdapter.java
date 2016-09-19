@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CustomField;
+
 import java.util.List;
 
 public class CardAdapter extends ArrayAdapter<Card> {

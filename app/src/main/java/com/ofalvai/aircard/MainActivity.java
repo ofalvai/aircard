@@ -35,6 +35,8 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CustomField;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
