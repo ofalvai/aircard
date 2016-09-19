@@ -20,6 +20,8 @@ interface NearbyCardsContract {
 
     interface Presenter extends MvpPresenter<View> {
 
+        void getTestCards();
+
         void collect(Card card);
 
         void startListen();

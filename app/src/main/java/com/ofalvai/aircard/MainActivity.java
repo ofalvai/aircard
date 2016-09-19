@@ -16,11 +16,11 @@
 
 package com.ofalvai.aircard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,6 +37,8 @@ import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CustomField;
+import com.ofalvai.aircard.presentation.CardAdapter;
+import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,11 +79,11 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Nearby.MESSAGES_API)
-                .addConnectionCallbacks(this)
-                .enableAutoManage(this, this)
-                .build();
+        //mGoogleApiClient = new GoogleApiClient.Builder(this)
+        //        .addApi(Nearby.MESSAGES_API)
+        //        .addConnectionCallbacks(this)
+        //        .enableAutoManage(this, this)
+        //        .build();
 
         mMessageListener = new MessageListener() {
             @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "Found message: " + card.getName());
                 appendLog("Found message: " + card.getName());
 
-                mNearbyCardsArrayAdapter.add(card);
+                //mNearbyCardsArrayAdapter.add(card);
             }
 
             @Override
@@ -101,22 +103,22 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "Lost sight of message: " + card.getName());
                 appendLog("Lost sight of message: " + card.getName());
 
-                mNearbyCardsArrayAdapter.remove(card);
-                mNearbyCardsArrayAdapter.notifyDataSetChanged();
+                //mNearbyCardsArrayAdapter.remove(card);
+                //mNearbyCardsArrayAdapter.notifyDataSetChanged();
             }
         };
 
-        final List<Card> nearbyCardList = new ArrayList<>();
-        mNearbyCardsArrayAdapter = new CardAdapter(this, R.layout.list_item_card, nearbyCardList);
-        mNearbyCardList.setAdapter(mNearbyCardsArrayAdapter);
-
-        mDebugTextView.setMovementMethod(new ScrollingMovementMethod());
+        //final List<Card> nearbyCardList = new ArrayList<>();
+        //mNearbyCardsArrayAdapter = new CardAdapter(this, R.layout.list_item_card, nearbyCardList);
+        //mNearbyCardList.setAdapter(mNearbyCardsArrayAdapter);
+        //
+        //mDebugTextView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
     public void onStop() {
-        unpublish();
-        unsubscribe();
+        //unpublish();
+        //unsubscribe();
         super.onStop();
     }
 
@@ -224,6 +226,12 @@ public class MainActivity extends AppCompatActivity
         String timestamp = simpleDateFormat.format(now);
 
         mDebugTextView.setText(mDebugTextView.getText() + "\n" + timestamp + "   " + message);
+    }
+
+    @OnClick(R.id.launch_nearby_cards)
+    public void launchNearbyCardsActivity() {
+        Intent intent = new Intent(MainActivity.this, NearbyCardsActivity.class);
+        startActivity(intent);
     }
 
 

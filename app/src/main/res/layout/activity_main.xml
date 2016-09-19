@@ -23,6 +23,13 @@
         android:layout_height="wrap_content"
         android:text="Publish" />
 
+    <Button
+        android:id="@+id/launch_nearby_cards"
+        android:layout_toRightOf="@id/publish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nearby Cards"/>
+
     <TextView
         android:id="@+id/debug_log"
         android:layout_width="wrap_content"
@@ -36,7 +43,6 @@
         android:layout_below="@id/debug_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
 
 
