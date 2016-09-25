@@ -8,5 +8,6 @@
     <string name="error_intent_tel">No phone app installed</string>
     <string name="error_intent_location">No maps app installed</string>
     <string name="error_intent_location_invalid">Failed to open invalid address</string>
+    <string name="title_activity_saved_cards">SavedCardsActivity</string>
 
 </resources>

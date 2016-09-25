@@ -38,7 +38,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                     "http://example.com",
                     "Praesent ac elementum nulla, id accumsan quam.",
                     new ArrayList<>(Arrays.asList(testCustomFields)),
-                    3,
+                    1,
                     "FFF9C4"
             ),
 
@@ -56,7 +56,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             ),
 
             new Card(
-                    "Ez elég hiányos",
+                    "Ez hiányos",
                     "",
                     "",
                     "",
@@ -66,7 +66,33 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                     new ArrayList<>(Arrays.asList(testCustomFields)),
                     1,
                     ""
-            )
+            ),
+
+            new Card(
+                    "Ilyet is",
+                    "",
+                    "mail@example.hu",
+                    "",
+                    "Coordinates",
+                    "",
+                    "",
+                    new ArrayList<>(Arrays.asList(testCustomFields)),
+                    2,
+                    ""
+            ),
+            new Card(
+                    "Ilyet is lehet",
+                    "",
+                    "",
+                    "",
+                    "Coordinates",
+                    "",
+                    "",
+            new ArrayList<>(Arrays.asList(testCustomFields)),
+                    3,
+                    ""
+    ),
+
     };
 
     @Override
