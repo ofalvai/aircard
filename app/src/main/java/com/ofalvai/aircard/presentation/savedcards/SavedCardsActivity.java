@@ -19,6 +19,8 @@ public class SavedCardsActivity extends AppCompatActivity implements SavedCardsC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_cards);
 
+        mPresenter = new SavedCardsPresenter(SavedCardsActivity.this);
+        mPresenter.attachView(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

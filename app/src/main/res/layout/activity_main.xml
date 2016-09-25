@@ -25,10 +25,18 @@
 
     <Button
         android:id="@+id/launch_nearby_cards"
-        android:layout_toRightOf="@id/publish"
+        android:layout_below="@id/clear_debug_log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nearby Cards"/>
+
+    <Button
+        android:id="@+id/launch_saved_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/launch_nearby_cards"
+        android:layout_below="@id/clear_debug_log"
+        android:text="Saved cards"/>
 
     <TextView
         android:id="@+id/debug_log"

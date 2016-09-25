@@ -39,6 +39,7 @@ import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CustomField;
 import com.ofalvai.aircard.presentation.CardAdapter;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
+import com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -231,6 +232,12 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.launch_nearby_cards)
     public void launchNearbyCardsActivity() {
         Intent intent = new Intent(MainActivity.this, NearbyCardsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.launch_saved_cards)
+    public void launchSavedCardsActivity() {
+        Intent intent = new Intent(MainActivity.this, SavedCardsActivity.class);
         startActivity(intent);
     }
 
