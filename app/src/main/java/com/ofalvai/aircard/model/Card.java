@@ -4,53 +4,43 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class Card {
 
     private static final Gson gson = new Gson();
 
-    public static final int TYPEFACE_NORMAL = 1;
-
-    public static final int TYPEFACE_MONOSPACE = 2;
-
-    public static final int TYPEFACE_SERIF = 3;
+    private UUID uuid;
 
     private String name;
 
-    private String tel;
+    private String phone;
 
     private String mail;
 
     private String address;
 
-    private String coordinates;
-
     private String url;
 
     private String note;
 
-    private List<CustomField> customFields;
-
-    private int typeface;
+    private CardStyle mCardStyle;
 
     private String color;
 
     public Card() {
-        this.customFields = new ArrayList<>();
+        this.uuid = UUID.randomUUID();
     }
 
-    public Card(String name, String tel, String mail, String address, String coordinates, String url, String note, List<CustomField> customFields, int typeface, String color) {
+    public Card(String name, String phone, String mail, String address, String url, String note, CardStyle cardStyle, String color) {
+        this.uuid = UUID.randomUUID();
         this.name = name;
-        this.tel = tel;
+        this.phone = phone;
         this.mail = mail;
         this.address = address;
-        this.coordinates = coordinates;
         this.url = url;
         this.note = note;
-        this.customFields = customFields;
-        this.typeface = typeface;
+        this.mCardStyle = cardStyle;
         this.color = color;
     }
 
@@ -63,19 +53,22 @@ public class Card {
     }
 
     public static Message newNearbyMessage(String name, String tel, String mail, String address,
-                                           String coordinates, String url, String note,
-                                           List<CustomField> customFields, int typeface, String color) {
-        Card card = new Card(name, tel, mail, address, coordinates, url, note, customFields, typeface, color);
+                                           String url, String note, CardStyle cardStyle, String color) {
+        Card card = new Card(name, tel, mail, address, url, note, cardStyle, color);
 
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getTel() {
-        return tel;
+    public String getPhone() {
+        return phone;
     }
 
     public String getMail() {
@@ -86,10 +79,6 @@ public class Card {
         return address;
     }
 
-    public String getCoordinates() {
-        return coordinates;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -98,12 +87,8 @@ public class Card {
         return note;
     }
 
-    public List<CustomField> getCustomFields() {
-        return customFields;
-    }
-
-    public int getTypeface() {
-        return typeface;
+    public CardStyle getCardStyle() {
+        return mCardStyle;
     }
 
     public String getColor() {

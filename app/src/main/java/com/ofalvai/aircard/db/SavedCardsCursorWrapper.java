@@ -5,6 +5,7 @@ import android.database.CursorWrapper;
 
 import com.ofalvai.aircard.db.SavedCardDbSchema.CardTable;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardStyle;
 
 public class SavedCardsCursorWrapper extends CursorWrapper {
 
@@ -19,10 +20,10 @@ public class SavedCardsCursorWrapper extends CursorWrapper {
         String address = getString(getColumnIndex(CardTable.Cols.ADDRESS));
         String url = getString(getColumnIndex(CardTable.Cols.URL));
         String note = getString(getColumnIndex(CardTable.Cols.NOTE));
-        int typeface = Integer.parseInt(getString(getColumnIndex(CardTable.Cols.TYPEFACE))); //TODO
+        CardStyle cardStyle = CardStyle.fromString(getString(getColumnIndex(CardTable.Cols.CARD_STYLE)));
         String color = getString(getColumnIndex(CardTable.Cols.COLOR));
 
-        return new Card(name, phone, mail, address, null, url, note, null, typeface, color);
+        return new Card(name, phone, mail, address, url, note, cardStyle, color);
 
         //TODO: kelleni fog a timestamp_saved is
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ofalvai.aircard.db.SavedCardDbWrapper;
 import com.ofalvai.aircard.db.SavedCardHelper;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
 import java.util.List;
@@ -25,11 +26,9 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
                 "+36201234567",
                 "mail@example.com",
                 "1234 Példa út 15",
-                "Coordinates",
                 "http://example.com",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida porttitor tortor molestie commodo. Vestibulum eget bibendum magna, imperdiet aliquet lacus.",
-                null,
-                1,
+                CardStyle.NORMAL,
                 ""
         );
         mDbWrapper.addSavedCard(testCard);

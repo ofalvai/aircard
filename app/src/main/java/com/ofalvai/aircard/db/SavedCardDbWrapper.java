@@ -23,11 +23,11 @@ public class SavedCardDbWrapper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CardTable.Cols.NAME, card.getName());
         contentValues.put(CardTable.Cols.MAIL, card.getMail());
-        contentValues.put(CardTable.Cols.PHONE, card.getTel());
+        contentValues.put(CardTable.Cols.PHONE, card.getPhone());
         contentValues.put(CardTable.Cols.ADDRESS, card.getAddress());
         contentValues.put(CardTable.Cols.URL, card.getUrl());
         contentValues.put(CardTable.Cols.NOTE, card.getNote());
-        contentValues.put(CardTable.Cols.TYPEFACE, String.valueOf(card.getTypeface()));
+        contentValues.put(CardTable.Cols.CARD_STYLE, String.valueOf(card.getCardStyle()));
         contentValues.put(CardTable.Cols.COLOR, card.getColor());
         return contentValues;
     }

@@ -36,16 +36,13 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
-import com.ofalvai.aircard.model.CustomField;
+import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.CardAdapter;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
 import com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -156,24 +153,22 @@ public class MainActivity extends AppCompatActivity
 
         Card card = Card.fromNearbyMessage(mActiveMessage);
 
-        Log.i(TAG, "Publishing message: " + card.getCustomFields().get(0).getValue());
-        appendLog("Publishing message: " + card.getCustomFields().get(0).getValue());
+        //Log.i(TAG, "Publishing message: " + card.getCustomFields().get(0).getValue());
+        //appendLog("Publishing message: " + card.getCustomFields().get(0).getValue());
     }
 
     private Message newRandomCardMessage() {
-        List<CustomField> customFields = new ArrayList<>();
-        customFields.add(new CustomField("Random ID: ", String.valueOf(new Random().nextInt(1000))));
+        //List<CustomField> customFields = new ArrayList<>();
+        //customFields.add(new CustomField("Random ID: ", String.valueOf(new Random().nextInt(1000))));
 
         return Card.newNearbyMessage(
                 "Hello World",
                 "+36201234567",
                 "mail@example.com",
                 "Address",
-                "Coordinates",
                 "http://example.com",
                 "Hello World note",
-                customFields,
-                0,
+                CardStyle.NORMAL,
                 "ffffff"
         );
     }

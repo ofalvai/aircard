@@ -7,6 +7,8 @@ public class SavedCardDbSchema {
 
         public static final class Cols {
 
+            public static final String UUID = "uuid";
+
             public static final String NAME = "name";
 
             public static final String MAIL = "mail";
@@ -19,7 +21,7 @@ public class SavedCardDbSchema {
 
             public static final String NOTE = "note";
 
-            public static final String TYPEFACE= "typeface";
+            public static final String CARD_STYLE= "card_style";
 
             public static final String COLOR = "color";
 

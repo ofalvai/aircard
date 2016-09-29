@@ -16,12 +16,15 @@ import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardStyle;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.typeface;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,12 +59,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     public void bindCard(@NonNull final Card card, @NonNull final Context context) {
         // Title
         mCardTitle.setText(card.getName());
-        setTypeface(mCardTitle, card.getTypeface());
+        setTypeface(mCardTitle, card.getCardStyle());
 
         // Mail
         if (card.getMail() != null && !card.getMail().isEmpty()) {
             mCardMail.setText(card.getMail());
-            setTypeface(mCardMail, card.getTypeface());
+            setTypeface(mCardMail, card.getCardStyle());
             mCardMail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -74,13 +77,13 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         }
 
         // Phone number
-        if (card.getTel() != null && !card.getTel().isEmpty()) {
-            mCardTel.setText(card.getTel());
-            setTypeface(mCardTel, card.getTypeface());
+        if (card.getPhone() != null && !card.getPhone().isEmpty()) {
+            mCardTel.setText(card.getPhone());
+            setTypeface(mCardTel, card.getCardStyle());
             mCardTel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startTelIntent(card.getTel(), context);
+                    startTelIntent(card.getPhone(), context);
                 }
             });
         } else {
@@ -91,7 +94,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         // Location
         if (card.getAddress() != null && !card.getAddress().isEmpty()) {
             mCardLocation.setText(card.getAddress());
-            setTypeface(mCardLocation, card.getTypeface());
+            setTypeface(mCardLocation, card.getCardStyle());
             mCardLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -108,7 +111,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
             mCardNote.setVisibility(View.GONE);
         } else {
             mCardNote.setText(card.getNote());
-            setTypeface(mCardNote, card.getTypeface());
+            setTypeface(mCardNote, card.getCardStyle());
         }
 
         // Background color
@@ -124,17 +127,22 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    private void setTypeface(TextView textView, int typeface) {
-        if (textView != null && typeface > 0) {
-            switch (typeface) {
-                case Card.TYPEFACE_NORMAL:
+    private void setTypeface(TextView textView, CardStyle cardStyle) {
+        if (textView != null && cardStyle != null) {
+            switch (cardStyle) {
+                case NORMAL:
                     break;
-                case Card.TYPEFACE_MONOSPACE:
+                case MONOSPACE:
                     textView.setTypeface(Typeface.MONOSPACE);
                     break;
-                case Card.TYPEFACE_SERIF:
+                case SERIF:
                     textView.setTypeface(Typeface.SERIF);
                     break;
+            }
+
+
+            switch (typeface) {
+
             }
         }
     }
