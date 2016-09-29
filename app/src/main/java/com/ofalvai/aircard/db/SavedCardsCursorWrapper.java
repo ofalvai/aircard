@@ -22,9 +22,10 @@ public class SavedCardsCursorWrapper extends CursorWrapper {
         String note = getString(getColumnIndex(CardTable.Cols.NOTE));
         CardStyle cardStyle = CardStyle.fromString(getString(getColumnIndex(CardTable.Cols.CARD_STYLE)));
         String color = getString(getColumnIndex(CardTable.Cols.COLOR));
+        long timestampSaved = getLong(getColumnIndex(CardTable.Cols.TIMESTAMP_SAVE));
 
-        return new Card(name, phone, mail, address, url, note, cardStyle, color);
-
-        //TODO: kelleni fog a timestamp_saved is
+        Card card = new Card(name, phone, mail, address, url, note, cardStyle, color);
+        card.setTimestampSaved(timestampSaved);
+        return card;
     }
 }

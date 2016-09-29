@@ -8,8 +8,6 @@ import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
-import java.util.List;
-
 public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         implements SavedCardsContract.Presenter {
 
@@ -31,9 +29,12 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
                 CardStyle.NORMAL,
                 ""
         );
-        mDbWrapper.addSavedCard(testCard);
-
-        List<Card> cards = mDbWrapper.getSavedCards();
+        //mDbWrapper.addSavedCard(testCard);
     }
 
+    @Override
+    public void getSavedCards() {
+        checkViewAttached();
+        getView().showCards(mDbWrapper.getSavedCards());
+    }
 }

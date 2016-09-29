@@ -18,13 +18,13 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 
+import org.joda.time.DateTime;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.typeface;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,6 +47,9 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.card_action_save)
     Button mSaveButton;
+
+    @BindView(R.id.card_saved_timestamp)
+    TextView mSavedTimestamp;
 
     public CardViewHolder(View itemView) {
         super(itemView);
@@ -119,12 +122,19 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
             mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
         }
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickSave();
-            }
-        });
+        // Card is displayed in the saved cards list (not in the nearby list)
+        if (card.getTimestampSaved() != 0) {
+            mSaveButton.setVisibility(View.GONE);
+            mSavedTimestamp.setText(stringFromTimestamp(card.getTimestampSaved()));
+        } else {
+            mSavedTimestamp.setVisibility(View.GONE);
+            mSaveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickSave();
+                }
+            });
+        }
     }
 
     private void setTypeface(TextView textView, CardStyle cardStyle) {
@@ -138,11 +148,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                 case SERIF:
                     textView.setTypeface(Typeface.SERIF);
                     break;
-            }
-
-
-            switch (typeface) {
-
             }
         }
     }
@@ -190,7 +195,11 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
             Toast.makeText(context, context.getString(R.string.error_intent_location_invalid),
                     Toast.LENGTH_LONG).show();
         }
+    }
 
+    private String stringFromTimestamp(long timestamp) {
+        DateTime dateTime = new DateTime(timestamp);
+        return dateTime.toString();
     }
 
 }

@@ -2,6 +2,7 @@ package com.ofalvai.aircard.model;
 
 import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import java.nio.charset.Charset;
 import java.util.UUID;
@@ -24,9 +25,12 @@ public class Card {
 
     private String note;
 
-    private CardStyle mCardStyle;
+    private CardStyle cardStyle;
 
     private String color;
+
+    @Expose(serialize = false, deserialize = false)
+    private long timestampSaved;
 
     public Card() {
         this.uuid = UUID.randomUUID();
@@ -40,7 +44,7 @@ public class Card {
         this.address = address;
         this.url = url;
         this.note = note;
-        this.mCardStyle = cardStyle;
+        this.cardStyle = cardStyle;
         this.color = color;
     }
 
@@ -88,10 +92,18 @@ public class Card {
     }
 
     public CardStyle getCardStyle() {
-        return mCardStyle;
+        return cardStyle;
     }
 
     public String getColor() {
         return color;
+    }
+
+    public long getTimestampSaved() {
+        return timestampSaved;
+    }
+
+    public void setTimestampSaved(long timestampSaved) {
+        this.timestampSaved = timestampSaved;
     }
 }
