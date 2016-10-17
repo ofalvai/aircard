@@ -70,14 +70,7 @@
             android:layout_below="@id/card_tel"
             android:layout_toEndOf="@id/card_icon_location" />
 
-        <TextView
-            android:id="@+id/card_saved_timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/CardRow"
-            tools:text="1337.01.01 13:37"/>
-
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/card_action_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,14 +78,37 @@
             android:layout_below="@id/card_location"
             android:layout_margin="8dp">
 
+            <TextView
+                android:id="@+id/card_saved_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                style="@style/CardRow"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="1337.01.01 13:37"/>
+
             <Button
                 android:id="@+id/card_action_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/card_action_save"
-                style="@style/CardActionButton"/>
+                android:visibility="gone"
+                tools:visibility="visible"
+                style="@style/CardActionButton.TextButton"/>
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/card_action_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_delete_black_24dp"
+                style="@style/CardActionButton.IconButton"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+
+        </FrameLayout>
 
     </RelativeLayout>
 
