@@ -37,7 +37,7 @@ import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
-import com.ofalvai.aircard.presentation.CardAdapter;
+import com.ofalvai.aircard.presentation.nearbycards.NearbyCardAdapter;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
 import com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity;
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
     private MessageListener mMessageListener;
 
-    private CardAdapter mNearbyCardsArrayAdapter;
+    private NearbyCardAdapter mNearbyCardsArrayAdapter;
 
     @BindView(R.id.debug_log)
     TextView mDebugTextView;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         };
 
         //final List<Card> nearbyCardList = new ArrayList<>();
-        //mNearbyCardsArrayAdapter = new CardAdapter(this, R.layout.list_item_card, nearbyCardList);
+        //mNearbyCardsArrayAdapter = new NearbyCardAdapter(this, R.layout.list_item_card, nearbyCardList);
         //mNearbyCardList.setAdapter(mNearbyCardsArrayAdapter);
         //
         //mDebugTextView.setMovementMethod(new ScrollingMovementMethod());

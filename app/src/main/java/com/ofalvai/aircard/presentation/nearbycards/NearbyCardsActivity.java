@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
-import com.ofalvai.aircard.presentation.CardAdapter;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
     @Nullable
     private NearbyCardsContract.Presenter mPresenter;
 
-    private CardAdapter mCardAdapter;
+    private NearbyCardAdapter mNearbyCardAdapter;
 
     @BindView(R.id.nearby_cards_list)
     RecyclerView mNearbyCardList;
@@ -63,9 +62,9 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
     }
 
     private void initCardList() {
-        if (mCardAdapter == null) {
-            mCardAdapter = new CardAdapter(mPresenter, NearbyCardsActivity.this);
-            mNearbyCardList.setAdapter(mCardAdapter);
+        if (mNearbyCardAdapter == null) {
+            mNearbyCardAdapter = new NearbyCardAdapter(mPresenter, NearbyCardsActivity.this);
+            mNearbyCardList.setAdapter(mNearbyCardAdapter);
             //mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
             mNearbyCardList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -85,8 +84,8 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
 
     @Override
     public void showCards(List<Card> cards) {
-        mCardAdapter.setCardData(cards);
-        mCardAdapter.notifyDataSetChanged();
+        mNearbyCardAdapter.setCardData(cards);
+        mNearbyCardAdapter.notifyDataSetChanged();
     }
 
     @Override

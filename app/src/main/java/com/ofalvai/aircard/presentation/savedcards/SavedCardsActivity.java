@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
-import com.ofalvai.aircard.presentation.CardAdapter;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class SavedCardsActivity extends AppCompatActivity implements SavedCardsC
     @Nullable
     private SavedCardsContract.Presenter mPresenter;
 
-    private CardAdapter mCardAdapter;
+    private SavedCardsAdapter mCardAdapter;
 
     @BindView(R.id.saved_cards_list)
     RecyclerView mSavedCardsList;
@@ -56,7 +55,7 @@ public class SavedCardsActivity extends AppCompatActivity implements SavedCardsC
 
     private void initCardList() {
         if (mCardAdapter == null) {
-            mCardAdapter = new CardAdapter(null, SavedCardsActivity.this); //TODO
+            mCardAdapter = new SavedCardsAdapter(mPresenter, SavedCardsActivity.this); //TODO
             mSavedCardsList.setAdapter(mCardAdapter);
             mSavedCardsList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }

@@ -1,4 +1,4 @@
-package com.ofalvai.aircard.presentation;
+package com.ofalvai.aircard.presentation.base;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,15 +16,16 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 
-import org.joda.time.DateTime;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class CardViewHolder extends RecyclerView.ViewHolder {
+/**
+ * Base class for a ViewHolder containing the cards' common views.
+ * Any other view can be defined in a subclass, but make sure to bind them in the constructor!
+ */
+public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
     CardView mCardView;
 
@@ -45,18 +44,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.card_note)
     TextView mCardNote;
 
-    @BindView(R.id.card_action_save)
-    Button mSaveButton;
-
-    @BindView(R.id.card_saved_timestamp)
-    TextView mSavedTimestamp;
-
-    public CardViewHolder(View itemView) {
+    /**
+     * Make sure to call super() and then Butterknife.bind() in the subclass constructor
+     */
+    public BaseCardViewHolder(View itemView) {
         super(itemView);
-
         mCardView = (CardView) itemView;
-
-        ButterKnife.bind(this, itemView);
     }
 
     public void bindCard(@NonNull final Card card, @NonNull final Context context) {
@@ -121,20 +114,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         if (card.getColor() != null && !card.getColor().isEmpty()) {
             mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
         }
-
-        // Card is displayed in the saved cards list (not in the nearby list)
-        if (card.getTimestampSaved() != 0) {
-            mSaveButton.setVisibility(View.GONE);
-            mSavedTimestamp.setText(stringFromTimestamp(card.getTimestampSaved()));
-        } else {
-            mSavedTimestamp.setVisibility(View.GONE);
-            mSaveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickSave();
-                }
-            });
-        }
     }
 
     private void setTypeface(TextView textView, CardStyle cardStyle) {
@@ -150,10 +129,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                     break;
             }
         }
-    }
-
-    private void clickSave() {
-        Log.d("CardViewHolder", "onClick: ");
     }
 
     private void startEmailIntent(String address, Context context) {
@@ -196,10 +171,4 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                     Toast.LENGTH_LONG).show();
         }
     }
-
-    private String stringFromTimestamp(long timestamp) {
-        DateTime dateTime = new DateTime(timestamp);
-        return dateTime.toString();
-    }
-
 }
