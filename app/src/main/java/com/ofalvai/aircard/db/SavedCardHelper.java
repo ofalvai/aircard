@@ -8,7 +8,7 @@ import com.ofalvai.aircard.db.SavedCardDbSchema.CardTable;
 
 public class SavedCardHelper  extends SQLiteOpenHelper {
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static final String DB_NAME = "saved_cards.db";
 
@@ -27,6 +27,9 @@ public class SavedCardHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (newVersion == 2) {
+            String query = String.format("ALTER TABLE %1$s ADD COLUMN %2$s", CardTable.TABLE_NAME, CardTable.Cols.CARD_STYLE);
+            db.execSQL(query);
+        }
     }
 }

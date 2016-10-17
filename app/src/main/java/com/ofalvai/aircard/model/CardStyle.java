@@ -1,5 +1,7 @@
 package com.ofalvai.aircard.model;
 
+import android.support.annotation.Nullable;
+
 public enum CardStyle {
 
     NORMAL, MONOSPACE, SERIF;
@@ -7,7 +9,11 @@ public enum CardStyle {
     /**
      * Returns a CardStyle matching the input string value. Used after reading typeface value from DB
      */
-    public static CardStyle fromString(String stringValue) {
+    public static CardStyle fromString(@Nullable String stringValue) {
+        if (stringValue == null) {
+            return CardStyle.NORMAL;
+        }
+
         switch (stringValue.toLowerCase()) {
             case "normal":
                 return CardStyle.NORMAL;
