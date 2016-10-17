@@ -1,5 +1,8 @@
 package com.ofalvai.aircard.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -11,6 +14,7 @@ public class Card {
 
     private static final Gson gson = new Gson();
 
+    @NonNull
     private UUID uuid;
 
     private String name;
@@ -36,8 +40,14 @@ public class Card {
         this.uuid = UUID.randomUUID();
     }
 
-    public Card(String name, String phone, String mail, String address, String url, String note, CardStyle cardStyle, String color) {
-        this.uuid = UUID.randomUUID();
+    public Card(@Nullable String uuid, String name, String phone, String mail, String address, String url, String note, CardStyle cardStyle, String color) {
+        if (uuid == null) {
+            // This happens when creating a new Card from the UI
+            this.uuid = UUID.randomUUID();
+        } else {
+            // This happens when a Card is recreated from DB
+            this.uuid = UUID.fromString(uuid);
+        }
         this.name = name;
         this.phone = phone;
         this.mail = mail;
@@ -58,7 +68,7 @@ public class Card {
 
     public static Message newNearbyMessage(String name, String tel, String mail, String address,
                                            String url, String note, CardStyle cardStyle, String color) {
-        Card card = new Card(name, tel, mail, address, url, note, cardStyle, color);
+        Card card = new Card(null, name, tel, mail, address, url, note, cardStyle, color);
 
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
     }

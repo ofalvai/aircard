@@ -11,6 +11,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
     private static final Card[] testCards = {
             new Card(
+                    null,
                     "John Doe",
                     "+36201234567",
                     "mail@example.com",
@@ -22,6 +23,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             ),
 
             new Card(
+                    null,
                     "John Doe",
                     "+36201234567",
                     "mail@example.com",
@@ -33,6 +35,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             ),
 
             new Card(
+                    null,
                     "John Doe",
                     "+36201234567",
                     "mail@example.com",
@@ -44,6 +47,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             ),
 
             new Card(
+                    null,
                     "Ez hiányos",
                     "",
                     "",
@@ -55,6 +59,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             ),
 
             new Card(
+                    null,
                     "Ilyet is",
                     "",
                     "mail@example.hu",
@@ -65,6 +70,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                     ""
             ),
             new Card(
+                    null,
                     "Ilyet is lehet",
                     "",
                     "",

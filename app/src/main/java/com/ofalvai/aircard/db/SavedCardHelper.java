@@ -8,7 +8,7 @@ import com.ofalvai.aircard.db.SavedCardDbSchema.CardTable;
 
 public class SavedCardHelper  extends SQLiteOpenHelper {
 
-    private static final int VERSION = 2;
+    private static final int VERSION = 1;
 
     private static final String DB_NAME = "saved_cards.db";
 
@@ -18,18 +18,14 @@ public class SavedCardHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = String.format("CREATE TABLE %1$s (%2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s TIMESTAMP NOT NULL DEFAULT current_timestamp)",
+        String query = String.format("CREATE TABLE %1$s (%2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s TIMESTAMP NOT NULL DEFAULT current_timestamp, %11$s)",
                 CardTable.TABLE_NAME, CardTable.Cols.NAME, CardTable.Cols.MAIL, CardTable.Cols.PHONE,
                 CardTable.Cols.ADDRESS, CardTable.Cols.URL, CardTable.Cols.NOTE,
-                CardTable.Cols.CARD_STYLE, CardTable.Cols.COLOR, CardTable.Cols.TIMESTAMP_SAVE);
+                CardTable.Cols.CARD_STYLE, CardTable.Cols.COLOR, CardTable.Cols.TIMESTAMP_SAVE, CardTable.Cols.UUID);
         db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion == 2) {
-            String query = String.format("ALTER TABLE %1$s ADD COLUMN %2$s", CardTable.TABLE_NAME, CardTable.Cols.CARD_STYLE);
-            db.execSQL(query);
-        }
     }
 }

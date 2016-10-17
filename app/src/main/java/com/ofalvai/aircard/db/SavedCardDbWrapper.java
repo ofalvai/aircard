@@ -21,6 +21,7 @@ public class SavedCardDbWrapper {
 
     public static ContentValues getContentValues(Card card) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(CardTable.Cols.UUID, card.getUuid().toString());
         contentValues.put(CardTable.Cols.NAME, card.getName());
         contentValues.put(CardTable.Cols.MAIL, card.getMail());
         contentValues.put(CardTable.Cols.PHONE, card.getPhone());

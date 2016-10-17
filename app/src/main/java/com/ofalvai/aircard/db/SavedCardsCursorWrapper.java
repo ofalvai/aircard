@@ -14,6 +14,7 @@ public class SavedCardsCursorWrapper extends CursorWrapper {
     }
 
     public Card getSavedCard() {
+        String uuid = getStringRecord(CardTable.Cols.UUID);
         String name = getStringRecord(CardTable.Cols.NAME);
         String phone = getStringRecord(CardTable.Cols.PHONE);
         String mail = getStringRecord(CardTable.Cols.MAIL);
@@ -24,7 +25,7 @@ public class SavedCardsCursorWrapper extends CursorWrapper {
         String color = getStringRecord(CardTable.Cols.COLOR);
         long timestampSaved = getLongRecord(CardTable.Cols.TIMESTAMP_SAVE);
 
-        Card card = new Card(name, phone, mail, address, url, note, cardStyle, color);
+        Card card = new Card(uuid, name, phone, mail, address, url, note, cardStyle, color);
         card.setTimestampSaved(timestampSaved);
         return card;
     }

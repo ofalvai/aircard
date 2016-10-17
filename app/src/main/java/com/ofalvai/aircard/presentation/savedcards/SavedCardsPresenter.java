@@ -20,6 +20,7 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         mDbWrapper = new SavedCardDbWrapper(new SavedCardHelper(mContext));
 
         Card testCard = new Card(
+                null,
                 "John Doe",
                 "+36201234567",
                 "mail@example.com",
