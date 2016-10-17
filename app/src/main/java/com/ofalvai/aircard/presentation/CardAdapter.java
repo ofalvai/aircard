@@ -1,6 +1,7 @@
 package com.ofalvai.aircard.presentation;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
@@ -18,9 +21,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     private Context mContext;
 
-    public CardAdapter(List<Card> cardList, Context context) {
-        this.mCards = cardList;
+    //TODO: szétválasztani a nearby és a saved kártyák adapterét
+    private NearbyCardsContract.Presenter mPresenter;
+
+    public CardAdapter(@Nullable NearbyCardsContract.Presenter presenter, Context context) {
+        this.mCards = new ArrayList<>();
         this.mContext = context;
+        this.mPresenter = presenter;
     }
 
     public void setCardData(List<Card> cards) {
@@ -37,7 +44,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        Card card = mCards.get(position);
+        // TODO: ez a pozíció lehet nem lesz pontos, ha lesz törlés, meg ilyesmi
+        final Card card = mCards.get(position);
         holder.bindCard(card, mContext);
 
         if (card.getNote() != null && !card.getNote().isEmpty()) {
@@ -45,6 +53,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
                     (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
             layoutParams.setFullSpan(true);
         }
+
+        holder.mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPresenter != null) {
+                    mPresenter.save(card);
+                }
+            }
+        });
+
     }
 
     @Override

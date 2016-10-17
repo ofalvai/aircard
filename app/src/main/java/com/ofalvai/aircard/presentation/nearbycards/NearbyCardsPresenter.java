@@ -1,5 +1,9 @@
 package com.ofalvai.aircard.presentation.nearbycards;
 
+import android.content.Context;
+
+import com.ofalvai.aircard.db.SavedCardDbWrapper;
+import com.ofalvai.aircard.db.SavedCardHelper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
@@ -79,9 +83,17 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                     "",
                     CardStyle.SERIF,
                     ""
-    ),
-
+            ),
     };
+
+    private SavedCardDbWrapper mDbWrapper;
+
+    private Context mContext;
+
+    public NearbyCardsPresenter(Context context) {
+        mContext = context;
+        mDbWrapper = new SavedCardDbWrapper(new SavedCardHelper(mContext));
+    }
 
     @Override
     public void getTestCards() {
@@ -90,8 +102,10 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     }
 
     @Override
-    public void collect(Card card) {
-
+    public void save(Card card) {
+        mDbWrapper.addSavedCard(card);
+        checkViewAttached();
+        getView().showMessageCardAdded();
     }
 
     @Override

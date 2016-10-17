@@ -6,7 +6,7 @@ import com.ofalvai.aircard.presentation.base.MvpView;
 
 import java.util.List;
 
-interface NearbyCardsContract {
+public interface NearbyCardsContract {
 
     interface View extends MvpView {
 
@@ -16,13 +16,15 @@ interface NearbyCardsContract {
 
         void showWarning(String message);
 
+        void showMessageCardAdded();
+
     }
 
     interface Presenter extends MvpPresenter<View> {
 
         void getTestCards();
 
-        void collect(Card card);
+        void save(Card card);
 
         void startListen();
 

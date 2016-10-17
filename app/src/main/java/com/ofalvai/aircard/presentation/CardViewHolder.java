@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
-    private CardView mCardView;
+    CardView mCardView;
 
     @BindView(R.id.card_title)
     TextView mCardTitle;

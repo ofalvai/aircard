@@ -16,7 +16,6 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.CardAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,7 +36,7 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_cards);
 
-        mPresenter = new NearbyCardsPresenter();
+        mPresenter = new NearbyCardsPresenter(NearbyCardsActivity.this);
         mPresenter.attachView(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,8 +64,7 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
 
     private void initCardList() {
         if (mCardAdapter == null) {
-            final List<Card> nearbyCardList = new ArrayList<>();
-            mCardAdapter = new CardAdapter(nearbyCardList, NearbyCardsActivity.this);
+            mCardAdapter = new CardAdapter(mPresenter, NearbyCardsActivity.this);
             mNearbyCardList.setAdapter(mCardAdapter);
             //mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
             mNearbyCardList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -99,5 +97,10 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
     @Override
     public void showWarning(String message) {
 
+    }
+
+    @Override
+    public void showMessageCardAdded() {
+        Snackbar.make(mNearbyCardList, getString(R.string.message_card_saved), Snackbar.LENGTH_SHORT).show();
     }
 }

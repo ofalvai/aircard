@@ -14,7 +14,6 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.CardAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,8 +56,7 @@ public class SavedCardsActivity extends AppCompatActivity implements SavedCardsC
 
     private void initCardList() {
         if (mCardAdapter == null) {
-            final List<Card> savedCardList = new ArrayList<>();
-            mCardAdapter = new CardAdapter(savedCardList, SavedCardsActivity.this);
+            mCardAdapter = new CardAdapter(null, SavedCardsActivity.this); //TODO
             mSavedCardsList.setAdapter(mCardAdapter);
             mSavedCardsList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
