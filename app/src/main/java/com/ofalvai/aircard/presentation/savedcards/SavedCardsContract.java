@@ -9,10 +9,14 @@ import java.util.List;
 interface SavedCardsContract {
 
     interface View extends MvpView {
+
         void showCards(List<Card> cards);
     }
 
     interface Presenter extends MvpPresenter<View> {
+
         void getSavedCards();
+
+        void deleteSavedCard(Card card);
     }
 }

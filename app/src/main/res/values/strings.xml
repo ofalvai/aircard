@@ -10,5 +10,6 @@
     <string name="error_intent_location_invalid">Failed to open invalid address</string>
     <string name="title_activity_saved_cards">SavedCardsActivity</string>
     <string name="message_card_saved">Card saved</string>
+    <string name="error_delete_saved_card">Failed to delete saved card</string>
 
 </resources>

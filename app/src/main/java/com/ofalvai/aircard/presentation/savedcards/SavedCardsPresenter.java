@@ -1,6 +1,7 @@
 package com.ofalvai.aircard.presentation.savedcards;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ofalvai.aircard.db.SavedCardDbWrapper;
 import com.ofalvai.aircard.db.SavedCardHelper;
@@ -10,6 +11,8 @@ import com.ofalvai.aircard.presentation.base.BasePresenter;
 
 public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         implements SavedCardsContract.Presenter {
+
+    private final static String TAG = "SavedCardsPresenter";
 
     private Context mContext;
 
@@ -37,5 +40,14 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
     public void getSavedCards() {
         checkViewAttached();
         getView().showCards(mDbWrapper.getSavedCards());
+    }
+
+    @Override
+    public void deleteSavedCard(Card card) {
+        if (card.getUuid() != null) {
+            mDbWrapper.deleteSavedCard(card.getUuid());
+        } else {
+            Log.e(TAG, "Unable to delete card '" + card.getName() + "': missing UUID");
+        }
     }
 }

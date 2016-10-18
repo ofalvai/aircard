@@ -2,9 +2,11 @@ package com.ofalvai.aircard.presentation.savedcards;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -29,19 +31,27 @@ public class SavedCardsAdapter extends BaseCardAdapter {
     }
 
     @Override
-    protected void bindListeners(BaseCardViewHolder holder, int position) {
-        SavedCardsViewHolder viewHolder = (SavedCardsViewHolder) holder;
-        final Card card = mCards.get(position);
-
+    protected void bindListeners(BaseCardViewHolder holder, final int position) {
+        final SavedCardsViewHolder viewHolder = (SavedCardsViewHolder) holder;
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPresenter != null) {
-                    //TODO
-                }
+            deleteCard(viewHolder);
             }
         });
+    }
 
-
+    private void deleteCard(RecyclerView.ViewHolder viewHolder) {
+        if (mPresenter != null) {
+            try {
+                int position = viewHolder.getLayoutPosition();
+                Card card = mCards.get(position);
+                mPresenter.deleteSavedCard(card);
+                mCards.remove(position);
+                notifyItemRemoved(position);
+            } catch (Exception ex) {
+                Toast.makeText(mContext, R.string.error_delete_saved_card, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

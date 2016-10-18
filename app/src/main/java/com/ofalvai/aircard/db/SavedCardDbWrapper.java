@@ -10,6 +10,7 @@ import com.ofalvai.aircard.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SavedCardDbWrapper {
 
@@ -67,5 +68,10 @@ public class SavedCardDbWrapper {
         }
 
         return cards;
+    }
+
+    public void deleteSavedCard(UUID uuid) {
+        String[] whereArg = new String[] { uuid.toString() };
+        mDatabase.delete(CardTable.TABLE_NAME, "uuid = ?", whereArg);
     }
 }
