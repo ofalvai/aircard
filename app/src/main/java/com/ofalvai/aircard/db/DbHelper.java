@@ -4,13 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class SavedCardHelper  extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
 
-    private static final String DB_NAME = "saved_cards.db";
+    private static final String DB_NAME = "cards.db";
 
-    public SavedCardHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
     }
 

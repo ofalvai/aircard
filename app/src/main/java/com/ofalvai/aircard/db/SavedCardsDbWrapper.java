@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SavedCardDbWrapper {
+public class SavedCardsDbWrapper {
 
     private SQLiteDatabase mDatabase;
 
-    public SavedCardDbWrapper(SQLiteOpenHelper openHelper) {
+    public SavedCardsDbWrapper(SQLiteOpenHelper openHelper) {
         mDatabase = openHelper.getWritableDatabase();
     }
 

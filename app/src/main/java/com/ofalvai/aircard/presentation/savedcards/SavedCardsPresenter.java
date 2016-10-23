@@ -3,8 +3,8 @@ package com.ofalvai.aircard.presentation.savedcards;
 import android.content.Context;
 import android.util.Log;
 
-import com.ofalvai.aircard.db.SavedCardDbWrapper;
-import com.ofalvai.aircard.db.SavedCardHelper;
+import com.ofalvai.aircard.db.SavedCardsDbWrapper;
+import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
@@ -16,11 +16,11 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
 
     private Context mContext;
 
-    private SavedCardDbWrapper mDbWrapper;
+    private SavedCardsDbWrapper mDbWrapper;
 
     public SavedCardsPresenter(Context context) {
         mContext = context;
-        mDbWrapper = new SavedCardDbWrapper(new SavedCardHelper(mContext));
+        mDbWrapper = new SavedCardsDbWrapper(new DbHelper(mContext));
 
         Card testCard = new Card(
                 null,
