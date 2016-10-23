@@ -37,6 +37,7 @@ import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
+import com.ofalvai.aircard.presentation.mycards.MyCardsActivity;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardAdapter;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
 import com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity;
@@ -233,6 +234,12 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.launch_saved_cards)
     public void launchSavedCardsActivity() {
         Intent intent = new Intent(MainActivity.this, SavedCardsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.launch_my_cards)
+    public void launchMyCardsActivity() {
+        Intent intent = new Intent(MainActivity.this, MyCardsActivity.class);
         startActivity(intent);
     }
 

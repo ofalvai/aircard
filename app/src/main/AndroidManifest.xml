@@ -37,6 +37,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ofalvai.aircard.MainActivity"/>
         </activity>
+        <activity
+            android:name=".presentation.mycards.MyCardsActivity"
+            android:label="@string/title_activity_my_cards"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ofalvai.aircard.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
