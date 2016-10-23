@@ -1,8 +1,9 @@
 package com.ofalvai.aircard.db;
 
-public class SavedCardDbSchema {
+public class DbSchema {
 
-    public static final class CardTable {
+    public static final class SavedCardsTable {
+
         public static final String TABLE_NAME = "saved_cards";
 
         public static final class Cols {

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ofalvai.aircard.db.SavedCardDbSchema.CardTable;
+import com.ofalvai.aircard.db.DbSchema.SavedCardsTable;
 import com.ofalvai.aircard.model.Card;
 
 import java.util.ArrayList;
@@ -22,26 +22,26 @@ public class SavedCardDbWrapper {
 
     public static ContentValues getContentValues(Card card) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CardTable.Cols.UUID, card.getUuid().toString());
-        contentValues.put(CardTable.Cols.NAME, card.getName());
-        contentValues.put(CardTable.Cols.MAIL, card.getMail());
-        contentValues.put(CardTable.Cols.PHONE, card.getPhone());
-        contentValues.put(CardTable.Cols.ADDRESS, card.getAddress());
-        contentValues.put(CardTable.Cols.URL, card.getUrl());
-        contentValues.put(CardTable.Cols.NOTE, card.getNote());
-        contentValues.put(CardTable.Cols.CARD_STYLE, String.valueOf(card.getCardStyle()));
-        contentValues.put(CardTable.Cols.COLOR, card.getColor());
+        contentValues.put(SavedCardsTable.Cols.UUID, card.getUuid().toString());
+        contentValues.put(SavedCardsTable.Cols.NAME, card.getName());
+        contentValues.put(SavedCardsTable.Cols.MAIL, card.getMail());
+        contentValues.put(SavedCardsTable.Cols.PHONE, card.getPhone());
+        contentValues.put(SavedCardsTable.Cols.ADDRESS, card.getAddress());
+        contentValues.put(SavedCardsTable.Cols.URL, card.getUrl());
+        contentValues.put(SavedCardsTable.Cols.NOTE, card.getNote());
+        contentValues.put(SavedCardsTable.Cols.CARD_STYLE, String.valueOf(card.getCardStyle()));
+        contentValues.put(SavedCardsTable.Cols.COLOR, card.getColor());
         return contentValues;
     }
 
     public void addSavedCard(Card card) {
         ContentValues values = getContentValues(card);
-        mDatabase.insert(CardTable.TABLE_NAME, null, values);
+        mDatabase.insert(SavedCardsTable.TABLE_NAME, null, values);
     }
 
     private SavedCardsCursorWrapper querySavedCards(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
-                CardTable.TABLE_NAME,
+                SavedCardsTable.TABLE_NAME,
                 null,
                 whereClause,
                 whereArgs,
@@ -72,6 +72,6 @@ public class SavedCardDbWrapper {
 
     public void deleteSavedCard(UUID uuid) {
         String[] whereArg = new String[] { uuid.toString() };
-        mDatabase.delete(CardTable.TABLE_NAME, "uuid = ?", whereArg);
+        mDatabase.delete(SavedCardsTable.TABLE_NAME, "uuid = ?", whereArg);
     }
 }
