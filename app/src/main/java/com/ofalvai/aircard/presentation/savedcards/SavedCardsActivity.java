@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -55,9 +55,9 @@ public class SavedCardsActivity extends AppCompatActivity implements SavedCardsC
 
     private void initCardList() {
         if (mCardAdapter == null) {
-            mCardAdapter = new SavedCardsAdapter(mPresenter, SavedCardsActivity.this); //TODO
+            mCardAdapter = new SavedCardsAdapter(mPresenter, SavedCardsActivity.this);
             mSavedCardsList.setAdapter(mCardAdapter);
-            mSavedCardsList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            mSavedCardsList.setLayoutManager(new LinearLayoutManager(SavedCardsActivity.this));
         }
 
         mPresenter.getSavedCards();

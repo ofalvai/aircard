@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -65,9 +65,7 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
         if (mNearbyCardAdapter == null) {
             mNearbyCardAdapter = new NearbyCardAdapter(mPresenter, NearbyCardsActivity.this);
             mNearbyCardList.setAdapter(mNearbyCardAdapter);
-            //mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
-            mNearbyCardList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-
+            mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
         }
 
         mPresenter.getTestCards();

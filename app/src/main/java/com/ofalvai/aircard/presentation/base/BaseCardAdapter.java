@@ -2,7 +2,6 @@ package com.ofalvai.aircard.presentation.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.ofalvai.aircard.model.Card;
 
@@ -43,12 +42,6 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
         holder.bindCard(card, mContext);
 
         bindListeners(holder, position);
-
-        if (card.getNote() != null && !card.getNote().isEmpty()) {
-            StaggeredGridLayoutManager.LayoutParams layoutParams =
-                    (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-            layoutParams.setFullSpan(true);
-        }
     }
 
     @Override
