@@ -7,6 +7,10 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.nio.charset.Charset;
 import java.util.UUID;
 
@@ -33,6 +37,9 @@ public class Card {
 
     private String color;
 
+    /**
+     * Card's local save time in miliseconds since the UNIX epoch
+     */
     @Expose(serialize = false, deserialize = false)
     private long timestampSaved;
 
@@ -115,5 +122,13 @@ public class Card {
 
     public void setTimestampSaved(long timestampSaved) {
         this.timestampSaved = timestampSaved;
+    }
+
+    public void setTimestampSaved(String timestampString) {
+        // SQLite's datetime format doesn't have "T" between date and time, and
+        // JodaTime's parser would crash with a format like that
+        DateTimeFormatter sqLiteDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dateTime = sqLiteDateTimeFormat.parseDateTime(timestampString);
+        this.timestampSaved = dateTime.getMillis();
     }
 }

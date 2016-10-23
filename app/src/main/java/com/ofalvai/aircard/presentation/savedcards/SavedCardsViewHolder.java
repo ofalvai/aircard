@@ -11,6 +11,8 @@ import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +42,9 @@ public class SavedCardsViewHolder extends BaseCardViewHolder {
     }
 
     private String stringFromTimestamp(long timestamp) {
+        DateTimeFormatter displayFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         DateTime dateTime = new DateTime(timestamp);
-        return dateTime.toString();
+        return displayFormat.print(dateTime);
     }
 
 }

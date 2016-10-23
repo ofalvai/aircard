@@ -18,7 +18,7 @@ public class SavedCardHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = String.format("CREATE TABLE %1$s (%2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s TIMESTAMP NOT NULL DEFAULT current_timestamp, %11$s)",
+        String query = String.format("CREATE TABLE %1$s (%2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, %11$s)",
                 CardTable.TABLE_NAME, CardTable.Cols.NAME, CardTable.Cols.MAIL, CardTable.Cols.PHONE,
                 CardTable.Cols.ADDRESS, CardTable.Cols.URL, CardTable.Cols.NOTE,
                 CardTable.Cols.CARD_STYLE, CardTable.Cols.COLOR, CardTable.Cols.TIMESTAMP_SAVE, CardTable.Cols.UUID);
