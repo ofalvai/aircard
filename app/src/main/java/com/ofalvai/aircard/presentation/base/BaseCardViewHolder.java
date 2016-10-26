@@ -29,6 +29,9 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
     public static final String CARD_COLOR_DEFAULT = "#ffffff";
 
+    View mItemView;
+
+    @BindView(R.id.card)
     CardView mCardView;
 
     @BindView(R.id.card_title)
@@ -51,7 +54,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
      */
     public BaseCardViewHolder(View itemView) {
         super(itemView);
-        mCardView = (CardView) itemView;
+        mItemView = itemView;
 
         // TODO: enélkül "eltűnnek" elemek scrollozáskor, valami mélyebb bug tünete ez
         setIsRecyclable(false);
@@ -74,7 +77,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
             });
         } else {
             mCardMail.setVisibility(View.GONE);
-            mCardView.findViewById(R.id.card_icon_mail).setVisibility(View.GONE);
+            mItemView.findViewById(R.id.card_icon_mail).setVisibility(View.GONE);
         }
 
         // Phone number
@@ -89,7 +92,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
             });
         } else {
             mCardTel.setVisibility(View.GONE);
-            mCardView.findViewById(R.id.card_icon_tel).setVisibility(View.GONE);
+            mItemView.findViewById(R.id.card_icon_tel).setVisibility(View.GONE);
         }
 
         // Location
@@ -104,7 +107,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
             });
         } else {
             mCardLocation.setVisibility(View.GONE);
-            mCardView.findViewById(R.id.card_icon_location).setVisibility(View.GONE);
+            mItemView.findViewById(R.id.card_icon_location).setVisibility(View.GONE);
         }
 
         // Note

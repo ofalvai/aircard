@@ -22,8 +22,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/list_item_my_card"/>
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_cards_list"
+        style="@style/card_list" />
 
 </android.support.design.widget.CoordinatorLayout>
