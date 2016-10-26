@@ -27,6 +27,8 @@ import butterknife.BindView;
  */
 public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
+    public static final String CARD_COLOR_DEFAULT = "#ffffff";
+
     CardView mCardView;
 
     @BindView(R.id.card_title)
@@ -50,6 +52,9 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
     public BaseCardViewHolder(View itemView) {
         super(itemView);
         mCardView = (CardView) itemView;
+
+        // TODO: enélkül "eltűnnek" elemek scrollozáskor, valami mélyebb bug tünete ez
+        setIsRecyclable(false);
     }
 
     public void bindCard(@NonNull final Card card, @NonNull final Context context) {
@@ -111,8 +116,10 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         }
 
         // Background color
-        if (card.getColor() != null && !card.getColor().isEmpty()) {
+        if (card.isColorValid()) {
             mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
+        } else {
+            mCardView.setBackgroundColor(Color.parseColor(CARD_COLOR_DEFAULT));
         }
     }
 
