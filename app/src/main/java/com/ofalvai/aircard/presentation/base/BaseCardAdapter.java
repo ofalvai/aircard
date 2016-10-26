@@ -37,8 +37,7 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
 
     @Override
     public void onBindViewHolder(BaseCardViewHolder holder, int position) {
-        // TODO: ez a pozíció lehet nem lesz pontos, ha lesz törlés, meg ilyesmi
-        final Card card = mCards.get(position);
+        final Card card = mCards.get(holder.getAdapterPosition());
         holder.bindCard(card, mContext);
 
         bindListeners(holder, position);

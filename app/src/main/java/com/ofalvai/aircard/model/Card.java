@@ -116,6 +116,10 @@ public class Card {
         return color;
     }
 
+    public boolean isColorValid() {
+        return getColor() != null && !getColor().isEmpty();
+    }
+
     public long getTimestampSaved() {
         return timestampSaved;
     }

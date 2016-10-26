@@ -13,6 +13,7 @@ import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
 
 public class NearbyCardAdapter extends BaseCardAdapter {
 
+    @Nullable
     private NearbyCardsContract.Presenter mPresenter;
 
     public NearbyCardAdapter(@Nullable NearbyCardsContract.Presenter presenter, Context context) {
