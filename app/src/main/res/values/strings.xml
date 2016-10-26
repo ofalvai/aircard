@@ -12,5 +12,6 @@
     <string name="message_card_saved">Card saved</string>
     <string name="error_delete_saved_card">Failed to delete saved card</string>
     <string name="title_activity_my_cards">MyCardsActivity</string>
+    <string name="menu_item_create_new_card">Create new card</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -42,6 +43,12 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initCardList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_my_cards, menu);
+        return true;
     }
 
     private void initCardList() {
