@@ -5,10 +5,7 @@ import android.content.Context;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
-import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
-
-import java.util.Arrays;
 
 public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         implements MyCardsContract.Presenter {
@@ -16,32 +13,6 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     private Context mContext;
 
     private MyCardsDbWrapper mDbWrapper;
-
-    private static final Card[] testCards = {
-            new Card(
-                    null,
-                    "John Doe",
-                    "+36201234567",
-                    "mail@example.com",
-                    "1234 Példa út 15",
-                    "http://example.com",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida porttitor tortor molestie commodo. Vestibulum eget bibendum magna, imperdiet aliquet lacus.",
-                    CardStyle.NORMAL,
-                    ""
-            ),
-
-            new Card(
-                    null,
-                    "John Doe",
-                    "+36201234567",
-                    "mail@example.com",
-                    "5678 Minta körút 13",
-                    "http://example.com",
-                    "Praesent ac elementum nulla, id accumsan quam.",
-                    CardStyle.NORMAL,
-                    "FFF9C4"
-            )
-    };
 
     public MyCardsPresenter(Context context) {
         mContext = context;
@@ -51,7 +22,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     @Override
     public void getMyCards() {
         checkViewAttached();
-        getView().showCards(Arrays.asList(testCards));
+        getView().showCards(mDbWrapper.getMyCards());
     }
 
     @Override
@@ -60,8 +31,11 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
-    public void newCard() {
+    public void newCard(Card card) {
+        mDbWrapper.addMyCard(card);
 
+        checkViewAttached();
+        getView().showCards(mDbWrapper.getMyCards());
     }
 
     @Override

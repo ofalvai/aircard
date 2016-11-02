@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -17,7 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MyCardsActivity extends AppCompatActivity implements MyCardsContract.View {
+public class MyCardsActivity extends AppCompatActivity implements MyCardsContract.View,
+        CardEditFragment.OnFragmentInteractionListener {
 
     @Nullable
     private MyCardsContract.Presenter mPresenter;
@@ -28,7 +30,7 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
     RecyclerView mMyCardsList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState ) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cards);
 
@@ -51,6 +53,21 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_add_card:
+                showCreateFragment();
+                break;
+        }
+        return true;
+    }
+
+    private void showCreateFragment() {
+        CardEditFragment fragment = CardEditFragment.newInstance(CardEditFragment.INVOKE_MODE_CREATE);
+        fragment.show(getSupportFragmentManager(), CardEditFragment.TAG);
+    }
+
     private void initCardList() {
         if (mMyCardsAdapter == null) {
             mMyCardsAdapter = new MyCardsAdapter(mPresenter, MyCardsActivity.this);
@@ -58,7 +75,9 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
             mMyCardsList.setLayoutManager(new LinearLayoutManager(MyCardsActivity.this));
         }
 
-        mPresenter.getMyCards();
+        if (mPresenter != null) {
+            mPresenter.getMyCards();
+        }
     }
 
     @Override
@@ -67,5 +86,15 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
         mMyCardsAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onCardCreated(Card card) {
+        if (mPresenter != null) {
+            mPresenter.newCard(card);
+        }
+    }
 
+    @Override
+    public void onCardEdited(Card card) {
+
+    }
 }

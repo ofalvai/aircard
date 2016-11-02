@@ -19,7 +19,7 @@ interface MyCardsContract {
 
         void deleteMyCard(Card card);
 
-        void newCard();
+        void newCard(Card card);
 
         void publishCard(Card card);
 
