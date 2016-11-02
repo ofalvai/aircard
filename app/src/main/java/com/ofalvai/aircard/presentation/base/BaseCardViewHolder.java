@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import butterknife.BindView;
 public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
     public static final String CARD_COLOR_DEFAULT = "#ffffff";
+
+    private static final String TAG = "BaseCardViewHolder";
 
     View mItemView;
 
@@ -123,6 +126,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
             mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
         } else {
             mCardView.setBackgroundColor(Color.parseColor(CARD_COLOR_DEFAULT));
+            Log.w(TAG, "Unable to parse card color: " + card.getColor());
         }
     }
 

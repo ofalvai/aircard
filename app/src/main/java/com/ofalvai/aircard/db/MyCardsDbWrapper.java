@@ -30,7 +30,6 @@ public class MyCardsDbWrapper {
         contentValues.put(DbSchema.MyCardsTable.Cols.NOTE, card.getNote());
         contentValues.put(DbSchema.MyCardsTable.Cols.CARD_STYLE, String.valueOf(card.getCardStyle()));
         contentValues.put(DbSchema.MyCardsTable.Cols.COLOR, card.getColor());
-        contentValues.put(DbSchema.MyCardsTable.Cols.TIMESTAMP_CREATED, card.getTimestampSaved()); //TODO: rename method and fields
         return contentValues;
     }
 

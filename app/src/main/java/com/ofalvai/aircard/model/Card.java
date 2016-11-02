@@ -35,6 +35,9 @@ public class Card {
 
     private CardStyle cardStyle;
 
+    /**
+     * Card's background color in hexadecimal, without #, no short notation
+     */
     private String color;
 
     /**
@@ -117,15 +120,15 @@ public class Card {
     }
 
     public boolean isColorValid() {
-        return getColor() != null && !getColor().isEmpty();
+        return getColor() != null && !getColor().isEmpty() && getColor().length() == 6;
     }
 
     public long getTimestampSaved() {
         return timestampSaved;
     }
 
-    public void setTimestampSaved(long timestampSaved) {
-        this.timestampSaved = timestampSaved;
+    public void setTimestampSaved(long timestampSavedMillis) {
+        this.timestampSaved = timestampSavedMillis;
     }
 
     public void setTimestampSaved(String timestampString) {

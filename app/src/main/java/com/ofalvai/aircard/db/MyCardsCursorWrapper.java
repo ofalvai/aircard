@@ -2,11 +2,14 @@ package com.ofalvai.aircard.db;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import android.util.Log;
 
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardStyle;
 
 public class MyCardsCursorWrapper extends CursorWrapper {
+
+    private static final String TAG = "MyCardsCursorWrapper";
 
     public MyCardsCursorWrapper(Cursor cursor) {
         super(cursor);
@@ -25,7 +28,13 @@ public class MyCardsCursorWrapper extends CursorWrapper {
         String timestampCreated = getStringRecord(DbSchema.MyCardsTable.Cols.TIMESTAMP_CREATED);
 
         Card card = new Card(uuid, name, phone, mail, address, url, note, cardStyle, color);
-        card.setTimestampSaved(timestampCreated);
+
+        try {
+            card.setTimestampSaved(timestampCreated);
+        } catch (Exception ex) {
+            Log.e(TAG, "Failed to parse card timestamp: " + timestampCreated);
+        }
+
         return card;
     }
 
