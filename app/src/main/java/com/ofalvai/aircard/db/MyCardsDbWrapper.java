@@ -70,9 +70,30 @@ public class MyCardsDbWrapper {
         return cards;
     }
 
+    public Card getMyCard(UUID uuid) {
+        Card result;
+        String[] whereArg = new String[] { uuid.toString() };
+        MyCardsCursorWrapper cursor = queryMyCards(DbSchema.MyCardsTable.Cols.UUID + " = ?", whereArg);
+        try {
+            cursor.moveToFirst();
+            result = cursor.getMyCard();
+        } finally {
+            // TODO: exception
+            cursor.close();
+        }
+
+        return result;
+    }
+
     public void deleteMyCard(UUID uuid) {
         String[] whereArg = new String[] { uuid.toString() };
-        mDatabase.delete(DbSchema.MyCardsTable.TABLE_NAME, "uuid = ?", whereArg);
+        mDatabase.delete(DbSchema.MyCardsTable.TABLE_NAME, DbSchema.MyCardsTable.Cols.UUID + " = ?", whereArg);
+    }
+
+    public void updateMyCard(Card card) {
+        ContentValues values = getContentValues(card);
+        String[] whereArg = new String[] { card.getUuid().toString() };
+        mDatabase.update(DbSchema.MyCardsTable.TABLE_NAME, values, DbSchema.MyCardsTable.Cols.UUID + " = ?", whereArg);
     }
 
 }
