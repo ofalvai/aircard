@@ -29,7 +29,14 @@ public class MyCardsAdapter extends BaseCardAdapter {
     }
 
     @Override
-    protected void bindListeners(BaseCardViewHolder holder, int position) {
-
+    protected void bindListeners(BaseCardViewHolder holder, final int position) {
+        MyCardsViewHolder viewHolder = (MyCardsViewHolder) holder;
+        viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.deleteMyCard(mCards.get(position));
+                notifyItemRemoved(position);
+            }
+        });
     }
 }

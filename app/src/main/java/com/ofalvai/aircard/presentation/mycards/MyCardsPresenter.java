@@ -27,7 +27,9 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void deleteMyCard(Card card) {
+        mDbWrapper.deleteMyCard(card.getUuid());
 
+        // UI update is handled in the adapter
     }
 
     @Override
