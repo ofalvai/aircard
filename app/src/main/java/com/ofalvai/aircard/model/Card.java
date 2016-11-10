@@ -35,10 +35,7 @@ public class Card {
 
     private CardStyle cardStyle;
 
-    /**
-     * Card's background color in hexadecimal, without #, no short notation
-     */
-    private String color;
+    private CardColor color;
 
     /**
      * Card's local save time in miliseconds since the UNIX epoch
@@ -50,7 +47,7 @@ public class Card {
         this.uuid = UUID.randomUUID();
     }
 
-    public Card(@Nullable String uuid, String name, String phone, String mail, String address, String url, String note, CardStyle cardStyle, String color) {
+    public Card(@Nullable String uuid, String name, String phone, String mail, String address, String url, String note, CardStyle cardStyle, CardColor color) {
         if (uuid == null) {
             // This happens when creating a new Card from the UI
             this.uuid = UUID.randomUUID();
@@ -77,7 +74,7 @@ public class Card {
     }
 
     public static Message newNearbyMessage(String name, String tel, String mail, String address,
-                                           String url, String note, CardStyle cardStyle, String color) {
+                                           String url, String note, CardStyle cardStyle, CardColor color) {
         Card card = new Card(null, name, tel, mail, address, url, note, cardStyle, color);
 
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
@@ -115,12 +112,8 @@ public class Card {
         return cardStyle;
     }
 
-    public String getColor() {
+    public CardColor getColor() {
         return color;
-    }
-
-    public boolean isColorValid() {
-        return getColor() != null && !getColor().isEmpty() && getColor().length() == 6;
     }
 
     public long getTimestampSaved() {

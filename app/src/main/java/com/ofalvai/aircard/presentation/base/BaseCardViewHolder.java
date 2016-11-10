@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 
 import java.io.UnsupportedEncodingException;
@@ -122,12 +123,8 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         }
 
         // Background color
-        if (card.isColorValid()) {
-            mCardView.setCardBackgroundColor(Color.parseColor("#" + card.getColor()));
-        } else {
-            mCardView.setBackgroundColor(Color.parseColor(CARD_COLOR_DEFAULT));
-            Log.w(TAG, "Unable to parse card color: " + card.getColor());
-        }
+        @ColorInt int color = Color.parseColor("#" + CardColor.toHexString(card.getColor()));
+        mCardView.setCardBackgroundColor(color);
     }
 
     private void setTypeface(TextView textView, CardStyle cardStyle) {

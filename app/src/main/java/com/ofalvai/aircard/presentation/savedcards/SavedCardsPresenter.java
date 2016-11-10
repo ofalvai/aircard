@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
@@ -31,7 +32,7 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
                 "http://example.com",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida porttitor tortor molestie commodo. Vestibulum eget bibendum magna, imperdiet aliquet lacus.",
                 CardStyle.NORMAL,
-                ""
+                CardColor.DEFAULT
         );
         //mDbWrapper.addSavedCard(testCard);
     }

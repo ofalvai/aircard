@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MyCardsDbWrapper {
         contentValues.put(DbSchema.MyCardsTable.Cols.URL, card.getUrl());
         contentValues.put(DbSchema.MyCardsTable.Cols.NOTE, card.getNote());
         contentValues.put(DbSchema.MyCardsTable.Cols.CARD_STYLE, String.valueOf(card.getCardStyle()));
-        contentValues.put(DbSchema.MyCardsTable.Cols.COLOR, card.getColor());
+        contentValues.put(DbSchema.MyCardsTable.Cols.COLOR, CardColor.toHexString(card.getColor()));
         return contentValues;
     }
 

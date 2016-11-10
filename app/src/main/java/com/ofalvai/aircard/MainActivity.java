@@ -36,6 +36,7 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.mycards.MyCardsActivity;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardAdapter;
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                 "http://example.com",
                 "Hello World note",
                 CardStyle.NORMAL,
-                "ffffff"
+                CardColor.DEFAULT
         );
     }
 

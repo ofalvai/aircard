@@ -5,6 +5,7 @@ import android.database.CursorWrapper;
 import android.util.Log;
 
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 
 public class MyCardsCursorWrapper extends CursorWrapper {
@@ -24,7 +25,7 @@ public class MyCardsCursorWrapper extends CursorWrapper {
         String url = getStringRecord(DbSchema.MyCardsTable.Cols.URL);
         String note = getStringRecord(DbSchema.MyCardsTable.Cols.NOTE);
         CardStyle cardStyle = CardStyle.fromString(getStringRecord(DbSchema.MyCardsTable.Cols.CARD_STYLE));
-        String color = getStringRecord(DbSchema.MyCardsTable.Cols.COLOR);
+        CardColor color = CardColor.fromString(getStringRecord(DbSchema.MyCardsTable.Cols.COLOR));
         String timestampCreated = getStringRecord(DbSchema.MyCardsTable.Cols.TIMESTAMP_CREATED);
 
         Card card = new Card(uuid, name, phone, mail, address, url, note, cardStyle, color);

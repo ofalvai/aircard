@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 
 import org.joda.time.DateTime;
@@ -138,7 +139,7 @@ public class CardEditFragment extends DialogFragment {
                 null, //TODO
                 mInputNotes.getText().toString(),
                 CardStyle.NORMAL, //TODO
-                "ffffff" // TODO
+                CardColor.DEFAULT // TODO
         );
         card.setTimestampSaved(new DateTime().getMillis());
 
