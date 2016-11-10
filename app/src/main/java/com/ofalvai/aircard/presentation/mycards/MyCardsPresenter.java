@@ -49,4 +49,10 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     public void unpublishCard(Card card) {
 
     }
+
+    @Override
+    public void pickCardColor(Card card) {
+        checkViewAttached();
+        getView().showColorPicker(card);
+    }
 }

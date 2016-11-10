@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/card_color_preview_row_white"
+        style="@style/CardColorPreviewRow">
+
+        <ImageView
+            android:id="@+id/card_color_preview_white_icon"
+            style="@style/CardColorPreviewIcon"
+            android:src="@drawable/card_color_preview_white"/>
+
+        <TextView
+            android:id="@+id/card_color_preview_white"
+            style="@style/CardColorPreviewLabel"
+            android:text="@string/card_color_default"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/card_color_preview_row_yellow"
+        style="@style/CardColorPreviewRow">
+
+        <ImageView
+            android:id="@+id/card_color_preview_yellow_icon"
+            style="@style/CardColorPreviewIcon"
+            android:src="@drawable/card_color_preview_yellow"/>
+
+        <TextView
+            android:id="@+id/card_color_preview_yellow"
+            style="@style/CardColorPreviewLabel"
+            android:text="@string/card_color_yellow"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/card_color_preview_row_orange"
+        style="@style/CardColorPreviewRow">
+
+        <ImageView
+            android:id="@+id/card_color_preview_orange_icon"
+            style="@style/CardColorPreviewIcon"
+            android:src="@drawable/card_color_preview_orange"/>
+
+        <TextView
+            android:id="@+id/card_color_preview_orange"
+            style="@style/CardColorPreviewLabel"
+            android:text="@string/card_color_orange"/>
+
+    </LinearLayout>
+
+</LinearLayout>

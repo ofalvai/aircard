@@ -18,8 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MyCardsActivity extends AppCompatActivity implements MyCardsContract.View,
-        CardEditFragment.OnFragmentInteractionListener {
+public class MyCardsActivity extends AppCompatActivity implements
+        MyCardsContract.View,
+        CardEditFragment.OnFragmentInteractionListener,
+        CardColorFragment.OnFragmentInteractionListener {
 
     @Nullable
     private MyCardsContract.Presenter mPresenter;
@@ -96,5 +98,11 @@ public class MyCardsActivity extends AppCompatActivity implements MyCardsContrac
     @Override
     public void onCardEdited(Card card) {
 
+    }
+
+    @Override
+    public void showColorPicker(Card card) {
+        CardColorFragment fragment = CardColorFragment.newInstance(card);
+        fragment.show(getSupportFragmentManager(), CardColorFragment.TAG);
     }
 }

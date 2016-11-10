@@ -93,6 +93,15 @@
                 android:gravity="end">
 
                 <ImageButton
+                    android:id="@+id/card_action_change_color"
+                    style="@style/CardActionButton.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_color_lens_black_24dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <ImageButton
                     android:id="@+id/card_action_edit"
                     style="@style/CardActionButton.IconButton"
                     android:layout_width="wrap_content"

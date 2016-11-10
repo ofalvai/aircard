@@ -11,6 +11,8 @@ interface MyCardsContract {
     interface View extends MvpView {
 
         void showCards(List<Card> cards);
+
+        void showColorPicker(Card card);
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -24,5 +26,7 @@ interface MyCardsContract {
         void publishCard(Card card);
 
         void unpublishCard(Card card);
+
+        void pickCardColor(Card card);
     }
 }
