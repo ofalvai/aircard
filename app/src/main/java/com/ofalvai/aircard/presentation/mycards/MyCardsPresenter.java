@@ -5,7 +5,10 @@ import android.content.Context;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
+
+import java.util.UUID;
 
 public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         implements MyCardsContract.Presenter {
@@ -54,5 +57,12 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     public void pickCardColor(Card card) {
         checkViewAttached();
         getView().showColorPicker(card);
+    }
+
+    @Override
+    public void updateCardColor(UUID uuid, CardColor color) {
+        Card card = mDbWrapper.getMyCard(uuid);
+        card.setColor(color);
+        mDbWrapper.updateMyCard(card);
     }
 }

@@ -1,10 +1,12 @@
 package com.ofalvai.aircard.presentation.mycards;
 
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.presentation.base.MvpPresenter;
 import com.ofalvai.aircard.presentation.base.MvpView;
 
 import java.util.List;
+import java.util.UUID;
 
 interface MyCardsContract {
 
@@ -28,5 +30,7 @@ interface MyCardsContract {
         void unpublishCard(Card card);
 
         void pickCardColor(Card card);
+
+        void updateCardColor(UUID uuid, CardColor color);
     }
 }

@@ -11,8 +11,10 @@ import android.view.MenuItem;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
 
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,5 +106,13 @@ public class MyCardsActivity extends AppCompatActivity implements
     public void showColorPicker(Card card) {
         CardColorFragment fragment = CardColorFragment.newInstance(card);
         fragment.show(getSupportFragmentManager(), CardColorFragment.TAG);
+    }
+
+    @Override
+    public void cardColorChanged(UUID cardUuid, CardColor newColor) {
+        if (mPresenter != null) {
+            mPresenter.updateCardColor(cardUuid, newColor);
+            mPresenter.getMyCards();
+        }
     }
 }

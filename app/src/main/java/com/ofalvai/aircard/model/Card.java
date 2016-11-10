@@ -131,4 +131,8 @@ public class Card {
         DateTime dateTime = sqLiteDateTimeFormat.parseDateTime(timestampString);
         this.timestampSaved = dateTime.getMillis();
     }
+
+    public void setColor(CardColor color) {
+        this.color = color;
+    }
 }

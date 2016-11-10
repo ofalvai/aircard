@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.model.CardColor;
+
+import java.util.UUID;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,11 +25,11 @@ public class CardColorFragment extends DialogFragment {
 
     public static final String ARG_CARD_UUID = "card_uuid";
 
-    private String mCardUuid;
+    private UUID mCardUuid;
 
     public interface OnFragmentInteractionListener {
 
-
+        void cardColorChanged(UUID cardUuid, CardColor newColor);
     }
 
     @Nullable
@@ -39,7 +42,7 @@ public class CardColorFragment extends DialogFragment {
     public static CardColorFragment newInstance(Card card) {
         CardColorFragment fragment = new CardColorFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_CARD_UUID, card.getUuid().toString());
+        args.putSerializable(ARG_CARD_UUID, card.getUuid());
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +52,7 @@ public class CardColorFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCardUuid = getArguments().getString(ARG_CARD_UUID);
+            mCardUuid = (UUID) getArguments().getSerializable(ARG_CARD_UUID);
         }
     }
 
@@ -81,16 +84,19 @@ public class CardColorFragment extends DialogFragment {
 
     @OnClick(R.id.card_color_preview_row_white)
     void clickDefault() {
-
+        mListener.cardColorChanged(mCardUuid, CardColor.DEFAULT);
+        dismiss();
     }
 
     @OnClick(R.id.card_color_preview_row_yellow)
     void clickYellow() {
-
+        mListener.cardColorChanged(mCardUuid, CardColor.YELLOW);
+        dismiss();
     }
 
     @OnClick(R.id.card_color_preview_row_orange)
     void clickOrange() {
-
+        mListener.cardColorChanged(mCardUuid, CardColor.ORANGE);
+        dismiss();
     }
 }
