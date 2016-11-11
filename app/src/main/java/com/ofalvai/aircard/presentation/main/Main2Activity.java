@@ -39,6 +39,7 @@ public class Main2Activity extends AppCompatActivity {
 
         if (mViewPager != null) {
             mViewPager.setAdapter(mPagerAdapter);
+            mViewPager.setOffscreenPageLimit(2);
         }
 
         if (mTabLayout != null && mViewPager != null && mViewPager.getAdapter() != null) {
