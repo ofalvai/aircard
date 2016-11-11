@@ -81,7 +81,10 @@ public class MyCardsFragment extends Fragment implements
     }
 
     private void showCreateFragment() {
-        CardEditFragment fragment = CardEditFragment.newInstance(CardEditFragment.INVOKE_MODE_CREATE);
+        CardEditFragment fragment = CardEditFragment.newInstance(
+                CardEditFragment.INVOKE_MODE_CREATE,
+                MyCardsFragment.this
+        );
         fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
     }
 
@@ -117,7 +120,7 @@ public class MyCardsFragment extends Fragment implements
 
     @Override
     public void showColorPicker(Card card) {
-        CardColorFragment fragment = CardColorFragment.newInstance(card);
+        CardColorFragment fragment = CardColorFragment.newInstance(card, MyCardsFragment.this);
         fragment.show(getActivity().getSupportFragmentManager(), CardColorFragment.TAG);
     }
 
@@ -131,7 +134,7 @@ public class MyCardsFragment extends Fragment implements
 
     @Override
     public void showStylePicker(Card card) {
-        CardStyleFragment fragment = CardStyleFragment.newInstance(card);
+        CardStyleFragment fragment = CardStyleFragment.newInstance(card, MyCardsFragment.this);
         fragment.show(getActivity().getSupportFragmentManager(), CardStyleFragment.TAG);
     }
 

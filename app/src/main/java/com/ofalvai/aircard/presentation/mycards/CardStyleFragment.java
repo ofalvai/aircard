@@ -1,6 +1,5 @@
 package com.ofalvai.aircard.presentation.mycards;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -39,8 +38,10 @@ public class CardStyleFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static CardStyleFragment newInstance(Card card) {
+    public static CardStyleFragment newInstance(Card card, OnFragmentInteractionListener listener) {
         CardStyleFragment fragment = new CardStyleFragment();
+        fragment.mListener = listener;
+
         Bundle args = new Bundle();
         args.putSerializable(ARG_CARD_UUID, card.getUuid());
         fragment.setArguments(args);
@@ -63,23 +64,6 @@ public class CardStyleFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_card_style, container, false);
         ButterKnife.bind(this, view);
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof CardEditFragment.OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @OnClick(R.id.card_style_default)
