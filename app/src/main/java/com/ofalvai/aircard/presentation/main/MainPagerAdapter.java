@@ -8,11 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.presentation.mycards.MyCardsFragment;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsFragment;
+import com.ofalvai.aircard.presentation.savedcards.SavedCardsFragment;
 
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int PAGE_COUNT = 2;
+    private static final int PAGE_COUNT = 3;
 
     private final Context mContext;
 
@@ -30,6 +31,9 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                 break;
             case 1:
                 fragment = NearbyCardsFragment.newInstance();
+                break;
+            case 2:
+                fragment = SavedCardsFragment.newInstance();
                 break;
             default:
                 fragment = new Fragment();
@@ -52,6 +56,9 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                 break;
             case 1:
                 title = mContext.getString(R.string.tab_title_nearby_cards);
+                break;
+            case 2:
+                title = mContext.getString(R.string.tab_title_saved_cards);
                 break;
             default:
                 title = "Default tab";

@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity"
-    tools:showIn="@layout/activity_saved_cards">
+    tools:context="com.ofalvai.aircard.presentation.savedcards.SavedCardsFragment"
+    tools:showIn="@layout/fragment_saved_cards">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/saved_cards_list"
