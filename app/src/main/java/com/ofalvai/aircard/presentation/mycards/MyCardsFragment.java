@@ -2,12 +2,15 @@ package com.ofalvai.aircard.presentation.mycards;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -21,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MyCardsActivity extends AppCompatActivity implements
+public class MyCardsFragment extends Fragment implements
         MyCardsContract.View,
         CardEditFragment.OnFragmentInteractionListener,
         CardColorFragment.OnFragmentInteractionListener,
@@ -35,28 +38,36 @@ public class MyCardsActivity extends AppCompatActivity implements
     @BindView(R.id.my_cards_list)
     RecyclerView mMyCardsList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_cards);
-
-        ButterKnife.bind(this);
-
-        mPresenter = new MyCardsPresenter(MyCardsActivity.this);
-        mPresenter.attachView(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        initCardList();
+    public static MyCardsFragment newInstance() {
+        return new MyCardsFragment();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_my_cards, menu);
-        return true;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPresenter = new MyCardsPresenter(getActivity());
+        mPresenter.attachView(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_my_cards, container, false);
+
+        setHasOptionsMenu(true);
+
+        ButterKnife.bind(this, view);
+
+        initCardList();
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_my_cards, menu);
     }
 
     @Override
@@ -71,14 +82,14 @@ public class MyCardsActivity extends AppCompatActivity implements
 
     private void showCreateFragment() {
         CardEditFragment fragment = CardEditFragment.newInstance(CardEditFragment.INVOKE_MODE_CREATE);
-        fragment.show(getSupportFragmentManager(), CardEditFragment.TAG);
+        fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
     }
 
     private void initCardList() {
         if (mMyCardsAdapter == null) {
-            mMyCardsAdapter = new MyCardsAdapter(mPresenter, MyCardsActivity.this);
+            mMyCardsAdapter = new MyCardsAdapter(mPresenter, getActivity());
             mMyCardsList.setAdapter(mMyCardsAdapter);
-            mMyCardsList.setLayoutManager(new LinearLayoutManager(MyCardsActivity.this));
+            mMyCardsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
         if (mPresenter != null) {
@@ -107,7 +118,7 @@ public class MyCardsActivity extends AppCompatActivity implements
     @Override
     public void showColorPicker(Card card) {
         CardColorFragment fragment = CardColorFragment.newInstance(card);
-        fragment.show(getSupportFragmentManager(), CardColorFragment.TAG);
+        fragment.show(getActivity().getSupportFragmentManager(), CardColorFragment.TAG);
     }
 
     @Override
@@ -121,7 +132,7 @@ public class MyCardsActivity extends AppCompatActivity implements
     @Override
     public void showStylePicker(Card card) {
         CardStyleFragment fragment = CardStyleFragment.newInstance(card);
-        fragment.show(getSupportFragmentManager(), CardStyleFragment.TAG);
+        fragment.show(getActivity().getSupportFragmentManager(), CardStyleFragment.TAG);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Main2Activity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
-        mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), Main2Activity.this);
 
         if (mViewPager != null) {
             mViewPager.setAdapter(mPagerAdapter);
