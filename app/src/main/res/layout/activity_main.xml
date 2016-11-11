@@ -46,6 +46,13 @@
         android:layout_below="@id/clear_debug_log"
         android:text="My cards"/>
 
+    <Button
+        android:id="@+id/launch_new_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/launch_nearby_cards"
+        android:text="New main"/>
+
     <TextView
         android:id="@+id/debug_log"
         android:layout_width="wrap_content"

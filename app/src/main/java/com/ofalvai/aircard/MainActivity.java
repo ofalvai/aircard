@@ -38,6 +38,7 @@ import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
+import com.ofalvai.aircard.presentation.main.Main2Activity;
 import com.ofalvai.aircard.presentation.mycards.MyCardsActivity;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardAdapter;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
@@ -241,6 +242,12 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.launch_my_cards)
     public void launchMyCardsActivity() {
         Intent intent = new Intent(MainActivity.this, MyCardsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.launch_new_main)
+    public void launchNewMainActivity() {
+        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
         startActivity(intent);
     }
 
