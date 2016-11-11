@@ -2,6 +2,7 @@ package com.ofalvai.aircard.presentation.mycards;
 
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
+import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.MvpPresenter;
 import com.ofalvai.aircard.presentation.base.MvpView;
 
@@ -15,6 +16,8 @@ interface MyCardsContract {
         void showCards(List<Card> cards);
 
         void showColorPicker(Card card);
+
+        void showStylePicker(Card card);
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -32,5 +35,9 @@ interface MyCardsContract {
         void pickCardColor(Card card);
 
         void updateCardColor(UUID uuid, CardColor color);
+
+        void pickCardStyle(Card card);
+
+        void updateCardStyle(UUID uuid, CardStyle style);
     }
 }

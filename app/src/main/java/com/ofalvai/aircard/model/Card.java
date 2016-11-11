@@ -132,6 +132,10 @@ public class Card {
         this.timestampSaved = dateTime.getMillis();
     }
 
+    public void setCardStyle(CardStyle cardStyle) {
+        this.cardStyle = cardStyle;
+    }
+
     public void setColor(CardColor color) {
         this.color = color;
     }

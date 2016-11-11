@@ -20,13 +20,12 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
     @BindView(R.id.card_action_change_color)
     ImageButton mColorButton;
 
+    @BindView(R.id.card_action_change_style)
+    ImageButton mStyleButton;
+
     public MyCardsViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-
-        mEditButton.setVisibility(View.VISIBLE);
-        mDeleteButton.setVisibility(View.VISIBLE);
-        mColorButton.setVisibility(View.VISIBLE);
     }
 }

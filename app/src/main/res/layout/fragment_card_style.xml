@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <TextView
+        android:id="@+id/card_style_default"
+        android:text="@string/card_style_default"
+        style="@style/CardStylePreviewLabel" />
+
+    <TextView
+        android:id="@+id/card_style_monospace"
+        android:text="@string/card_style_monospace"
+        style="@style/CardStylePreviewLabel"
+        android:typeface="monospace"/>
+
+    <TextView
+        android:id="@+id/card_style_serif"
+        android:text="@string/card_style_serif"
+        style="@style/CardStylePreviewLabel"
+        android:typeface="serif"/>
+
+</LinearLayout>

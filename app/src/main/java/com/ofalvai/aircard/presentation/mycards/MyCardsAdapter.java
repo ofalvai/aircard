@@ -50,5 +50,13 @@ public class MyCardsAdapter extends BaseCardAdapter {
                 notifyItemChanged(position);
             }
         });
+
+        viewHolder.mStyleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.pickCardStyle(card);
+                notifyItemChanged(position);
+            }
+        });
     }
 }

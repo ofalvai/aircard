@@ -6,6 +6,7 @@ import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
+import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
 import java.util.UUID;
@@ -63,6 +64,19 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     public void updateCardColor(UUID uuid, CardColor color) {
         Card card = mDbWrapper.getMyCard(uuid);
         card.setColor(color);
+        mDbWrapper.updateMyCard(card);
+    }
+
+    @Override
+    public void pickCardStyle(Card card) {
+        checkViewAttached();
+        getView().showStylePicker(card);
+    }
+
+    @Override
+    public void updateCardStyle(UUID uuid, CardStyle style) {
+        Card card = mDbWrapper.getMyCard(uuid);
+        card.setCardStyle(style);
         mDbWrapper.updateMyCard(card);
     }
 }

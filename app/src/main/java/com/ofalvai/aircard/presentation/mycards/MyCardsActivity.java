@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
+import com.ofalvai.aircard.model.CardStyle;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,8 @@ import butterknife.ButterKnife;
 public class MyCardsActivity extends AppCompatActivity implements
         MyCardsContract.View,
         CardEditFragment.OnFragmentInteractionListener,
-        CardColorFragment.OnFragmentInteractionListener {
+        CardColorFragment.OnFragmentInteractionListener,
+        CardStyleFragment.OnFragmentInteractionListener {
 
     @Nullable
     private MyCardsContract.Presenter mPresenter;
@@ -112,6 +114,20 @@ public class MyCardsActivity extends AppCompatActivity implements
     public void cardColorChanged(UUID cardUuid, CardColor newColor) {
         if (mPresenter != null) {
             mPresenter.updateCardColor(cardUuid, newColor);
+            mPresenter.getMyCards();
+        }
+    }
+
+    @Override
+    public void showStylePicker(Card card) {
+        CardStyleFragment fragment = CardStyleFragment.newInstance(card);
+        fragment.show(getSupportFragmentManager(), CardStyleFragment.TAG);
+    }
+
+    @Override
+    public void cardStyleChanged(UUID cardUuid, CardStyle newStyle) {
+        if (mPresenter != null) {
+            mPresenter.updateCardStyle(cardUuid, newStyle);
             mPresenter.getMyCards();
         }
     }
