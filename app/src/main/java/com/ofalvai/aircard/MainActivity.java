@@ -40,7 +40,6 @@ import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.main.Main2Activity;
 import com.ofalvai.aircard.presentation.nearbycards.NearbyCardAdapter;
-import com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity;
 import com.ofalvai.aircard.presentation.savedcards.SavedCardsActivity;
 
 import java.text.SimpleDateFormat;
@@ -224,12 +223,6 @@ public class MainActivity extends AppCompatActivity
         String timestamp = simpleDateFormat.format(now);
 
         mDebugTextView.setText(mDebugTextView.getText() + "\n" + timestamp + "   " + message);
-    }
-
-    @OnClick(R.id.launch_nearby_cards)
-    public void launchNearbyCardsActivity() {
-        Intent intent = new Intent(MainActivity.this, NearbyCardsActivity.class);
-        startActivity(intent);
     }
 
     @OnClick(R.id.launch_saved_cards)

@@ -1,16 +1,14 @@
 package com.ofalvai.aircard.presentation.nearbycards;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -20,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NearbyCardsActivity extends AppCompatActivity implements NearbyCardsContract.View {
+public class NearbyCardsFragment extends Fragment implements NearbyCardsContract.View {
 
     @Nullable
     private NearbyCardsContract.Presenter mPresenter;
@@ -30,49 +28,43 @@ public class NearbyCardsActivity extends AppCompatActivity implements NearbyCard
     @BindView(R.id.nearby_cards_list)
     RecyclerView mNearbyCardList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nearby_cards);
-
-        mPresenter = new NearbyCardsPresenter(NearbyCardsActivity.this);
-        mPresenter.attachView(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ButterKnife.bind(this);
-
-        initCardList();
+    public static NearbyCardsFragment newInstance() {
+        return new NearbyCardsFragment();
     }
 
     @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(name, context, attrs);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPresenter = new NearbyCardsPresenter(getActivity());
+        mPresenter.attachView(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_nearby_cards, container, false);
+
+        ButterKnife.bind(NearbyCardsFragment.this, view);
+
+        initCardList();
+
+        return view;
     }
 
     private void initCardList() {
         if (mNearbyCardAdapter == null) {
-            mNearbyCardAdapter = new NearbyCardAdapter(mPresenter, NearbyCardsActivity.this);
+            mNearbyCardAdapter = new NearbyCardAdapter(mPresenter, getActivity());
             mNearbyCardList.setAdapter(mNearbyCardAdapter);
-            mNearbyCardList.setLayoutManager(new LinearLayoutManager(NearbyCardsActivity.this));
+            mNearbyCardList.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
         mPresenter.getTestCards();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
 
         if (mPresenter != null) {

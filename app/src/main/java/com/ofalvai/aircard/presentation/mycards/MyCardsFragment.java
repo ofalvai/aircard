@@ -80,6 +80,15 @@ public class MyCardsFragment extends Fragment implements
         return true;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+    }
+
     private void showCreateFragment() {
         CardEditFragment fragment = CardEditFragment.newInstance(
                 CardEditFragment.INVOKE_MODE_CREATE,

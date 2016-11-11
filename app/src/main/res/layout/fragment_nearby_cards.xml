@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ofalvai.aircard.presentation.nearbycards.NearbyCardsActivity"
-    tools:showIn="@layout/activity_nearby_cards">
+    tools:context="com.ofalvai.aircard.presentation.nearbycards.NearbyCardsFragment"
+    tools:showIn="@layout/fragment_nearby_cards">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/nearby_cards_list"

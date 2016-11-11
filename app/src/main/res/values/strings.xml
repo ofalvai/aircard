@@ -20,5 +20,6 @@
     <string name="card_style_monospace">Monospace</string>
     <string name="card_style_serif">Serif</string>
     <string name="tab_title_my_cards">My cards</string>
+    <string name="tab_title_nearby_cards">Nearby</string>
 
 </resources>
