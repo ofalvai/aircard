@@ -39,6 +39,7 @@ public class MyCardsAdapter extends BaseCardAdapter {
             @Override
             public void onClick(View v) {
                 mPresenter.deleteMyCard(card);
+                mCards.remove(position);
                 notifyItemRemoved(position);
             }
         });
