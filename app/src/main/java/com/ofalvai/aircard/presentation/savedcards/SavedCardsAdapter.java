@@ -31,7 +31,7 @@ public class SavedCardsAdapter extends BaseCardAdapter {
     }
 
     @Override
-    protected void bindListeners(BaseCardViewHolder holder, final int position) {
+    protected void bindListeners(BaseCardViewHolder holder) {
         final SavedCardsViewHolder viewHolder = (SavedCardsViewHolder) holder;
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +44,7 @@ public class SavedCardsAdapter extends BaseCardAdapter {
     private void deleteCard(RecyclerView.ViewHolder viewHolder) {
         if (mPresenter != null) {
             try {
-                int position = viewHolder.getLayoutPosition();
+                int position = viewHolder.getAdapterPosition();
                 Card card = mCards.get(position);
                 mPresenter.deleteSavedCard(card);
                 mCards.remove(position);

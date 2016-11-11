@@ -29,7 +29,7 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
      * Can be overridden to attach event listeners to views. This gets called during binding the
      * ViewHolder
      */
-    protected abstract void bindListeners(BaseCardViewHolder holder, int position);
+    protected abstract void bindListeners(BaseCardViewHolder holder);
 
     public void setCardData(List<Card> cards) {
         mCards = cards;
@@ -37,10 +37,10 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
 
     @Override
     public void onBindViewHolder(BaseCardViewHolder holder, int position) {
-        final Card card = mCards.get(holder.getAdapterPosition());
+        final Card card = mCards.get(position);
         holder.bindCard(card, mContext);
 
-        bindListeners(holder, position);
+        bindListeners(holder);
     }
 
     @Override

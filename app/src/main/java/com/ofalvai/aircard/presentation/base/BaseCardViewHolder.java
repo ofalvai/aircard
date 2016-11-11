@@ -60,8 +60,6 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mItemView = itemView;
 
-        // TODO: enélkül "eltűnnek" elemek scrollozáskor, valami mélyebb bug tünete ez
-        setIsRecyclable(false);
     }
 
     public void bindCard(@NonNull final Card card, @NonNull final Context context) {
@@ -71,6 +69,9 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
         // Mail
         if (card.getMail() != null && !card.getMail().isEmpty()) {
+            mCardMail.setVisibility(View.VISIBLE);
+            mItemView.findViewById(R.id.card_icon_mail).setVisibility(View.VISIBLE);
+
             mCardMail.setText(card.getMail());
             setTypeface(mCardMail, card.getCardStyle());
             mCardMail.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +87,9 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
         // Phone number
         if (card.getPhone() != null && !card.getPhone().isEmpty()) {
+            mCardTel.setVisibility(View.VISIBLE);
+            mItemView.findViewById(R.id.card_icon_tel).setVisibility(View.VISIBLE);
+
             mCardTel.setText(card.getPhone());
             setTypeface(mCardTel, card.getCardStyle());
             mCardTel.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +105,9 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
 
         // Location
         if (card.getAddress() != null && !card.getAddress().isEmpty()) {
+            mCardLocation.setVisibility(View.VISIBLE);
+            mItemView.findViewById(R.id.card_icon_location).setVisibility(View.VISIBLE);
+
             mCardLocation.setText(card.getAddress());
             setTypeface(mCardLocation, card.getCardStyle());
             mCardLocation.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +125,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         if (card.getNote() == null || card.getNote().isEmpty()) {
             mCardNote.setVisibility(View.GONE);
         } else {
+            mCardNote.setVisibility(View.VISIBLE);
             mCardNote.setText(card.getNote());
             setTypeface(mCardNote, card.getCardStyle());
         }
@@ -131,6 +139,7 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
         if (textView != null && cardStyle != null) {
             switch (cardStyle) {
                 case NORMAL:
+                    textView.setTypeface(Typeface.DEFAULT);
                     break;
                 case MONOSPACE:
                     textView.setTypeface(Typeface.MONOSPACE);

@@ -29,9 +29,9 @@ public class NearbyCardAdapter extends BaseCardAdapter {
     }
 
     @Override
-    protected void bindListeners(BaseCardViewHolder holder, int position) {
+    protected void bindListeners(BaseCardViewHolder holder) {
         NearbyCardsViewHolder viewHolder = (NearbyCardsViewHolder) holder;
-        final Card card = mCards.get(position);
+        final Card card = mCards.get(holder.getAdapterPosition());
 
         viewHolder.mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override

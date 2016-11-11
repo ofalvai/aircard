@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
+import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BaseCardAdapter;
 import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
 
@@ -29,13 +30,15 @@ public class MyCardsAdapter extends BaseCardAdapter {
     }
 
     @Override
-    protected void bindListeners(BaseCardViewHolder holder, final int position) {
+    protected void bindListeners(BaseCardViewHolder holder) {
         MyCardsViewHolder viewHolder = (MyCardsViewHolder) holder;
+        final int position = holder.getAdapterPosition();
+        final Card card = mCards.get(position);
 
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.deleteMyCard(mCards.get(position));
+                mPresenter.deleteMyCard(card);
                 notifyItemRemoved(position);
             }
         });
@@ -43,7 +46,7 @@ public class MyCardsAdapter extends BaseCardAdapter {
         viewHolder.mColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.pickCardColor(mCards.get(position));
+                mPresenter.pickCardColor(card);
                 notifyItemChanged(position);
             }
         });
