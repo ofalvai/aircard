@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
+import com.ofalvai.aircard.db.MyProfileWrapper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
+import com.ofalvai.aircard.model.MyProfileInfo;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
 import java.util.UUID;
@@ -78,5 +80,17 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         Card card = mDbWrapper.getMyCard(uuid);
         card.setCardStyle(style);
         mDbWrapper.updateMyCard(card);
+    }
+
+    @Override
+    public void getMyProfileInfo() {
+        try {
+            MyProfileInfo info = new MyProfileWrapper(mContext).getMyProfileInfo();
+            checkViewAttached();
+            getView().showMyProfileInfo(info);
+        } catch (Exception ex) {
+            checkViewAttached();
+            getView().showMyProfileInfoError();
+        }
     }
 }

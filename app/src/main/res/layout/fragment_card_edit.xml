@@ -8,8 +8,16 @@
                 android:paddingRight="16dp"
                 android:paddingTop="16dp">
 
+    <Button
+        android:id="@+id/card_edit_auto_fill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/card_edit_auto_fill"
+        android:layout_marginBottom="16dp"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/card_edit_name_wrapper"
+        android:layout_below="@id/card_edit_auto_fill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

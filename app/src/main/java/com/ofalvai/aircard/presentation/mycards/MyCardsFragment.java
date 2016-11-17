@@ -11,11 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
+import com.ofalvai.aircard.model.MyProfileInfo;
 
 import java.util.List;
 import java.util.UUID;
@@ -153,5 +155,25 @@ public class MyCardsFragment extends Fragment implements
             mPresenter.updateCardStyle(cardUuid, newStyle);
             mPresenter.getMyCards();
         }
+    }
+
+    @Override
+    public void onAutofill() {
+        if (mPresenter != null) {
+            mPresenter.getMyProfileInfo();
+        }
+    }
+
+    @Override
+    public void showMyProfileInfo(MyProfileInfo info) {
+        CardEditFragment fragment = (CardEditFragment) getActivity().getSupportFragmentManager()
+                .findFragmentByTag(CardEditFragment.TAG);
+        fragment.displayAutoFill(info);
+    }
+
+    @Override
+    public void showMyProfileInfoError() {
+        String message = getActivity().getString(R.string.auto_fill_error);
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

@@ -22,4 +22,6 @@
     <string name="tab_title_my_cards">My cards</string>
     <string name="tab_title_nearby_cards">Nearby</string>
     <string name="tab_title_saved_cards">Saved</string>
+    <string name="card_edit_auto_fill">Auto fill</string>
+    <string name="auto_fill_error">Failed to get user info.</string>
 </resources>

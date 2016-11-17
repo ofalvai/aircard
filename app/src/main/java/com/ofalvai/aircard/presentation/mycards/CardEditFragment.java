@@ -13,6 +13,7 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
+import com.ofalvai.aircard.model.MyProfileInfo;
 
 import org.joda.time.DateTime;
 
@@ -36,6 +37,7 @@ public class CardEditFragment extends DialogFragment {
 
         void onCardEdited(Card card);
 
+        void onAutofill();
     }
 
     public static final String ARG_INVOKE_MODE = "invoke_mode";
@@ -128,5 +130,30 @@ public class CardEditFragment extends DialogFragment {
         card.setTimestampSaved(new DateTime().getMillis());
 
         return card;
+    }
+
+    @OnClick(R.id.card_edit_auto_fill)
+    void clickAutoFill() {
+        if (mListener != null) {
+            mListener.onAutofill();
+        }
+    }
+
+    public void displayAutoFill(MyProfileInfo info) {
+        if (info.name != null && !info.name.isEmpty()) {
+            mInputName.setText(info.name);
+        }
+
+        if (info.mail != null && !info.mail.isEmpty()) {
+            mInputMail.setText(info.mail);
+        }
+
+        if (info.phone != null && !info.phone.isEmpty()) {
+            mInputPhone.setText(info.phone);
+        }
+
+        if (info.address != null && !info.address.isEmpty()) {
+            mInputAddress.setText(info.address);
+        }
     }
 }
