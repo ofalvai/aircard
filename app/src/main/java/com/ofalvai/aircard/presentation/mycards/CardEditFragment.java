@@ -1,5 +1,6 @@
 package com.ofalvai.aircard.presentation.mycards;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import org.joda.time.DateTime;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Input form that appears BOTH when editing AND creating a new card.
@@ -27,6 +30,7 @@ import butterknife.OnClick;
  * The activity must implement CardEditFragment.OnFragmentInteractionListener, or an exception is
  * thrown.
  */
+@RuntimePermissions
 public class CardEditFragment extends DialogFragment {
 
     public static final String TAG = "CardEditFragment";
@@ -132,11 +136,23 @@ public class CardEditFragment extends DialogFragment {
         return card;
     }
 
-    @OnClick(R.id.card_edit_auto_fill)
-    void clickAutoFill() {
+    @NeedsPermission(Manifest.permission.READ_CONTACTS)
+    void getAutoFill() {
         if (mListener != null) {
             mListener.onAutofill();
         }
+    }
+
+    @OnClick(R.id.card_edit_auto_fill)
+    void clickAutoFill() {
+        CardEditFragmentPermissionsDispatcher.getAutoFillWithCheck(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        CardEditFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     public void displayAutoFill(MyProfileInfo info) {
