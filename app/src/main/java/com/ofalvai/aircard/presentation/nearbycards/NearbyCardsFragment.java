@@ -2,6 +2,7 @@ package com.ofalvai.aircard.presentation.nearbycards;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NearbyCardsFragment extends Fragment implements NearbyCardsContract.View {
 
@@ -27,6 +29,9 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
 
     @BindView(R.id.nearby_cards_list)
     RecyclerView mNearbyCardList;
+
+    @BindView(R.id.nearby_subscribe)
+    FloatingActionButton mSubscribeButton;
 
     public static NearbyCardsFragment newInstance() {
         return new NearbyCardsFragment();
@@ -50,6 +55,10 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
 
         initCardList();
 
+        if (mPresenter != null) {
+            mPresenter.initNearby(getActivity());
+        }
+
         return view;
     }
 
@@ -59,8 +68,6 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
             mNearbyCardList.setAdapter(mNearbyCardAdapter);
             mNearbyCardList.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
-
-        mPresenter.getTestCards();
     }
 
     @Override
@@ -79,6 +86,18 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     }
 
     @Override
+    public void showNewCard(Card card) {
+        mNearbyCardAdapter.addCard(card);
+        mNearbyCardAdapter.notifyItemInserted(mNearbyCardAdapter.getItemCount() - 1);
+    }
+
+    @Override
+    public void removeCard(Card card) {
+        mNearbyCardAdapter.removeCard(card);
+        mNearbyCardAdapter.notifyDataSetChanged(); //TODO
+    }
+
+    @Override
     public void showError(String message) {
 
     }
@@ -91,5 +110,12 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     @Override
     public void showMessageCardAdded() {
         Snackbar.make(mNearbyCardList, getString(R.string.message_card_saved), Snackbar.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.nearby_subscribe)
+    void clickSubscribe() {
+        if (mPresenter != null) {
+            mPresenter.startListen();
+        }
     }
 }

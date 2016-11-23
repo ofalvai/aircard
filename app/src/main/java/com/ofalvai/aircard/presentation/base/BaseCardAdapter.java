@@ -7,6 +7,7 @@ import com.ofalvai.aircard.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Base class for a card list item's adapter.
@@ -33,6 +34,29 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
 
     public void setCardData(List<Card> cards) {
         mCards = cards;
+    }
+
+    public void addCard(Card card) {
+        mCards.add(card);
+    }
+
+    public void removeCard(Card card) {
+        // Removing the card by calling remove(card) wouldn't work, because this card object is
+        // reconstructed by the Nearby Messages API from a byte array. Therefore it's not
+        // the same object as the one in the list, even though their fields are equal.
+        // We need to find the card object with the same UUID in the list.
+        UUID uuid = card.getUuid();
+
+        Card match = null;
+        for (Card localCard : mCards) {
+            if (localCard.getUuid().equals(uuid)) {
+                match = localCard;
+            }
+        }
+
+        if (match != null) {
+            mCards.remove(match);
+        }
     }
 
     @Override

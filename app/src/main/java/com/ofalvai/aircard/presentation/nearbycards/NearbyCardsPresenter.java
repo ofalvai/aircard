@@ -1,18 +1,23 @@
 package com.ofalvai.aircard.presentation.nearbycards;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 
-import com.ofalvai.aircard.db.SavedCardsDbWrapper;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
+import com.ofalvai.aircard.NearbyConnectionManager;
 import com.ofalvai.aircard.db.DbHelper;
+import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
-import java.util.Arrays;
-
 public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View>
         implements NearbyCardsContract.Presenter {
+
+    private static final String TAG = "NearbyCardsPresenter";
 
     private static final Card[] testCards = {
             new Card(
@@ -91,15 +96,24 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
     private Context mContext;
 
+    @Nullable
+    private NearbyConnectionManager mNearbyConnectionManager;
+
     public NearbyCardsPresenter(Context context) {
         mContext = context;
         mDbWrapper = new SavedCardsDbWrapper(new DbHelper(mContext));
     }
 
     @Override
-    public void getTestCards() {
-        checkViewAttached();
-        getView().showCards(Arrays.asList(testCards));
+    public void initNearby(FragmentActivity fragmentActivity) {
+        mNearbyConnectionManager = NearbyConnectionManager.getInstanceForActivity(fragmentActivity);
+    }
+
+    @Override
+    public void detachView() {
+        super.detachView();
+
+        NearbyConnectionManager.releaseInstance();
     }
 
     @Override
@@ -111,7 +125,26 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
     @Override
     public void startListen() {
+        if (mNearbyConnectionManager != null) {
+            final MessageListener listener = new MessageListener() {
+                @Override
+                public void onFound(Message message) {
+                    Card card = Card.fromNearbyMessage(message);
+                    checkViewAttached();
+                    getView().showNewCard(card);
+                }
 
+                @Override
+                public void onLost(Message message) {
+                    super.onLost(message);
+                    Card card = Card.fromNearbyMessage(message);
+                    checkViewAttached();
+                    getView().removeCard(card);
+                }
+            };
+
+            mNearbyConnectionManager.subscribe(listener);
+        }
     }
 
     @Override

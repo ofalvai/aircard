@@ -1,5 +1,7 @@
 package com.ofalvai.aircard.presentation.nearbycards;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.MvpPresenter;
 import com.ofalvai.aircard.presentation.base.MvpView;
@@ -12,6 +14,10 @@ interface NearbyCardsContract {
 
         void showCards(List<Card> cards);
 
+        void showNewCard(Card card);
+
+        void removeCard(Card card);
+
         void showError(String message);
 
         void showWarning(String message);
@@ -22,7 +28,7 @@ interface NearbyCardsContract {
 
     interface Presenter extends MvpPresenter<View> {
 
-        void getTestCards();
+        void initNearby(FragmentActivity fragmentActivity);
 
         void save(Card card);
 
