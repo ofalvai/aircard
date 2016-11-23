@@ -1,16 +1,12 @@
 package com.ofalvai.aircard.presentation.mycards;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
+import com.ofalvai.aircard.NearbyConnectionManager;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
 import com.ofalvai.aircard.db.MyProfileWrapper;
@@ -25,8 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
-        implements MyCardsContract.Presenter, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        implements MyCardsContract.Presenter {
 
     private static final String TAG = "MyCardsPresenter";
 
@@ -34,8 +29,8 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     private MyCardsDbWrapper mDbWrapper;
 
-    private boolean mNearbyConnected = false;
-    private GoogleApiClient mGoogleApiClient;
+    @Nullable
+    private NearbyConnectionManager mNearbyConnectionManager;
 
     private Set<Card> mPublishedCards;
 
@@ -47,14 +42,14 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void initNearby(FragmentActivity fragmentActivity) {
-        if (!mNearbyConnected) {
-            mGoogleApiClient = new GoogleApiClient.Builder(mContext)
-                    .addApi(Nearby.MESSAGES_API)
-                    .enableAutoManage(fragmentActivity, this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
-        }
+        mNearbyConnectionManager = NearbyConnectionManager.getInstanceForActivity(fragmentActivity);
+    }
+
+    @Override
+    public void detachView() {
+        super.detachView();
+
+        NearbyConnectionManager.releaseInstance();
     }
 
     @Override
@@ -81,43 +76,31 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     @Override
     public void publishCard(Card card) {
         Message message = Card.newNearbyMessage(card);
-        Nearby.Messages.publish(mGoogleApiClient, message);
 
-        mPublishedCards.add(card);
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.i(TAG, "onConnected: ");
-        mNearbyConnected = true;
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "onConnectionSuspended: ");
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "onConnectionFailed: ");
+        if (mNearbyConnectionManager != null) {
+            mNearbyConnectionManager.publish(message);
+            mPublishedCards.add(card);
+        } else {
+            Log.e(TAG, "NearbyConnectionManager is not initialized");
+        }
     }
 
     @Override
     public void unpublishCard(Card card) {
         Message message = Card.newNearbyMessage(card);
-        Nearby.Messages.unpublish(mGoogleApiClient, message);
 
-        mPublishedCards.remove(card);
+        if (mNearbyConnectionManager != null) {
+            mNearbyConnectionManager.unpublish(message);
+            mPublishedCards.remove(card);
+
+        } else {
+            Log.e(TAG, "NearbyConnectionManager is not initialized");
+        }
     }
 
     @Override
     public boolean isCardPublished(Card card) {
         return mPublishedCards.contains(card);
-    }
-
-    @Override
-    public void releaseNearbyResources() {
-        //mNearbyConnectionManager.disconnect();
     }
 
     @Override

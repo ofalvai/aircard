@@ -43,8 +43,6 @@ interface MyCardsContract {
 
         void initNearby(FragmentActivity fragmentActivity);
 
-        void releaseNearbyResources();
-
         void pickCardColor(Card card);
 
         void updateCardColor(UUID uuid, CardColor color);
