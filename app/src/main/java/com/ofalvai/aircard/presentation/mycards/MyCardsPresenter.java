@@ -104,6 +104,9 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void unpublishCard(Card card) {
+        Message message = Card.newNearbyMessage(card);
+        Nearby.Messages.unpublish(mGoogleApiClient, message);
+
         mPublishedCards.remove(card);
     }
 
