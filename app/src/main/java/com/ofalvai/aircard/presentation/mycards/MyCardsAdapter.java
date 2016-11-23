@@ -1,6 +1,7 @@
 package com.ofalvai.aircard.presentation.mycards;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,12 @@ public class MyCardsAdapter extends BaseCardAdapter {
     @Nullable
     private MyCardsContract.Presenter mPresenter;
 
+    private Context mContext;
+
     public MyCardsAdapter(@Nullable MyCardsContract.Presenter presenter, Context context) {
         super(context);
-        this.mPresenter = presenter;
+        mPresenter = presenter;
+        mContext = context;
     }
 
     @Override
@@ -31,9 +35,24 @@ public class MyCardsAdapter extends BaseCardAdapter {
 
     @Override
     protected void bindListeners(BaseCardViewHolder holder) {
-        MyCardsViewHolder viewHolder = (MyCardsViewHolder) holder;
+        final MyCardsViewHolder viewHolder = (MyCardsViewHolder) holder;
         final int position = holder.getAdapterPosition();
         final Card card = mCards.get(position);
+
+        viewHolder.mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPresenter.isCardPublished(card)) {
+                    mPresenter.unpublishCard(card);
+                    Drawable shareIcon = mContext.getDrawable(R.drawable.ic_share_white_24dp);
+                    viewHolder.mShareButton.setImageDrawable(shareIcon);
+                } else {
+                    mPresenter.publishCard(card);
+                    Drawable stopIcon = mContext.getDrawable(R.drawable.ic_cancel_white_24dp);
+                    viewHolder.mShareButton.setImageDrawable(stopIcon);
+                }
+            }
+        });
 
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

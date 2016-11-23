@@ -64,6 +64,8 @@ public class MyCardsFragment extends Fragment implements
 
         initCardList();
 
+        mPresenter.initNearby(getActivity());
+
         return view;
     }
 

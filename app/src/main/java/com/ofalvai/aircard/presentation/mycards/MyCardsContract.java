@@ -1,5 +1,7 @@
 package com.ofalvai.aircard.presentation.mycards;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
@@ -36,6 +38,12 @@ interface MyCardsContract {
         void publishCard(Card card);
 
         void unpublishCard(Card card);
+
+        boolean isCardPublished(Card card);
+
+        void initNearby(FragmentActivity fragmentActivity);
+
+        void releaseNearbyResources();
 
         void pickCardColor(Card card);
 

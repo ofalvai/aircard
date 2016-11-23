@@ -80,6 +80,10 @@ public class Card {
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
     }
 
+    public static Message newNearbyMessage(Card card) {
+        return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
+    }
+
     public UUID getUuid() {
         return uuid;
     }
