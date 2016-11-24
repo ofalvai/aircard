@@ -14,82 +14,38 @@ import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View>
         implements NearbyCardsContract.Presenter {
 
     private static final String TAG = "NearbyCardsPresenter";
 
-    private static final Card[] testCards = {
+    private static final Card[] mDemoCards = {
             new Card(
                     null,
-                    "John Doe",
-                    "+36201234567",
+                    "Demo card",
+                    "776-2323",
                     "mail@example.com",
-                    "1234 Példa út 15",
-                    "http://example.com",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida porttitor tortor molestie commodo. Vestibulum eget bibendum magna, imperdiet aliquet lacus.",
+                    "Milky Way",
+                    "example.com",
+                    "These cards are for demo purposes only, and do not come from a nearby device.\nUse the options menu again to hide them.",
                     CardStyle.NORMAL,
                     CardColor.DEFAULT
             ),
 
             new Card(
                     null,
-                    "John Doe",
-                    "+36201234567",
+                    "Another demo card",
+                    null,
                     "mail@example.com",
-                    "5678 Minta körút 13",
+                    "",
                     "http://example.com",
                     "Praesent ac elementum nulla, id accumsan quam.",
-                    CardStyle.NORMAL,
-                    CardColor.YELLOW
-            ),
-
-            new Card(
-                    null,
-                    "John Doe",
-                    "+36201234567",
-                    "mail@example.com",
-                    "5678 Minta körút 13",
-                    "http://example.com",
-                    "",
-                    CardStyle.NORMAL,
-                    CardColor.DEFAULT
-            ),
-
-            new Card(
-                    null,
-                    "Ez hiányos",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    CardStyle.MONOSPACE,
-                    CardColor.ORANGE
-            ),
-
-            new Card(
-                    null,
-                    "Ilyet is",
-                    "",
-                    "mail@example.hu",
-                    "",
-                    "",
-                    "",
-                    CardStyle.MONOSPACE,
-                    CardColor.DEFAULT
-            ),
-            new Card(
-                    null,
-                    "Ilyet is lehet",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
                     CardStyle.SERIF,
-                    CardColor.DEFAULT
-            ),
+                    CardColor.YELLOW
+            )
     };
 
     private SavedCardsDbWrapper mDbWrapper;
@@ -150,5 +106,17 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     @Override
     public void stopListen() {
 
+    }
+
+    @Override
+    public void getDemoCards() {
+        checkViewAttached();
+        getView().showCards(Arrays.asList(mDemoCards));
+    }
+
+    @Override
+    public void removeDemoCards() {
+        checkViewAttached();
+        getView().showCards(new ArrayList<Card>());
     }
 }

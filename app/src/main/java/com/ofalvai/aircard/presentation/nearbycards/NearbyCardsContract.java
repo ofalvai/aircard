@@ -36,5 +36,9 @@ interface NearbyCardsContract {
 
         void stopListen();
 
+        void getDemoCards();
+
+        void removeDemoCards();
+
     }
 }

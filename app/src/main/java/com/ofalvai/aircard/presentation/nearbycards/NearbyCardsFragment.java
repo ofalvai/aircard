@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +54,8 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nearby_cards, container, false);
 
+        setHasOptionsMenu(true);
+
         ButterKnife.bind(NearbyCardsFragment.this, view);
 
         initCardList();
@@ -60,6 +65,27 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
         }
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_nearby_cards, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_demo_cards:
+                if (mPresenter != null) {
+                    if (mNearbyCardAdapter.getItemCount() == 0) {
+                        mPresenter.getDemoCards();
+                    } else {
+                        mPresenter.removeDemoCards();
+                    }
+                }
+                break;
+        }
+        return true;
     }
 
     private void initCardList() {
