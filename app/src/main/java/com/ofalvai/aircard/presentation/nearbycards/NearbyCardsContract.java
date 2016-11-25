@@ -42,6 +42,8 @@ interface NearbyCardsContract {
          */
         void unsubscribe();
 
+        boolean isSubscribed();
+
         void getDemoCards();
 
         void removeDemoCards();

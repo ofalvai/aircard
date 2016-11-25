@@ -55,6 +55,12 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     @Nullable
     private NearbyConnectionManager mNearbyConnectionManager;
 
+    /**
+     * We need to keep a reference to a subscribed listener in order to unsubscribe it later.
+     */
+    @Nullable
+    private MessageListener mMessageListener;
+
     public NearbyCardsPresenter(Context context) {
         mContext = context;
         mDbWrapper = new SavedCardsDbWrapper(new DbHelper(mContext));
@@ -82,7 +88,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     @Override
     public void subscribe() {
         if (mNearbyConnectionManager != null) {
-            final MessageListener listener = new MessageListener() {
+            mMessageListener = new MessageListener() {
                 @Override
                 public void onFound(Message message) {
                     Card card = Card.fromNearbyMessage(message);
@@ -99,13 +105,22 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                 }
             };
 
-            mNearbyConnectionManager.subscribe(listener);
+            mNearbyConnectionManager.subscribe(mMessageListener);
         }
     }
 
     @Override
     public void unsubscribe() {
+        if (mNearbyConnectionManager != null && mMessageListener != null) {
+            mNearbyConnectionManager.unsubscribe(mMessageListener);
+            mMessageListener = null;
+        }
+    }
 
+    @Override
+    public boolean isSubscribed() {
+        return mMessageListener != null;
+        // TODO: ha nem sikerült a subscribe, akkor még nullra kell állítani
     }
 
     @Override

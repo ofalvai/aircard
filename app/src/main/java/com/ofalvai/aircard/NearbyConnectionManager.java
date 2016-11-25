@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.nearby.Nearby;
@@ -24,7 +25,7 @@ import com.google.android.gms.nearby.messages.SubscribeOptions;
  * FragmentActivity, while being a Singleton class. This leads to memory leak if not handled
  * properly, so it's very important to call releaseInstance() when the dependent fragment/activity
  * is destroyed.
- *
+ * <p>
  * (Yes, GoogleApiClient can be used without enableAutoManage(), but dealing manually with its
  * lifecycle, callbacks, and starting resolutions for failed connection attempts is even more painful
  * than being careful with using this class.)
@@ -40,8 +41,10 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
 
     private SubscribeOptions mSubscribeOptions;
 
+
     /**
      * Use this method to obtain an instance, and don't forget to call releaseInstance() afterwards
+     *
      * @param fragmentActivity activity that is in the forground when using Nearby Messages
      * @return the single instance of the class
      */
@@ -73,46 +76,88 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
         mSubscribeOptions = createSubscribeOptions();
     }
 
-    public void publish(Message message) {
-        Nearby.Messages.publish(mGoogleApiClient, message);
+    public void publish(final Message message) {
+        Log.i(TAG, "Publishing...");
+
+        PendingResult<Status> result = Nearby.Messages.publish(mGoogleApiClient, message);
+
+        result.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                Log.i(TAG, "Publish result: " + status.getStatusMessage());
+            }
+        });
     }
 
     public void unpublish(Message message) {
-        Nearby.Messages.unpublish(mGoogleApiClient, message);
+        Log.i(TAG, "Unpublishing");
+
+        PendingResult<Status> result = Nearby.Messages.unpublish(mGoogleApiClient, message);
+
+        result.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                Log.i(TAG, "Unpublish result: " + status.getStatusMessage());
+            }
+        });
     }
 
     public void subscribe(MessageListener listener) {
-        Log.i(TAG, "Subscribing.");
+        Log.i(TAG, "Subscribing...");
 
-        Nearby.Messages.subscribe(mGoogleApiClient, listener, mSubscribeOptions)
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        if (status.isSuccess()) {
-                            Log.i(TAG, "Subscribed successfully.");
-                        } else {
-                            int code = status.getStatusCode();
-                            Log.i(TAG, "Subscribe unsuccessful (code: " + code + ")");
-                        }
-                    }
-                });
+        PendingResult<Status> result = Nearby.Messages.subscribe(mGoogleApiClient, listener, mSubscribeOptions);
+
+        result.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                if (status.isSuccess()) {
+                    Log.i(TAG, "Subscribed successfully.");
+                } else {
+                    int code = status.getStatusCode();
+                    Log.i(TAG, "Subscribe unsuccessful (code: " + code + ")");
+                }
+            }
+        });
+    }
+
+    /**
+     * Unsubscribe the given MessageListener from the Nearby API
+     *
+     * @param listener A MessageListener that was previously subscribed
+     */
+    public void unsubscribe(MessageListener listener) {
+        Log.i(TAG, "Unsubscribing...");
+
+        PendingResult<Status> result = Nearby.Messages.unsubscribe(mGoogleApiClient, listener);
+
+        result.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                if (status.isSuccess()) {
+                    Log.i(TAG, "Unsubscribed successfully.");
+                } else {
+                    int code = status.getStatusCode();
+                    Log.i(TAG, "Unsubsribe unsuccessful (code: " + code + ")");
+                }
+            }
+        });
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.i(TAG, "onConnected: ");
+        Log.i(TAG, "Connected successfully");
 
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(TAG, "onConnectionSuspended: ");
+        Log.i(TAG, "Connection suspended"); //TODO
 
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "onConnectionFailed: ");
+        Log.i(TAG, "Connection failed"); //TODO
 
 
     }
