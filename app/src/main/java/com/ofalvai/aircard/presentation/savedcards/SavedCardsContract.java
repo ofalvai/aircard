@@ -11,6 +11,12 @@ interface SavedCardsContract {
     interface View extends MvpView {
 
         void showCards(List<Card> cards);
+
+        /**
+         * Used for externally asking the view to get the latest data.
+         * Currently MainPagerAdapter calls this to update the view every time it gets selected.
+         */
+        void refreshSavedCards();
     }
 
     interface Presenter extends MvpPresenter<View> {

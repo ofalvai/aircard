@@ -67,4 +67,11 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
         mCardAdapter.setCardData(cards);
         mCardAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void refreshSavedCards() {
+        if (mPresenter != null) {
+            mPresenter.getSavedCards();
+        }
+    }
 }
