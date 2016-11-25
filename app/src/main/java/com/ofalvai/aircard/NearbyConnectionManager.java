@@ -14,6 +14,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
+import com.google.android.gms.nearby.messages.PublishCallback;
+import com.google.android.gms.nearby.messages.PublishOptions;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
@@ -32,6 +34,18 @@ import com.google.android.gms.nearby.messages.SubscribeOptions;
  */
 public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+
+    public interface PublishListener {
+
+        /**
+         * Indicates that the message is no longer published, it's time to update the UI
+         */
+        void onPublishExpired();
+
+        void onPublishSuccess();
+
+        void onPublishFailed(int statusCode, String statusMessage);
+    }
 
     private static final String TAG = "NearbyConnectionManager";
 
@@ -76,15 +90,31 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
         mSubscribeOptions = createSubscribeOptions();
     }
 
-    public void publish(final Message message) {
+    public void publish(final Message message, final PublishListener listener) {
         Log.i(TAG, "Publishing...");
 
-        PendingResult<Status> result = Nearby.Messages.publish(mGoogleApiClient, message);
+        final PublishOptions options = new PublishOptions.Builder()
+                .setCallback(new PublishCallback() {
+                    @Override
+                    public void onExpired() {
+                        Log.i(TAG, "Publish expired");
+                        listener.onPublishExpired();
+                    }
+                })
+                .build();
+
+        PendingResult<Status> result = Nearby.Messages.publish(mGoogleApiClient, message, options);
 
         result.setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 Log.i(TAG, "Publish result: " + status.getStatusMessage());
+                if (status.isSuccess()) {
+                    listener.onPublishSuccess();
+                } else {
+                    listener.onPublishFailed(status.getStatusCode(), status.getStatusMessage());
+                    Log.e(TAG, "Publish failure status code: " + status.getStatusCode());
+                }
             }
         });
     }

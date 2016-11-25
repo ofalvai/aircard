@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
-        implements MyCardsContract.Presenter {
+        implements MyCardsContract.Presenter, NearbyConnectionManager.PublishListener {
 
     private static final String TAG = "MyCardsPresenter";
 
@@ -78,7 +78,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         Message message = Card.newNearbyMessage(card);
 
         if (mNearbyConnectionManager != null) {
-            mNearbyConnectionManager.publish(message);
+            mNearbyConnectionManager.publish(message, this);
             mPublishedCards.add(card);
         } else {
             Log.e(TAG, "NearbyConnectionManager is not initialized");
@@ -101,6 +101,21 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     @Override
     public boolean isCardPublished(Card card) {
         return mPublishedCards.contains(card);
+    }
+
+    @Override
+    public void onPublishExpired() {
+
+    }
+
+    @Override
+    public void onPublishSuccess() {
+
+    }
+
+    @Override
+    public void onPublishFailed(int statusCode, String statusMessage) {
+
     }
 
     @Override
