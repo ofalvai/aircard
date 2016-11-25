@@ -35,16 +35,20 @@ import com.google.android.gms.nearby.messages.SubscribeOptions;
 public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    /**
+     * Callbacks indicating a Message's publish state.
+     * Note: these are not called from the UI thread.
+     */
     public interface PublishListener {
 
         /**
          * Indicates that the message is no longer published, it's time to update the UI
          */
-        void onPublishExpired();
+        void onPublishExpired(Message message);
 
-        void onPublishSuccess();
+        void onPublishSuccess(Message message);
 
-        void onPublishFailed(int statusCode, String statusMessage);
+        void onPublishFailed(Message messase, int statusCode, String statusMessage);
     }
 
     private static final String TAG = "NearbyConnectionManager";
@@ -98,7 +102,7 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
                     @Override
                     public void onExpired() {
                         Log.i(TAG, "Publish expired");
-                        listener.onPublishExpired();
+                        listener.onPublishExpired(message);
                     }
                 })
                 .build();
@@ -110,9 +114,9 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
             public void onResult(@NonNull Status status) {
                 Log.i(TAG, "Publish result: " + status.getStatusMessage());
                 if (status.isSuccess()) {
-                    listener.onPublishSuccess();
+                    listener.onPublishSuccess(message);
                 } else {
-                    listener.onPublishFailed(status.getStatusCode(), status.getStatusMessage());
+                    listener.onPublishFailed(message, status.getStatusCode(), status.getStatusMessage());
                     Log.e(TAG, "Publish failure status code: " + status.getStatusCode());
                 }
             }

@@ -1,6 +1,8 @@
 package com.ofalvai.aircard.presentation.mycards;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -104,18 +106,40 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
-    public void onPublishExpired() {
-
+    public void onPublishExpired(final Message message) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                UUID uuid = Card.fromNearbyMessage(message).getUuid();
+                checkViewAttached();
+                getView().setCardStateUnpublished(uuid);
+            }
+        });
     }
 
     @Override
-    public void onPublishSuccess() {
-
+    public void onPublishSuccess(final Message message) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                UUID uuid = Card.fromNearbyMessage(message).getUuid();
+                checkViewAttached();
+                getView().setCardStatePublished(uuid);
+            }
+        });
     }
 
     @Override
-    public void onPublishFailed(int statusCode, String statusMessage) {
-
+    public void onPublishFailed(final Message message, int statusCode, String statusMessage) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                UUID uuid = Card.fromNearbyMessage(message).getUuid();
+                checkViewAttached();
+                getView().setCardStateUnpublished(uuid);
+                // TODO: error message
+            }
+        });
     }
 
     @Override

@@ -178,4 +178,26 @@ public class MyCardsFragment extends Fragment implements
         String message = getActivity().getString(R.string.auto_fill_error);
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void setCardStatePublished(UUID uuid) {
+        int position = mMyCardsAdapter.getCardPosition(uuid);
+
+        if (position >= 0) {
+            MyCardsViewHolder holder = (MyCardsViewHolder)
+                    mMyCardsList.findViewHolderForAdapterPosition(position);
+            holder.setCardStatePublished();
+        }
+    }
+
+    @Override
+    public void setCardStateUnpublished(UUID uuid) {
+        int position = mMyCardsAdapter.getCardPosition(uuid);
+
+        if (position >= 0) {
+            MyCardsViewHolder holder = (MyCardsViewHolder)
+                    mMyCardsList.findViewHolderForAdapterPosition(position);
+            holder.setCardStateUnpublished();
+        }
+    }
 }

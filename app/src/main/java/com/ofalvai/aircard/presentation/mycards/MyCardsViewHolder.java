@@ -1,5 +1,6 @@
 package com.ofalvai.aircard.presentation.mycards;
 
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,5 +32,21 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
+    }
+
+    public void setCardStatePublished() {
+        Drawable stopIcon = itemView.getContext().getDrawable(R.drawable.ic_cancel_white_24dp);
+        mPublishButton.setImageDrawable(stopIcon);
+    }
+
+    public void setCardStateUnpublished() {
+        Drawable publishIcon = itemView.getContext().getDrawable(R.drawable.ic_speaker_phone_white_24dp);
+        mPublishButton.setImageDrawable(publishIcon);
+    }
+
+    public void setCardStatePublishing() {
+        Drawable stopIcon = itemView.getContext().getDrawable(R.drawable.ic_cancel_white_24dp);
+        mPublishButton.setImageDrawable(stopIcon);
+        //TODO
     }
 }

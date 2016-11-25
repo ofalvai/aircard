@@ -25,6 +25,10 @@ interface MyCardsContract {
         void showMyProfileInfo(MyProfileInfo info);
 
         void showMyProfileInfoError();
+
+        void setCardStatePublished(UUID uuid);
+
+        void setCardStateUnpublished(UUID uuid);
     }
 
     interface Presenter extends MvpPresenter<View> {

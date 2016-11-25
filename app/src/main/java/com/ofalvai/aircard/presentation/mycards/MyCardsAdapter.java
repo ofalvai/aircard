@@ -1,7 +1,6 @@
 package com.ofalvai.aircard.presentation.mycards;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,8 @@ import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BaseCardAdapter;
 import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
+
+import java.util.UUID;
 
 
 public class MyCardsAdapter extends BaseCardAdapter {
@@ -44,12 +45,10 @@ public class MyCardsAdapter extends BaseCardAdapter {
             public void onClick(View v) {
                 if (mPresenter.isCardPublished(card)) {
                     mPresenter.unpublishCard(card);
-                    Drawable shareIcon = mContext.getDrawable(R.drawable.ic_share_white_24dp);
-                    viewHolder.mPublishButton.setImageDrawable(shareIcon);
+                    viewHolder.setCardStateUnpublished();
                 } else {
                     mPresenter.publishCard(card);
-                    Drawable stopIcon = mContext.getDrawable(R.drawable.ic_cancel_white_24dp);
-                    viewHolder.mPublishButton.setImageDrawable(stopIcon);
+                    viewHolder.setCardStatePublishing();
                 }
             }
         });
@@ -79,4 +78,19 @@ public class MyCardsAdapter extends BaseCardAdapter {
             }
         });
     }
+
+    public int getCardPosition(UUID uuid) {
+        int position = -1;
+
+        for (Card card : mCards) {
+            if (card.getUuid().equals(uuid)) {
+                position = mCards.indexOf(card);
+                break;
+            }
+        }
+
+        return position;
+    }
+
+
 }
