@@ -32,9 +32,15 @@ interface NearbyCardsContract {
 
         void save(Card card);
 
-        void startListen();
+        /**
+         * Starts listening for nearby cards
+         */
+        void subscribe();
 
-        void stopListen();
+        /**
+         * Stops listening for nearby cards
+         */
+        void unsubscribe();
 
         void getDemoCards();
 

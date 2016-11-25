@@ -39,17 +39,17 @@ public class MyCardsAdapter extends BaseCardAdapter {
         final int position = holder.getAdapterPosition();
         final Card card = mCards.get(position);
 
-        viewHolder.mShareButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mPublishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mPresenter.isCardPublished(card)) {
                     mPresenter.unpublishCard(card);
                     Drawable shareIcon = mContext.getDrawable(R.drawable.ic_share_white_24dp);
-                    viewHolder.mShareButton.setImageDrawable(shareIcon);
+                    viewHolder.mPublishButton.setImageDrawable(shareIcon);
                 } else {
                     mPresenter.publishCard(card);
                     Drawable stopIcon = mContext.getDrawable(R.drawable.ic_cancel_white_24dp);
-                    viewHolder.mShareButton.setImageDrawable(stopIcon);
+                    viewHolder.mPublishButton.setImageDrawable(stopIcon);
                 }
             }
         });

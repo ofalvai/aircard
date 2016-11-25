@@ -80,7 +80,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     }
 
     @Override
-    public void startListen() {
+    public void subscribe() {
         if (mNearbyConnectionManager != null) {
             final MessageListener listener = new MessageListener() {
                 @Override
@@ -104,7 +104,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     }
 
     @Override
-    public void stopListen() {
+    public void unsubscribe() {
 
     }
 

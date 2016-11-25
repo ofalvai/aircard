@@ -12,8 +12,8 @@ import butterknife.ButterKnife;
 
 public class MyCardsViewHolder extends BaseCardViewHolder {
 
-    @BindView(R.id.card_action_share)
-    FloatingActionButton mShareButton;
+    @BindView(R.id.card_action_publish)
+    FloatingActionButton mPublishButton;
 
     @BindView(R.id.card_action_edit)
     ImageButton mEditButton;

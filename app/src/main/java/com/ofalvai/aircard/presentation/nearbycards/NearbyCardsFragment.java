@@ -141,7 +141,7 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     @OnClick(R.id.nearby_subscribe)
     void clickSubscribe() {
         if (mPresenter != null) {
-            mPresenter.startListen();
+            mPresenter.subscribe();
         }
     }
 }
