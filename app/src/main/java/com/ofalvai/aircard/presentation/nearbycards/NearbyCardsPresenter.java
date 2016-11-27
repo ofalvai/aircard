@@ -1,6 +1,8 @@
 package com.ofalvai.aircard.presentation.nearbycards;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View>
-        implements NearbyCardsContract.Presenter {
+        implements NearbyCardsContract.Presenter, NearbyConnectionManager.SubscribeListener {
 
     private static final String TAG = "NearbyCardsPresenter";
 
@@ -105,7 +107,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
                 }
             };
 
-            mNearbyConnectionManager.subscribe(mMessageListener);
+            mNearbyConnectionManager.subscribe(mMessageListener, this);
         }
     }
 
@@ -120,7 +122,31 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     @Override
     public boolean isSubscribed() {
         return mMessageListener != null;
-        // TODO: ha nem sikerült a subscribe, akkor még nullra kell állítani
+    }
+
+    @Override
+    public void onSubscribeExpired(MessageListener messageListener) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mMessageListener = null;
+            }
+        });
+    }
+
+    @Override
+    public void onSubscribeSuccess(MessageListener messageListener) {
+
+    }
+
+    @Override
+    public void onSubscribeFailed(MessageListener messageListener, int statusCode, String statusMessage) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mMessageListener = null;
+            }
+        });
     }
 
     @Override

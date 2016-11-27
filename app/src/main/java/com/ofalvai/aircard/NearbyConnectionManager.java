@@ -37,7 +37,7 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
 
     /**
      * Callbacks indicating a Message's publish state.
-     * Note: these are not called from the UI thread.
+     * Note: these are not called on the UI thread.
      */
     public interface PublishListener {
 
@@ -51,13 +51,29 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
         void onPublishFailed(Message messase, int statusCode, String statusMessage);
     }
 
+    /**
+     * Callbacks indicating a subscription's state. A subscription is identified by the
+     * MessageListener passed to subscribe().
+     * Note: these are not called from the UI thread.
+     */
+    public interface SubscribeListener {
+
+        /**
+         * Indicates that the client is no longer subscribing, it's time to update the UI
+         */
+        void onSubscribeExpired(MessageListener messageListener);
+
+        void onSubscribeSuccess(MessageListener messageListener);
+
+        void onSubscribeFailed(MessageListener messageListener, int statusCode, String statusMessage);
+
+    }
+
     private static final String TAG = "NearbyConnectionManager";
 
     private static NearbyConnectionManager mInstance;
 
     private GoogleApiClient mGoogleApiClient;
-
-    private SubscribeOptions mSubscribeOptions;
 
 
     /**
@@ -90,8 +106,6 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-
-        mSubscribeOptions = createSubscribeOptions();
     }
 
     public void publish(final Message message, final PublishListener listener) {
@@ -136,19 +150,30 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
         });
     }
 
-    public void subscribe(MessageListener listener) {
+    public void subscribe(final MessageListener messageListener, final SubscribeListener subscribeListener) {
         Log.i(TAG, "Subscribing...");
 
-        PendingResult<Status> result = Nearby.Messages.subscribe(mGoogleApiClient, listener, mSubscribeOptions);
+        final SubscribeOptions options = new SubscribeOptions.Builder()
+                .setCallback(new SubscribeCallback() {
+                    @Override
+                    public void onExpired() {
+                        Log.i(TAG, "Subscribe expired");
+                        subscribeListener.onSubscribeExpired(messageListener);
+                    }
+                }).build();
+
+        PendingResult<Status> result = Nearby.Messages.subscribe(mGoogleApiClient, messageListener, options);
 
         result.setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
+                Log.i(TAG, "Subscribe result: " + status.getStatusMessage());
                 if (status.isSuccess()) {
-                    Log.i(TAG, "Subscribed successfully.");
+                    subscribeListener.onSubscribeSuccess(messageListener);
                 } else {
-                    int code = status.getStatusCode();
-                    Log.i(TAG, "Subscribe unsuccessful (code: " + code + ")");
+                    Log.e(TAG, "Publish failure status code: " + status.getStatusCode());
+                    subscribeListener.onSubscribeFailed(messageListener, status.getStatusCode(),
+                            status.getStatusMessage());
                 }
             }
         });
@@ -194,16 +219,5 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
         Log.i(TAG, "Connection failed"); //TODO
 
 
-    }
-
-    private SubscribeOptions createSubscribeOptions() {
-        return new SubscribeOptions.Builder()
-                .setCallback(new SubscribeCallback() {
-                    @Override
-                    public void onExpired() {
-                        super.onExpired();
-                        Log.i(TAG, "No longer subscribing (expired)");
-                    }
-                }).build();
     }
 }
