@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 
@@ -35,6 +36,9 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
 
     @BindView(R.id.nearby_subscribe)
     FloatingActionButton mSubscribeButton;
+
+    @BindView(R.id.nearby_subscribe_progress_circle)
+    FABProgressCircle mSubscribeButtonCircle;
 
     public static NearbyCardsFragment newInstance() {
         return new NearbyCardsFragment();
@@ -143,8 +147,12 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
         if (mPresenter != null) {
             if (mPresenter.isSubscribed()) {
                 mPresenter.unsubscribe();
+
+                mSubscribeButtonCircle.hide();
             } else {
                 mPresenter.subscribe();
+
+                mSubscribeButtonCircle.show();
             }
         }
     }
