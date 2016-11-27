@@ -24,6 +24,10 @@ interface NearbyCardsContract {
 
         void showMessageCardAdded();
 
+        void setStateSubscribing();
+
+        void setStateNotSubscribing();
+
     }
 
     interface Presenter extends MvpPresenter<View> {

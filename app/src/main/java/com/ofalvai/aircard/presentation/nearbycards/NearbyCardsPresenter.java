@@ -130,13 +130,17 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             @Override
             public void run() {
                 mMessageListener = null;
+
+                checkViewAttached();
+                getView().setStateNotSubscribing();
             }
         });
     }
 
     @Override
     public void onSubscribeSuccess(MessageListener messageListener) {
-
+        checkViewAttached();
+        getView().setStateSubscribing();
     }
 
     @Override
@@ -145,6 +149,9 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             @Override
             public void run() {
                 mMessageListener = null;
+
+                checkViewAttached();
+                getView().setStateNotSubscribing();
             }
         });
     }

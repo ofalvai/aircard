@@ -156,4 +156,14 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
             }
         }
     }
+
+    @Override
+    public void setStateSubscribing() {
+
+    }
+
+    @Override
+    public void setStateNotSubscribing() {
+        mSubscribeButtonCircle.hide();
+    }
 }
