@@ -111,6 +111,8 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
             @Override
             public void run() {
                 UUID uuid = Card.fromNearbyMessage(message).getUuid();
+                removeCardByUuid(uuid);
+
                 checkViewAttached();
                 getView().setCardStateUnpublished(uuid);
             }
@@ -135,6 +137,8 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
             @Override
             public void run() {
                 UUID uuid = Card.fromNearbyMessage(message).getUuid();
+                removeCardByUuid(uuid);
+
                 checkViewAttached();
                 getView().setCardStateUnpublished(uuid);
                 // TODO: error message
@@ -177,6 +181,19 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         } catch (Exception ex) {
             checkViewAttached();
             getView().showMyProfileInfoError();
+        }
+    }
+
+    /**
+     * Finds a matching card in the published cards set, and removes it.
+     * Useful when a card object is not the same instance as the one stored in the set,
+     * but they represent the same card (their uuid is the same)
+     */
+    private void removeCardByUuid(UUID uuid) {
+        for (Card card : mPublishedCards) {
+            if (card.getUuid().equals(uuid)) {
+                mPublishedCards.remove(card);
+            }
         }
     }
 }
