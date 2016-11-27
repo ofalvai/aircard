@@ -7,136 +7,156 @@
     android:layout_height="wrap_content"
     tools:context=".presentation.mycards.MyCardsFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="48dp">
+    <!-- Without this extra FrameLayout, the FAB's wrapper (which is a FrameLayout descendant)
+        wouldn't be drawn over the CardView -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="48dp">
 
-            <TextView
-                android:id="@+id/card_title"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp"
-                android:textColor="@color/materialTitleText"
-                android:textSize="24sp"
-                tools:text="Card title"
-                />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/card_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_title"
-                android:padding="16dp"
-                android:textSize="14sp"
-                tools:text="Card note \n(multiline)"/>
-
-            <ImageView
-                android:id="@+id/card_icon_mail"
-                style="@style/CardIcon"
-                android:layout_alignBottom="@+id/card_mail"
-                android:layout_below="@id/card_note"
-                android:src="@drawable/ic_mail_black_18dp"/>
-
-            <TextView
-                android:id="@id/card_mail"
-                style="@style/CardRow.WithIcon.Link"
-                android:layout_below="@id/card_note"
-                android:layout_toEndOf="@id/card_icon_mail"
-                tools:text="mail@example.com"/>
-
-            <ImageView
-                android:id="@+id/card_icon_tel"
-                style="@style/CardIcon"
-                android:layout_alignBottom="@+id/card_tel"
-                android:layout_below="@id/card_mail"
-                android:src="@drawable/ic_phone_black_18dp"/>
-
-            <TextView
-                android:id="@+id/card_tel"
-                style="@style/CardRow.WithIcon.Link"
-                android:layout_below="@id/card_mail"
-                android:layout_toEndOf="@id/card_icon_tel"
-                tools:text="+123456789"/>
-
-            <ImageView
-                android:id="@+id/card_icon_location"
-                style="@style/CardIcon"
-                android:layout_alignBottom="@+id/card_location"
-                android:layout_below="@id/card_tel"
-                android:src="@drawable/ic_place_black_18dp"/>
-
-            <TextView
-                android:id="@+id/card_location"
-                style="@style/CardRow.WithIcon.Link"
-                android:layout_below="@id/card_tel"
-                android:layout_toEndOf="@id/card_icon_location"
-                tools:text="Some address"/>
-
-            <LinearLayout
-                android:id="@+id/card_action_area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_location"
-                android:layout_margin="8dp"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/card_action_change_style"
-                    style="@style/CardActionButton.IconButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/card_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_text_format_black_24dp"/>
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="24dp"
+                    android:textColor="@color/materialTitleText"
+                    android:textSize="24sp"
+                    tools:text="Card title"
+                    />
 
-                <ImageButton
-                    android:id="@+id/card_action_change_color"
-                    style="@style/CardActionButton.IconButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/card_note"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_color_lens_black_24dp"/>
+                    android:layout_below="@id/card_title"
+                    android:padding="16dp"
+                    android:textSize="14sp"
+                    tools:text="Card note \n(multiline)"/>
 
-                <ImageButton
-                    android:id="@+id/card_action_edit"
-                    style="@style/CardActionButton.IconButton"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/card_icon_mail"
+                    style="@style/CardIcon"
+                    android:layout_alignBottom="@+id/card_mail"
+                    android:layout_below="@id/card_note"
+                    android:src="@drawable/ic_mail_black_18dp"/>
+
+                <TextView
+                    android:id="@id/card_mail"
+                    style="@style/CardRow.WithIcon.Link"
+                    android:layout_below="@id/card_note"
+                    android:layout_toEndOf="@id/card_icon_mail"
+                    tools:text="mail@example.com"/>
+
+                <ImageView
+                    android:id="@+id/card_icon_tel"
+                    style="@style/CardIcon"
+                    android:layout_alignBottom="@+id/card_tel"
+                    android:layout_below="@id/card_mail"
+                    android:src="@drawable/ic_phone_black_18dp"/>
+
+                <TextView
+                    android:id="@+id/card_tel"
+                    style="@style/CardRow.WithIcon.Link"
+                    android:layout_below="@id/card_mail"
+                    android:layout_toEndOf="@id/card_icon_tel"
+                    tools:text="+123456789"/>
+
+                <ImageView
+                    android:id="@+id/card_icon_location"
+                    style="@style/CardIcon"
+                    android:layout_alignBottom="@+id/card_location"
+                    android:layout_below="@id/card_tel"
+                    android:src="@drawable/ic_place_black_18dp"/>
+
+                <TextView
+                    android:id="@+id/card_location"
+                    style="@style/CardRow.WithIcon.Link"
+                    android:layout_below="@id/card_tel"
+                    android:layout_toEndOf="@id/card_icon_location"
+                    tools:text="Some address"/>
+
+                <LinearLayout
+                    android:id="@+id/card_action_area"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+                    android:layout_below="@id/card_location"
+                    android:layout_margin="8dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/card_action_delete"
-                    style="@style/CardActionButton.IconButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete_black_24dp"/>
+                    <ImageButton
+                        android:id="@+id/card_action_change_style"
+                        style="@style/CardActionButton.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_text_format_black_24dp"/>
 
-            </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/card_action_change_color"
+                        style="@style/CardActionButton.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_color_lens_black_24dp"/>
 
-        </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/card_action_edit"
+                        style="@style/CardActionButton.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_mode_edit_black_24dp"/>
 
-    </android.support.v7.widget.CardView>
+                    <ImageButton
+                        android:id="@+id/card_action_delete"
+                        style="@style/CardActionButton.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_delete_black_24dp"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/card_action_publish"
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+    <com.github.jorgecastilloprz.FABProgressCircle
+        android:id="@+id/card_action_publish_progress_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:clickable="true"
-        android:src="@drawable/ic_speaker_phone_white_24dp"
+        app:arcColor="@color/colorPrimary"
+        app:arcWidth="@dimen/fab_arc_width"
         app:elevation="6dp"
         app:layout_anchor="@id/card"
         app:layout_anchorGravity="top|center"
-        />
+        app:reusable="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/card_action_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="0dp"
+            android:clickable="true"
+            android:src="@drawable/ic_speaker_phone_white_24dp"
+            />
+
+    </com.github.jorgecastilloprz.FABProgressCircle>
+
 </android.support.design.widget.CoordinatorLayout>
 
 

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
 
@@ -15,6 +16,9 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
 
     @BindView(R.id.card_action_publish)
     FloatingActionButton mPublishButton;
+
+    @BindView(R.id.card_action_publish_progress_circle)
+    FABProgressCircle mPublishButtonCircle;
 
     @BindView(R.id.card_action_edit)
     ImageButton mEditButton;
@@ -42,11 +46,12 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
     public void setCardStateUnpublished() {
         Drawable publishIcon = itemView.getContext().getDrawable(R.drawable.ic_speaker_phone_white_24dp);
         mPublishButton.setImageDrawable(publishIcon);
+        mPublishButtonCircle.hide();
     }
 
     public void setCardStatePublishing() {
         Drawable stopIcon = itemView.getContext().getDrawable(R.drawable.ic_cancel_white_24dp);
         mPublishButton.setImageDrawable(stopIcon);
-        //TODO
+        mPublishButtonCircle.show();
     }
 }
