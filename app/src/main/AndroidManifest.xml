@@ -15,15 +15,15 @@
             android:name="com.google.android.nearby.messages.API_KEY"
             android:value="${googleApiKey}"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".presentation.main.Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.main.Main2Activity">
-        </activity>
+        <!--<activity android:name=".presentation.main.Main2Activity">-->
+        <!--</activity>-->
     </application>
 
 </manifest>
