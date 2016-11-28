@@ -30,12 +30,12 @@ public class NearbyCardAdapter extends BaseCardAdapter {
 
     @Override
     protected void bindListeners(BaseCardViewHolder holder) {
-        NearbyCardsViewHolder viewHolder = (NearbyCardsViewHolder) holder;
-        final Card card = mCards.get(holder.getAdapterPosition());
+        final NearbyCardsViewHolder viewHolder = (NearbyCardsViewHolder) holder;
 
         viewHolder.mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Card card = mCards.get(viewHolder.getAdapterPosition());
                 if (mPresenter != null) {
                     mPresenter.save(card);
                 }

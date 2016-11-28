@@ -37,12 +37,13 @@ public class MyCardsAdapter extends BaseCardAdapter {
     @Override
     protected void bindListeners(BaseCardViewHolder holder) {
         final MyCardsViewHolder viewHolder = (MyCardsViewHolder) holder;
-        final int position = holder.getAdapterPosition();
-        final Card card = mCards.get(position);
 
         viewHolder.mPublishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                final Card card = mCards.get(position);
+
                 if (mPresenter.isCardPublished(card)) {
                     mPresenter.unpublishCard(card);
                     viewHolder.setCardStateUnpublished();
@@ -56,6 +57,9 @@ public class MyCardsAdapter extends BaseCardAdapter {
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                final Card card = mCards.get(position);
+
                 mPresenter.deleteMyCard(card);
                 mCards.remove(position);
                 notifyItemRemoved(position);
@@ -65,6 +69,9 @@ public class MyCardsAdapter extends BaseCardAdapter {
         viewHolder.mColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                final Card card = mCards.get(position);
+
                 mPresenter.pickCardColor(card);
                 notifyItemChanged(position);
             }
@@ -73,6 +80,9 @@ public class MyCardsAdapter extends BaseCardAdapter {
         viewHolder.mStyleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                final Card card = mCards.get(position);
+
                 mPresenter.pickCardStyle(card);
                 notifyItemChanged(position);
             }
