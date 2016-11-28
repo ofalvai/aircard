@@ -75,4 +75,43 @@ public class SavedCardsDbWrapper {
         String[] whereArg = new String[] { uuid.toString() };
         mDatabase.delete(SavedCardsTable.TABLE_NAME, "uuid = ?", whereArg);
     }
+
+    public List<Card> searchAnywhere(String query) {
+        List<Card> cards = new ArrayList<>();
+
+        // We use a raw SQL query, because the normal query method doesn't work with expressions
+        // like this: LIKE %?%  (placeholders and % wildcards)
+
+        String sql = "SELECT * FROM " + SavedCardsTable.TABLE_NAME + " WHERE " +
+                SavedCardsTable.Cols.NAME + " LIKE ? OR " +
+                SavedCardsTable.Cols.MAIL + " LIKE ? OR " +
+                SavedCardsTable.Cols.PHONE + " LIKE ? OR " +
+                SavedCardsTable.Cols.ADDRESS + " LIKE ? OR " +
+                SavedCardsTable.Cols.URL + " LIKE ?";
+
+        String[] whereArgs = new String[] {
+                "%" + query + "%", // NAME
+                "%" + query + "%", // MAIL
+                "%" + query + "%", // PHONE
+                "%" + query + "%", // ADDRESS
+                "%" + query + "%"  // URL
+        };
+
+        SavedCardsCursorWrapper cursorWrapper = new SavedCardsCursorWrapper(
+                mDatabase.rawQuery(sql, whereArgs)
+        );
+
+        try {
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                cards.add(cursorWrapper.getSavedCard());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            //TODO: exception
+            cursorWrapper.close();
+        }
+
+        return cards;
+    }
 }
