@@ -8,6 +8,7 @@ import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
@@ -38,5 +39,19 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         } else {
             Log.e(TAG, "Unable to delete card '" + card.getName() + "': missing UUID");
         }
+    }
+
+    @Override
+    public void searchSavedCards(String query) {
+        checkViewAttached();
+        List<Card> cards = new ArrayList<>();
+
+        if (query.trim().length() > 0) {
+            cards = mDbWrapper.searchAnywhere(query);
+        } else {
+            cards = mDbWrapper.getSavedCards();
+        }
+
+        getView().showCards(cards);
     }
 }

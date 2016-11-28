@@ -24,5 +24,7 @@ interface SavedCardsContract {
         void getSavedCards();
 
         void deleteSavedCard(Card card);
+
+        void searchSavedCards(String query);
     }
 }

@@ -5,13 +5,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,12 +50,23 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saved_cards, container, false);
 
+        setHasOptionsMenu(true);
+
         ButterKnife.bind(SavedCardsFragment.this, view);
 
         initCardList();
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_saved_cards, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        initSearchView(searchItem);
+    }
+
 
     private void initCardList() {
         if (mCardAdapter == null) {
@@ -59,7 +75,9 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
             mSavedCardsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
-        mPresenter.getSavedCards();
+        if (mPresenter != null) {
+            mPresenter.getSavedCards();
+        }
     }
 
     @Override
@@ -73,5 +91,38 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
         if (mPresenter != null) {
             mPresenter.getSavedCards();
         }
+    }
+
+    private void initSearchView(MenuItem menuItem) {
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (mPresenter != null) {
+                    mPresenter.searchSavedCards(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+                showCards(Collections.<Card>emptyList());
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                if (mPresenter != null) {
+                    mPresenter.getSavedCards();
+                }
+            }
+        });
     }
 }
