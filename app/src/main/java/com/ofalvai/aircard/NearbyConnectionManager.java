@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -18,6 +19,8 @@ import com.google.android.gms.nearby.messages.PublishCallback;
 import com.google.android.gms.nearby.messages.PublishOptions;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+
+import static android.R.id.message;
 
 /**
  * Manages a single connection to the GoogleApiClient, and provides methods for publishing,
@@ -111,6 +114,12 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
     public void publish(final Message message, final PublishListener listener) {
         Log.i(TAG, "Publishing...");
 
+        if (!mGoogleApiClient.isConnected()) {
+            listener.onPublishFailed(message, CommonStatusCodes.API_NOT_CONNECTED,
+                    "GoogleApiClient is not connected");
+            return;
+        }
+
         final PublishOptions options = new PublishOptions.Builder()
                 .setCallback(new PublishCallback() {
                     @Override
@@ -140,6 +149,11 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
     public void unpublish(Message message) {
         Log.i(TAG, "Unpublishing");
 
+        if (!mGoogleApiClient.isConnected()) {
+            Log.e(TAG, "Unpublish failed: GoogleApiClient not connected");
+            return;
+        }
+
         PendingResult<Status> result = Nearby.Messages.unpublish(mGoogleApiClient, message);
 
         result.setResultCallback(new ResultCallback<Status>() {
@@ -152,6 +166,12 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
 
     public void subscribe(final MessageListener messageListener, final SubscribeListener subscribeListener) {
         Log.i(TAG, "Subscribing...");
+
+        if (!mGoogleApiClient.isConnected()) {
+            subscribeListener.onSubscribeFailed(messageListener, CommonStatusCodes.API_NOT_CONNECTED,
+                    "GoogleApiClient is not connected");
+            return;
+        }
 
         final SubscribeOptions options = new SubscribeOptions.Builder()
                 .setCallback(new SubscribeCallback() {
@@ -187,6 +207,11 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
     public void unsubscribe(MessageListener listener) {
         Log.i(TAG, "Unsubscribing...");
 
+        if (!mGoogleApiClient.isConnected()) {
+            Log.e(TAG, "Unsubscribe failed: GoogleApiClient not connected");
+            return;
+        }
+
         PendingResult<Status> result = Nearby.Messages.unsubscribe(mGoogleApiClient, listener);
 
         result.setResultCallback(new ResultCallback<Status>() {
@@ -205,19 +230,17 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "Connected successfully");
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection suspended"); //TODO
-
+        Log.i(TAG, "Connection suspended");
+        // Connection failures are handled during share/publish calls
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed"); //TODO
-
-
+        Log.i(TAG, "Connection failed");
+        // Connection failures are handled during share/publish calls
     }
 }
