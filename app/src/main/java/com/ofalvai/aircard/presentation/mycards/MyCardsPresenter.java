@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.nearby.messages.Message;
 import com.ofalvai.aircard.NearbyConnectionManager;
+import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.MyCardsDbWrapper;
 import com.ofalvai.aircard.db.MyProfileWrapper;
@@ -80,8 +82,14 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         Message message = Card.newNearbyMessage(card);
 
         if (mNearbyConnectionManager != null) {
-            mNearbyConnectionManager.publish(message, this);
-            mPublishedCards.add(card);
+            try {
+                mNearbyConnectionManager.publish(message, this);
+                mPublishedCards.add(card);
+            } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage());
+                checkViewAttached();
+                getView().showPublishError(mContext.getString(R.string.error_publish));
+            }
         } else {
             Log.e(TAG, "NearbyConnectionManager is not initialized");
         }
@@ -92,9 +100,14 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         Message message = Card.newNearbyMessage(card);
 
         if (mNearbyConnectionManager != null) {
-            mNearbyConnectionManager.unpublish(message);
-            mPublishedCards.remove(card);
-
+            try {
+                mNearbyConnectionManager.unpublish(message);
+                mPublishedCards.remove(card);
+            } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage());
+                checkViewAttached();
+                getView().showPublishError(mContext.getString(R.string.error_unpublish));
+            }
         } else {
             Log.e(TAG, "NearbyConnectionManager is not initialized");
         }
@@ -132,7 +145,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
-    public void onPublishFailed(final Message message, int statusCode, String statusMessage) {
+    public void onPublishFailed(final Message message, final int statusCode, String statusMessage) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +154,16 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
                 checkViewAttached();
                 getView().setCardStateUnpublished(uuid);
-                // TODO: error message
+
+                String errorMessage;
+                if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                    errorMessage = mContext.getString(R.string.error_network);
+                } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
+                    errorMessage = mContext.getString(R.string.error_api_not_connected);
+                } else {
+                    errorMessage = mContext.getString(R.string.error_publish);
+                }
+                getView().showPublishError(errorMessage);
             }
         });
     }

@@ -2,6 +2,7 @@ package com.ofalvai.aircard.presentation.mycards;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -199,5 +200,10 @@ public class MyCardsFragment extends Fragment implements
                     mMyCardsList.findViewHolderForAdapterPosition(position);
             holder.setCardStateUnpublished();
         }
+    }
+
+    @Override
+    public void showPublishError(String message) {
+        Snackbar.make(mMyCardsList, message, Snackbar.LENGTH_SHORT).show();
     }
 }

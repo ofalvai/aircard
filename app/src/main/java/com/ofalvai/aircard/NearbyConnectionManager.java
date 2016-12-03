@@ -20,8 +20,6 @@ import com.google.android.gms.nearby.messages.PublishOptions;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
-import static android.R.id.message;
-
 /**
  * Manages a single connection to the GoogleApiClient, and provides methods for publishing,
  * unpublishing and subscribing to Nearby Messages.
