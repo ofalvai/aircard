@@ -189,7 +189,7 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
                 if (status.isSuccess()) {
                     subscribeListener.onSubscribeSuccess(messageListener);
                 } else {
-                    Log.e(TAG, "Publish failure status code: " + status.getStatusCode());
+                    Log.e(TAG, "Subscribe failure status code: " + status.getStatusCode());
                     subscribeListener.onSubscribeFailed(messageListener, status.getStatusCode(),
                             status.getStatusMessage());
                 }

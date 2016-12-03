@@ -18,15 +18,13 @@ interface NearbyCardsContract {
 
         void removeCard(Card card);
 
-        void showError(String message);
-
-        void showWarning(String message);
-
         void showMessageCardAdded();
 
         void setStateSubscribing();
 
         void setStateNotSubscribing();
+
+        void showSubscribeError(String message);
 
     }
 

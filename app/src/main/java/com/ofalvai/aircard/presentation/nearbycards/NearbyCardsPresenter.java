@@ -6,9 +6,11 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.ofalvai.aircard.NearbyConnectionManager;
+import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
@@ -144,7 +146,7 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
     }
 
     @Override
-    public void onSubscribeFailed(MessageListener messageListener, int statusCode, String statusMessage) {
+    public void onSubscribeFailed(MessageListener messageListener, final int statusCode, String statusMessage) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -152,6 +154,16 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
                 checkViewAttached();
                 getView().setStateNotSubscribing();
+
+                String errorMessage;
+                if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                    errorMessage = mContext.getString(R.string.error_network);
+                } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
+                    errorMessage = mContext.getString(R.string.error_api_not_connected);
+                } else {
+                    errorMessage = mContext.getString(R.string.error_subscribe);
+                }
+                getView().showSubscribeError(errorMessage);
             }
         });
     }

@@ -128,16 +128,6 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     }
 
     @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void showWarning(String message) {
-
-    }
-
-    @Override
     public void showMessageCardAdded() {
         Snackbar.make(mNearbyCardList, getString(R.string.message_card_saved), Snackbar.LENGTH_SHORT).show();
     }
@@ -165,5 +155,10 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     @Override
     public void setStateNotSubscribing() {
         mSubscribeButtonCircle.hide();
+    }
+
+    @Override
+    public void showSubscribeError(String message) {
+        Snackbar.make(mNearbyCardList, message, Snackbar.LENGTH_SHORT).show();
     }
 }

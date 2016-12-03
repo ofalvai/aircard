@@ -30,4 +30,5 @@
     <string name="error_publish">Failed to publish card</string>
     <string name="error_api_not_connected">Could not connect to Nearby API</string>
     <string name="error_unpublish">Failed to unpublish card</string>
+    <string name="error_subscribe">Failed to subscribe</string>
 </resources>
