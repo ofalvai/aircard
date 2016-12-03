@@ -15,11 +15,11 @@
         android:id="@+id/nearby_subscribe_progress_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/nearby_cards_list"
-        app:layout_anchorGravity="bottom|end"
-        app:reusable="true"
+        android:layout_gravity="end|bottom"
         app:arcColor="@color/colorPrimary"
-        app:arcWidth="@dimen/fab_arc_width">
+        app:arcWidth="@dimen/fab_arc_width"
+        app:layout_behavior="com.ofalvai.aircard.util.FABProgressCircleBehavior"
+        app:reusable="true">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/nearby_subscribe"
@@ -27,11 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:clickable="true"
-
             app:srcCompat="@drawable/ic_wifi_tethering_white_24dp"/>
 
     </com.github.jorgecastilloprz.FABProgressCircle>
-
 
 
 </android.support.design.widget.CoordinatorLayout>
