@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 public enum CardColor {
 
-    DEFAULT, YELLOW, ORANGE;
+    DEFAULT, YELLOW, ORANGE, RED;
 
     /**
      * Returns a CardColor matching the input string value of a hexadecimal color (without #)
@@ -22,8 +22,10 @@ public enum CardColor {
                 return CardColor.DEFAULT;
             case "FFF9C4":
                 return CardColor.YELLOW;
-            case "FFD54F":
+            case "FFE082":
                 return CardColor.ORANGE;
+            case "EF9A9A":
+                return CardColor.RED;
             default:
                 return CardColor.DEFAULT;
         }
@@ -40,7 +42,9 @@ public enum CardColor {
             case YELLOW:
                 return "FFF9C4";
             case ORANGE:
-                return "FFD54F";
+                return "FFE082";
+            case RED:
+                return "EF9A9A";
             default:
                 return "FFFFFF";
         }

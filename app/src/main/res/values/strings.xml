@@ -16,6 +16,7 @@
     <string name="card_color_default">Default</string>
     <string name="card_color_yellow">Yellow</string>
     <string name="card_color_orange">Orange</string>
+    <string name="card_color_red">Red</string>
     <string name="card_style_default">Default</string>
     <string name="card_style_monospace">Monospace</string>
     <string name="card_style_serif">Serif</string>

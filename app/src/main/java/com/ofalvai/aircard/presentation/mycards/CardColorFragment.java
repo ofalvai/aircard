@@ -83,4 +83,10 @@ public class CardColorFragment extends DialogFragment {
         mListener.cardColorChanged(mCardUuid, CardColor.ORANGE);
         dismiss();
     }
+
+    @OnClick(R.id.card_color_preview_row_red)
+    void clickRed() {
+        mListener.cardColorChanged(mCardUuid, CardColor.RED);
+        dismiss();
+    }
 }

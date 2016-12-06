@@ -14,5 +14,6 @@
     <color name="cardColorPreviewStroke">#444444</color>
     <color name="cardBackgroundWhite">#FFFFFF</color>
     <color name="cardBackgroundYellow">#FFF9C4</color>
-    <color name="cardBackgroundOrange">#FFD54F</color>
+    <color name="cardBackgroundOrange">#FFE082</color>
+    <color name="cardBackgroundRed">#EF9A9A</color>
 </resources>

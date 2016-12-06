@@ -53,4 +53,20 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/card_color_preview_row_red"
+        style="@style/CardColorPreviewRow">
+
+        <ImageView
+            android:id="@+id/card_color_preview_red_icon"
+            style="@style/CardColorPreviewIcon"
+            android:src="@drawable/card_color_preview_red"/>
+
+        <TextView
+            android:id="@+id/card_color_preview_red"
+            style="@style/CardColorPreviewLabel"
+            android:text="@string/card_color_red"/>
+
+    </LinearLayout>
+
 </LinearLayout>
