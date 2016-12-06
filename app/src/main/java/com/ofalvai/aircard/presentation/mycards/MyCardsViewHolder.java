@@ -51,6 +51,8 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
                 R.drawable.ic_speaker_phone_white_24dp);
         mPublishButton.setImageDrawable(publishIcon);
         mPublishButtonCircle.hide();
+
+        enableButtons();
     }
 
     public void setCardStatePublishing() {
@@ -58,5 +60,35 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
                 R.drawable.ic_cancel_white_24dp);
         mPublishButton.setImageDrawable(stopIcon);
         mPublishButtonCircle.show();
+
+        disableButtons();
+    }
+
+    private void disableButtons() {
+        mDeleteButton.setAlpha(0.5f);
+        mDeleteButton.setEnabled(false);
+
+        mEditButton.setAlpha(0.5f);
+        mEditButton.setEnabled(false);
+
+        mColorButton.setAlpha(0.5f);
+        mColorButton.setEnabled(false);
+
+        mStyleButton.setAlpha(0.5f);
+        mStyleButton.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        mDeleteButton.setAlpha(1.0f);
+        mDeleteButton.setEnabled(true);
+
+        mEditButton.setAlpha(1.0f);
+        mEditButton.setEnabled(true);
+
+        mColorButton.setAlpha(1.0f);
+        mColorButton.setEnabled(true);
+
+        mStyleButton.setAlpha(1.0f);
+        mStyleButton.setEnabled(true);
     }
 }

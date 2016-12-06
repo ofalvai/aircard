@@ -16,6 +16,7 @@
 
     <style name="CardActionButton.TextButton" parent="CardActionButton">
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:paddingLeft">16dp</item>
     </style>
 
     <style name="CardActionButton.IconButton" parent="CardActionButton">
