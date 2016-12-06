@@ -7,8 +7,10 @@ import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
+import com.ofalvai.aircard.util.CardTimestampComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
@@ -38,6 +40,7 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         checkViewAttached();
         try {
             List<Card> savedCards = mDbWrapper.getSavedCards();
+            Collections.sort(savedCards, new CardTimestampComparator());
             getView().showCards(savedCards);
         } catch (Exception ex) {
             getView().showError(mContext.getString(R.string.error_get_saved_cards));
