@@ -2,6 +2,7 @@ package com.ofalvai.aircard.presentation.mycards;
 
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -39,18 +40,22 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
     }
 
     public void setCardStatePublished() {
-        Drawable stopIcon = itemView.getContext().getDrawable(R.drawable.ic_cancel_white_24dp);
+
+        Drawable stopIcon = ContextCompat.getDrawable(itemView.getContext(),
+                R.drawable.ic_cancel_white_24dp);
         mPublishButton.setImageDrawable(stopIcon);
     }
 
     public void setCardStateUnpublished() {
-        Drawable publishIcon = itemView.getContext().getDrawable(R.drawable.ic_speaker_phone_white_24dp);
+        Drawable publishIcon = ContextCompat.getDrawable(itemView.getContext(),
+                R.drawable.ic_speaker_phone_white_24dp);
         mPublishButton.setImageDrawable(publishIcon);
         mPublishButtonCircle.hide();
     }
 
     public void setCardStatePublishing() {
-        Drawable stopIcon = itemView.getContext().getDrawable(R.drawable.ic_cancel_white_24dp);
+        Drawable stopIcon = ContextCompat.getDrawable(itemView.getContext(),
+                R.drawable.ic_cancel_white_24dp);
         mPublishButton.setImageDrawable(stopIcon);
         mPublishButtonCircle.show();
     }
