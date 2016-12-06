@@ -26,6 +26,8 @@ interface NearbyCardsContract {
 
         void showSubscribeError(String message);
 
+        void showError(String message);
+
     }
 
     interface Presenter extends MvpPresenter<View> {

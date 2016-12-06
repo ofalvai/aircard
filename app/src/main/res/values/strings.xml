@@ -34,4 +34,10 @@
     <string name="error_subscribe">Failed to subscribe</string>
     <string name="error_search">Failed to perform search</string>
     <string name="error_get_saved_cards">Failed to get saved cards</string>
+    <string name="error_save_card">Failed to save card</string>
+    <string name="error_delete_my_card">Failed to delete card</string>
+    <string name="error_create_new_card">Failed to create new card</string>
+    <string name="error_my_card_color">Failed to set card color</string>
+    <string name="error_my_card_style">Failed to set card style</string>
+    <string name="error_my_card_edit">Failed to edit card</string>
 </resources>

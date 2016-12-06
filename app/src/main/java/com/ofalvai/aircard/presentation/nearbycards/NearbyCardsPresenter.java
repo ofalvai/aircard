@@ -80,13 +80,21 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
         super.detachView();
 
         NearbyConnectionManager.releaseInstance();
+
+        if (mDbWrapper != null) {
+            mDbWrapper.close();
+        }
     }
 
     @Override
     public void save(Card card) {
-        mDbWrapper.addSavedCard(card);
         checkViewAttached();
-        getView().showMessageCardAdded();
+        try {
+            mDbWrapper.addSavedCard(card);
+            getView().showMessageCardAdded();
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_save_card));
+        }
     }
 
     @Override

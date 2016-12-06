@@ -220,4 +220,9 @@ public class MyCardsFragment extends Fragment implements
     public void showPublishError(String message) {
         Snackbar.make(mMyCardsList, message, Snackbar.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
 }

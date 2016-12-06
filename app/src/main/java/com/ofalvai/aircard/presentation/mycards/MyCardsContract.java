@@ -33,6 +33,8 @@ interface MyCardsContract {
         void setCardStateUnpublished(UUID uuid);
 
         void showPublishError(String message);
+
+        void showError(String message);
     }
 
     interface Presenter extends MvpPresenter<View> {

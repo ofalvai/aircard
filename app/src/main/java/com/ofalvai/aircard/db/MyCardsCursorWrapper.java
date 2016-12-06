@@ -39,12 +39,7 @@ public class MyCardsCursorWrapper extends CursorWrapper {
         return card;
     }
 
-    private String getStringRecord(String columnName) { //TODO: extract methods
+    private String getStringRecord(String columnName) {
         return getString(getColumnIndexOrThrow(columnName));
     }
-
-    private long getLongRecord(String columnName) {
-        return getLong(getColumnIndexOrThrow(columnName));
-    }
-
 }

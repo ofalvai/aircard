@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
@@ -160,5 +161,10 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     @Override
     public void showSubscribeError(String message) {
         Snackbar.make(mNearbyCardList, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

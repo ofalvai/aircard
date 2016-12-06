@@ -54,6 +54,10 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         super.detachView();
 
         NearbyConnectionManager.releaseInstance();
+
+        if (mDbWrapper != null) {
+            mDbWrapper.close();
+        }
     }
 
     @Override
@@ -64,17 +68,25 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void deleteMyCard(Card card) {
-        mDbWrapper.deleteMyCard(card.getUuid());
+        checkViewAttached();
+        try {
+            mDbWrapper.deleteMyCard(card.getUuid());
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_delete_my_card));
+        }
 
         // UI update is handled in the adapter
     }
 
     @Override
     public void newCard(Card card) {
-        mDbWrapper.addMyCard(card);
-
         checkViewAttached();
-        getView().showCards(mDbWrapper.getMyCards());
+        try {
+            mDbWrapper.addMyCard(card);
+            getView().showCards(mDbWrapper.getMyCards());
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_create_new_card));
+        }
     }
 
     @Override
@@ -176,9 +188,16 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void updateCardColor(UUID uuid, CardColor color) {
-        Card card = mDbWrapper.getMyCard(uuid);
-        card.setColor(color);
-        mDbWrapper.updateMyCard(card);
+        checkViewAttached();
+        try {
+            Card card = mDbWrapper.getMyCard(uuid);
+            if (card != null) {
+                card.setColor(color);
+                mDbWrapper.updateMyCard(card);
+            }
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_my_card_color));
+        }
     }
 
     @Override
@@ -189,9 +208,16 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void updateCardStyle(UUID uuid, CardStyle style) {
-        Card card = mDbWrapper.getMyCard(uuid);
-        card.setCardStyle(style);
-        mDbWrapper.updateMyCard(card);
+        checkViewAttached();
+        try {
+            Card card = mDbWrapper.getMyCard(uuid);
+            if (card != null) {
+                card.setCardStyle(style);
+                mDbWrapper.updateMyCard(card);
+            }
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_my_card_style));
+        }
     }
 
     @Override
@@ -202,7 +228,12 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
 
     @Override
     public void editCard(Card card) {
-        mDbWrapper.updateMyCard(card);
+        checkViewAttached();
+        try {
+            mDbWrapper.updateMyCard(card);
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_my_card_edit));
+        }
     }
 
     @Override
