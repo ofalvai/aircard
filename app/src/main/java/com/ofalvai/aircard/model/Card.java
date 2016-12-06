@@ -11,10 +11,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-public class Card {
+public class Card  implements Serializable {
 
     private static final Gson gson = new Gson();
 

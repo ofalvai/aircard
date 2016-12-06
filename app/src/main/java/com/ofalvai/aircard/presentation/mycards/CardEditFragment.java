@@ -50,6 +50,8 @@ public class CardEditFragment extends DialogFragment {
 
     public static final int INVOKE_MODE_EDIT = 101;
 
+    public static final String ARG_EXISTING_CARD = "existing_card";
+
     private int mInvokeMode;
 
     @Nullable
@@ -74,12 +76,19 @@ public class CardEditFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static CardEditFragment newInstance(@NonNull int invokeMode, OnFragmentInteractionListener listener) {
+    public static CardEditFragment newInstance(@NonNull int invokeMode,
+                                               OnFragmentInteractionListener listener,
+                                               @Nullable Card existingCard) {
         CardEditFragment fragment = new CardEditFragment();
         fragment.mListener = listener;
 
         Bundle args = new Bundle();
         args.putInt(ARG_INVOKE_MODE, invokeMode);
+
+        if (existingCard != null) {
+            args.putSerializable(ARG_EXISTING_CARD, existingCard);
+        }
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,6 +98,8 @@ public class CardEditFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mInvokeMode = getArguments().getInt(ARG_INVOKE_MODE);
+
+            // ARG_EXISTING_CARD is handled in onCreateView() because it involves editing views
         }
     }
 
@@ -98,6 +109,14 @@ public class CardEditFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_card_edit, container, false);
         ButterKnife.bind(this, view);
+
+        if (getArguments() != null) {
+            Card existingCard = (Card) getArguments().getSerializable(ARG_EXISTING_CARD);
+            if (existingCard != null) {
+                displayExistingCardData(existingCard);
+            }
+        }
+
         return view;
     }
 
@@ -170,6 +189,28 @@ public class CardEditFragment extends DialogFragment {
 
         if (info.address != null && !info.address.isEmpty()) {
             mInputAddress.setText(info.address);
+        }
+    }
+
+    private void displayExistingCardData(Card card) {
+        if (card.getName() != null) {
+            mInputName.setText(card.getName());
+        }
+
+        if (card.getNote() != null) {
+            mInputNotes.setText(card.getNote());
+        }
+
+        if (card.getMail() != null) {
+            mInputMail.setText(card.getMail());
+        }
+
+        if (card.getPhone() != null) {
+            mInputPhone.setText(card.getPhone());
+        }
+
+        if (card.getAddress() != null) {
+            mInputAddress.setText(card.getAddress());
         }
     }
 }

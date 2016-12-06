@@ -97,7 +97,8 @@ public class MyCardsFragment extends Fragment implements
     private void showCreateDialog() {
         CardEditFragment fragment = CardEditFragment.newInstance(
                 CardEditFragment.INVOKE_MODE_CREATE,
-                MyCardsFragment.this
+                MyCardsFragment.this,
+                null
         );
         fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
     }
@@ -106,7 +107,8 @@ public class MyCardsFragment extends Fragment implements
     public void showEditDialog(Card card) {
         CardEditFragment fragment = CardEditFragment.newInstance(
                 CardEditFragment.INVOKE_MODE_EDIT,
-                MyCardsFragment.this
+                MyCardsFragment.this,
+                card
         );
         fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
     }
