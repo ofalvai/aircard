@@ -26,32 +26,6 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
     private static final String TAG = "NearbyCardsPresenter";
 
-    private static final Card[] mDemoCards = {
-            new Card(
-                    null,
-                    "Demo card",
-                    "776-2323",
-                    "mail@example.com",
-                    "Milky Way",
-                    "example.com",
-                    "These cards are for demo purposes only, and do not come from a nearby device.\nUse the options menu again to hide them.",
-                    CardStyle.NORMAL,
-                    CardColor.DEFAULT
-            ),
-
-            new Card(
-                    null,
-                    "Another demo card",
-                    null,
-                    "mail@example.com",
-                    "",
-                    "http://example.com",
-                    "Praesent ac elementum nulla, id accumsan quam.",
-                    CardStyle.SERIF,
-                    CardColor.YELLOW
-            )
-    };
-
     private SavedCardsDbWrapper mDbWrapper;
 
     private Context mContext;
@@ -178,8 +152,32 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
 
     @Override
     public void getDemoCards() {
+        Card[] demoCards = {
+                new Card(
+                        null,
+                        "Demo card",
+                        "776-2323",
+                        "mail@example.com",
+                        "Milky Way",
+                        "example.com",
+                        "These cards are for demo purposes only, and do not come from a nearby device.\nUse the options menu again to hide them.",
+                        CardStyle.NORMAL,
+                        CardColor.DEFAULT
+                ),
+                new Card(
+                        null,
+                        "Another demo card",
+                        null,
+                        "mail@example.com",
+                        "",
+                        "http://example.com",
+                        "Praesent ac elementum nulla, id accumsan quam.",
+                        CardStyle.SERIF,
+                        CardColor.YELLOW
+                )
+        };
         checkViewAttached();
-        getView().showCards(Arrays.asList(mDemoCards));
+        getView().showCards(Arrays.asList(demoCards));
     }
 
     @Override
