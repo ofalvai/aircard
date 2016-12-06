@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -120,7 +120,7 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                showCards(Collections.<Card>emptyList());
+                showCards(new ArrayList<Card>());
             }
 
             @Override
