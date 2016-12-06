@@ -22,6 +22,8 @@ interface MyCardsContract {
 
         void showStylePicker(Card card);
 
+        void showEditDialog(Card card);
+
         void showMyProfileInfo(MyProfileInfo info);
 
         void showMyProfileInfoError();
@@ -56,6 +58,8 @@ interface MyCardsContract {
         void pickCardStyle(Card card);
 
         void updateCardStyle(UUID uuid, CardStyle style);
+
+        void editCard(Card card);
 
         void getMyProfileInfo();
     }

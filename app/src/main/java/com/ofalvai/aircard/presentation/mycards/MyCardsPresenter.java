@@ -195,6 +195,12 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
+    public void editCard(Card card) {
+        checkViewAttached();
+        getView().showEditDialog(card);
+    }
+
+    @Override
     public void getMyProfileInfo() {
         try {
             MyProfileInfo info = new MyProfileWrapper(mContext).getMyProfileInfo();

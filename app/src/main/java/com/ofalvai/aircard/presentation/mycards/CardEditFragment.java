@@ -41,7 +41,7 @@ public class CardEditFragment extends DialogFragment {
 
         void onCardEdited(Card card);
 
-        void onAutofill();
+        void onAutofillRequest();
     }
 
     public static final String ARG_INVOKE_MODE = "invoke_mode";
@@ -139,7 +139,7 @@ public class CardEditFragment extends DialogFragment {
     @NeedsPermission(Manifest.permission.READ_CONTACTS)
     void getAutoFill() {
         if (mListener != null) {
-            mListener.onAutofill();
+            mListener.onAutofillRequest();
         }
     }
 

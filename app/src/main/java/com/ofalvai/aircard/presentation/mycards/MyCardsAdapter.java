@@ -66,6 +66,16 @@ public class MyCardsAdapter extends BaseCardAdapter {
             }
         });
 
+        viewHolder.mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = viewHolder.getAdapterPosition();
+                final Card card = mCards.get(position);
+
+                mPresenter.editCard(card);
+            }
+        });
+
         viewHolder.mColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +83,6 @@ public class MyCardsAdapter extends BaseCardAdapter {
                 final Card card = mCards.get(position);
 
                 mPresenter.pickCardColor(card);
-                notifyItemChanged(position);
             }
         });
 
@@ -84,7 +93,6 @@ public class MyCardsAdapter extends BaseCardAdapter {
                 final Card card = mCards.get(position);
 
                 mPresenter.pickCardStyle(card);
-                notifyItemChanged(position);
             }
         });
     }

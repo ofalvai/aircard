@@ -79,7 +79,7 @@ public class MyCardsFragment extends Fragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_add_card:
-                showCreateFragment();
+                showCreateDialog();
                 break;
         }
         return true;
@@ -94,9 +94,18 @@ public class MyCardsFragment extends Fragment implements
         }
     }
 
-    private void showCreateFragment() {
+    private void showCreateDialog() {
         CardEditFragment fragment = CardEditFragment.newInstance(
                 CardEditFragment.INVOKE_MODE_CREATE,
+                MyCardsFragment.this
+        );
+        fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
+    }
+
+    @Override
+    public void showEditDialog(Card card) {
+        CardEditFragment fragment = CardEditFragment.newInstance(
+                CardEditFragment.INVOKE_MODE_EDIT,
                 MyCardsFragment.this
         );
         fragment.show(getActivity().getSupportFragmentManager(), CardEditFragment.TAG);
@@ -161,7 +170,7 @@ public class MyCardsFragment extends Fragment implements
     }
 
     @Override
-    public void onAutofill() {
+    public void onAutofillRequest() {
         if (mPresenter != null) {
             mPresenter.getMyProfileInfo();
         }
