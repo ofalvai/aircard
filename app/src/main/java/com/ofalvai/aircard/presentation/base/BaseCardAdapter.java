@@ -40,6 +40,10 @@ public abstract class BaseCardAdapter extends RecyclerView.Adapter<BaseCardViewH
         mCards.add(card);
     }
 
+    public void addCard(int index, Card card) {
+        mCards.add(index, card);
+    }
+
     public void removeCard(Card card) {
         // Removing the card by calling remove(card) wouldn't work, because this card object is
         // reconstructed by the Nearby Messages API from a byte array. Therefore it's not

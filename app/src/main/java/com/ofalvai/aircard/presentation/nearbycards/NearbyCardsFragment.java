@@ -113,8 +113,10 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
 
     @Override
     public void showNewCard(Card card) {
-        mNearbyCardAdapter.addCard(card);
-        mNearbyCardAdapter.notifyItemInserted(mNearbyCardAdapter.getItemCount() - 1);
+        // Adding new items to the top of the list
+        mNearbyCardAdapter.addCard(0, card);
+        mNearbyCardAdapter.notifyItemInserted(0);
+        mNearbyCardList.smoothScrollToPosition(0);
     }
 
     @Override
