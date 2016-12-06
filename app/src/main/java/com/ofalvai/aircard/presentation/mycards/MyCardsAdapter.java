@@ -72,7 +72,7 @@ public class MyCardsAdapter extends BaseCardAdapter {
                 final int position = viewHolder.getAdapterPosition();
                 final Card card = mCards.get(position);
 
-                mPresenter.editCard(card);
+                mPresenter.beginEditingCard(card);
             }
         });
 

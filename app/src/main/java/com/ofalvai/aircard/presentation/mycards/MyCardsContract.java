@@ -59,6 +59,11 @@ interface MyCardsContract {
 
         void updateCardStyle(UUID uuid, CardStyle style);
 
+        /**
+         * Delegates the display of edit dialog from the adapter to the view
+         */
+        void beginEditingCard(Card card);
+
         void editCard(Card card);
 
         void getMyProfileInfo();

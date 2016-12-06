@@ -195,9 +195,14 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
-    public void editCard(Card card) {
+    public void beginEditingCard(Card card) {
         checkViewAttached();
         getView().showEditDialog(card);
+    }
+
+    @Override
+    public void editCard(Card card) {
+        mDbWrapper.updateMyCard(card);
     }
 
     @Override
