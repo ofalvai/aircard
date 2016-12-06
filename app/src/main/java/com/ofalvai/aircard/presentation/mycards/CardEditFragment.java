@@ -16,7 +16,7 @@ import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.model.MyProfileInfo;
 
-import org.joda.time.DateTime;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +55,9 @@ public class CardEditFragment extends DialogFragment {
     private int mInvokeMode;
 
     @Nullable
+    private Card mCurrentCard;
+
+    @Nullable
     private OnFragmentInteractionListener mListener;
 
     @BindView(R.id.card_edit_name)
@@ -81,14 +84,10 @@ public class CardEditFragment extends DialogFragment {
                                                @Nullable Card existingCard) {
         CardEditFragment fragment = new CardEditFragment();
         fragment.mListener = listener;
+        fragment.mCurrentCard = existingCard;
 
         Bundle args = new Bundle();
         args.putInt(ARG_INVOKE_MODE, invokeMode);
-
-        if (existingCard != null) {
-            args.putSerializable(ARG_EXISTING_CARD, existingCard);
-        }
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -110,12 +109,7 @@ public class CardEditFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_card_edit, container, false);
         ButterKnife.bind(this, view);
 
-        if (getArguments() != null) {
-            Card existingCard = (Card) getArguments().getSerializable(ARG_EXISTING_CARD);
-            if (existingCard != null) {
-                displayExistingCardData(existingCard);
-            }
-        }
+        displayExistingCard(mCurrentCard);
 
         return view;
     }
@@ -127,32 +121,37 @@ public class CardEditFragment extends DialogFragment {
 
     @OnClick(R.id.card_edit_button_save)
     void clickSave() {
+        updateCurrentCardState();
+
         if (mListener != null) {
             if (mInvokeMode == INVOKE_MODE_CREATE) {
-                mListener.onCardCreated(getCardFromInputData());
+                mListener.onCardCreated(mCurrentCard);
             } else if (mInvokeMode == INVOKE_MODE_EDIT) {
-                mListener.onCardEdited(getCardFromInputData());
+                mListener.onCardEdited(mCurrentCard);
             }
         }
 
         dismiss();
     }
 
-    private Card getCardFromInputData() {
-        Card card = new Card(
-                null, // UUID is unknown at this time
-                mInputName.getText().toString(),
-                mInputPhone.getText().toString(),
-                mInputMail.getText().toString(),
-                mInputAddress.getText().toString(),
-                null, //TODO
-                mInputNotes.getText().toString(),
-                CardStyle.NORMAL, //TODO
-                CardColor.DEFAULT // TODO
-        );
-        card.setTimestampSaved(new DateTime().getMillis());
-
-        return card;
+    /**
+     * Reads dialog input values and updates the internal mCurrentCard object.
+     * If mCurrentCard is null (mostly because INVOKE_MODE_CREATE), creates a new card with a new UUID.
+     * This method is used when saving card modifications.
+     */
+    private void updateCurrentCardState() {
+        if (mCurrentCard == null) {
+            mCurrentCard = new Card();
+            mCurrentCard.setUuid(UUID.randomUUID());
+        }
+        mCurrentCard.setName(mInputName.getText().toString());
+        mCurrentCard.setPhone(mInputPhone.getText().toString());
+        mCurrentCard.setMail(mInputMail.getText().toString());
+        mCurrentCard.setAddress(mInputAddress.getText().toString());
+        // TODO: URL
+        mCurrentCard.setNote(mInputNotes.getText().toString());
+        mCurrentCard.setCardStyle(CardStyle.NORMAL);
+        mCurrentCard.setColor(CardColor.DEFAULT);
     }
 
     @NeedsPermission(Manifest.permission.READ_CONTACTS)
@@ -177,22 +176,40 @@ public class CardEditFragment extends DialogFragment {
     public void displayAutoFill(MyProfileInfo info) {
         if (info.name != null && !info.name.isEmpty()) {
             mInputName.setText(info.name);
+
+            if (mCurrentCard != null) {
+                mCurrentCard.setName(info.name);
+            }
         }
 
         if (info.mail != null && !info.mail.isEmpty()) {
             mInputMail.setText(info.mail);
+
+            if (mCurrentCard != null) {
+                mCurrentCard.setMail(info.mail);
+            }
         }
 
         if (info.phone != null && !info.phone.isEmpty()) {
             mInputPhone.setText(info.phone);
+
+            if (mCurrentCard != null) {
+                mCurrentCard.setPhone(info.phone);
+            }
         }
 
         if (info.address != null && !info.address.isEmpty()) {
             mInputAddress.setText(info.address);
+
+            if (mCurrentCard != null) {
+                mCurrentCard.setAddress(info.address);
+            }
         }
     }
 
-    private void displayExistingCardData(Card card) {
+    private void displayExistingCard(@Nullable Card card) {
+        if (card == null) return;
+
         if (card.getName() != null) {
             mInputName.setText(card.getName());
         }

@@ -45,6 +45,8 @@ public class Card  implements Serializable {
     private long timestampSaved;
 
     public Card() {
+        // Empty constructor required for deserialization
+        // Note: this uuid is overwritten during deserialization
         this.uuid = UUID.randomUUID();
     }
 
@@ -85,6 +87,7 @@ public class Card  implements Serializable {
         return new Message(gson.toJson(card).getBytes(Charset.forName("UTF-8")));
     }
 
+    @NonNull
     public UUID getUuid() {
         return uuid;
     }
@@ -121,6 +124,10 @@ public class Card  implements Serializable {
         return color;
     }
 
+    public void setUuid(@NonNull UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public long getTimestampSaved() {
         return timestampSaved;
     }
@@ -143,5 +150,29 @@ public class Card  implements Serializable {
 
     public void setColor(CardColor color) {
         this.color = color;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
