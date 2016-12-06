@@ -142,6 +142,7 @@ public class MyCardsFragment extends Fragment implements
     public void onCardEdited(Card card) {
         if (mPresenter != null) {
             mPresenter.editCard(card);
+            mPresenter.getMyCards();
         }
     }
 
