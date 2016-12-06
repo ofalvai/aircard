@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
@@ -91,6 +92,11 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
         if (mPresenter != null) {
             mPresenter.getSavedCards();
         }
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void initSearchView(MenuItem menuItem) {

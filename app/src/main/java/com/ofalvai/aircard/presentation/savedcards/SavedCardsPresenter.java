@@ -1,8 +1,8 @@
 package com.ofalvai.aircard.presentation.savedcards;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.db.DbHelper;
 import com.ofalvai.aircard.db.SavedCardsDbWrapper;
 import com.ofalvai.aircard.model.Card;
@@ -26,19 +26,27 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
     }
 
     @Override
+    public void detachView() {
+        super.detachView();
+        if (mDbWrapper != null) {
+            mDbWrapper.close();
+        }
+    }
+
+    @Override
     public void getSavedCards() {
         checkViewAttached();
-        List<Card> savedCards = mDbWrapper.getSavedCards();
-        getView().showCards(savedCards);
+        try {
+            List<Card> savedCards = mDbWrapper.getSavedCards();
+            getView().showCards(savedCards);
+        } catch (Exception ex) {
+            getView().showError(mContext.getString(R.string.error_get_saved_cards));
+        }
     }
 
     @Override
     public void deleteSavedCard(Card card) {
-        if (card.getUuid() != null) {
-            mDbWrapper.deleteSavedCard(card.getUuid());
-        } else {
-            Log.e(TAG, "Unable to delete card '" + card.getName() + "': missing UUID");
-        }
+        mDbWrapper.deleteSavedCard(card.getUuid());
     }
 
     @Override
@@ -47,9 +55,17 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         List<Card> cards = new ArrayList<>();
 
         if (query.trim().length() > 0) {
-            cards = mDbWrapper.searchAnywhere(query);
+            try {
+                cards = mDbWrapper.searchAnywhere(query);
+            } catch (Exception ex) {
+                getView().showError(mContext.getString(R.string.error_search));
+            }
         } else {
-            cards = mDbWrapper.getSavedCards();
+            try {
+                cards = mDbWrapper.getSavedCards();
+            } catch (Exception ex) {
+                getView().showError(mContext.getString(R.string.error_get_saved_cards));
+            }
         }
 
         getView().showCards(cards);

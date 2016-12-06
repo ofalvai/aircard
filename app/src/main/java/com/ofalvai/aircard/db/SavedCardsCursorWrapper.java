@@ -34,8 +34,4 @@ public class SavedCardsCursorWrapper extends CursorWrapper {
     private String getStringRecord(String columnName) {
         return getString(getColumnIndexOrThrow(columnName));
     }
-
-    private long getLongRecord(String columnName) {
-        return getLong(getColumnIndexOrThrow(columnName));
-    }
 }

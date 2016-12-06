@@ -17,6 +17,8 @@ interface SavedCardsContract {
          * Currently MainPagerAdapter calls this to update the view every time it gets selected.
          */
         void refreshSavedCards();
+
+        void showError(String message);
     }
 
     interface Presenter extends MvpPresenter<View> {
