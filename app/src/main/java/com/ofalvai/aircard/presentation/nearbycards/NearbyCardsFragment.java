@@ -19,6 +19,7 @@ import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,13 +82,7 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_demo_cards:
-                if (mPresenter != null) {
-                    if (mNearbyCardAdapter.getItemCount() == 0) {
-                        mPresenter.getDemoCards();
-                    } else {
-                        mPresenter.removeDemoCards();
-                    }
-                }
+                toggleDemoCards();
                 break;
         }
         return true;
@@ -138,11 +133,13 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
         if (mPresenter != null) {
             if (mPresenter.isSubscribed()) {
                 mPresenter.unsubscribe();
-
                 mSubscribeButtonCircle.hide();
+                // Note that we don't clear discovered cards, so the user has time to save them
+                // even after turning Nearby off.
             } else {
+                // Clearing previously discovered cards (and demo cards)
+                showCards(new ArrayList<Card>());
                 mPresenter.subscribe();
-
                 mSubscribeButtonCircle.show();
             }
         }
@@ -166,5 +163,21 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void toggleDemoCards() {
+        if (mPresenter != null) {
+            if (mPresenter.isSubscribed()) {
+                Toast.makeText(getActivity(), getString(R.string.nearby_demo_cards_subscribed),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (mNearbyCardAdapter.getItemCount() == 0) {
+                mPresenter.getDemoCards();
+            } else {
+                mPresenter.removeDemoCards();
+            }
+        }
     }
 }
