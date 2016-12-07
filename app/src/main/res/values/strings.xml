@@ -42,4 +42,6 @@
     <string name="error_my_card_edit">Failed to edit card</string>
     <string name="nearby_demo_cards_subscribed">Discover is already in progress</string>
     <string name="empty_view_my_cards">Tap to create a new card</string>
+    <string name="empty_view_nearby_disabled">Tap the button below to see nearby cards</string>
+    <string name="empty_view_nearby_searching">Searching for nearby cards…</string>
 </resources>

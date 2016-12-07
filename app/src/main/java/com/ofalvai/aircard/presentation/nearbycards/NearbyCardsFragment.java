@@ -6,18 +6,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.util.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,10 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     private NearbyCardAdapter mNearbyCardAdapter;
 
     @BindView(R.id.nearby_cards_list)
-    RecyclerView mNearbyCardList;
+    EmptyRecyclerView mNearbyCardList;
+
+    @BindView(R.id.empty_view)
+    TextView mEmptyView;
 
     @BindView(R.id.nearby_subscribe)
     FloatingActionButton mSubscribeButton;
@@ -93,6 +97,8 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
             mNearbyCardAdapter = new NearbyCardAdapter(mPresenter, getActivity());
             mNearbyCardList.setAdapter(mNearbyCardAdapter);
             mNearbyCardList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mEmptyView.setText(R.string.empty_view_nearby_disabled);
+            mNearbyCardList.setEmptyView(mEmptyView);
         }
     }
 
@@ -134,6 +140,7 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
     void clickSubscribe() {
         if (mPresenter != null) {
             if (mPresenter.isSubscribed()) {
+                mEmptyView.setText(R.string.empty_view_nearby_disabled);
                 mPresenter.unsubscribe();
                 mSubscribeButtonCircle.hide();
                 // Note that we don't clear discovered cards, so the user has time to save them
@@ -149,11 +156,12 @@ public class NearbyCardsFragment extends Fragment implements NearbyCardsContract
 
     @Override
     public void setStateSubscribing() {
-
+        mEmptyView.setText(R.string.empty_view_nearby_searching);
     }
 
     @Override
     public void setStateNotSubscribing() {
+        mEmptyView.setText(R.string.empty_view_nearby_disabled);
         mSubscribeButtonCircle.hide();
     }
 

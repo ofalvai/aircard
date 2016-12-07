@@ -6,10 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/nearby_cards_list"
-        style="@style/card_list"
-        tools:context="com.ofalvai.aircard.presentation.nearbycards.NearbyCardsFragment"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/materialBackground">
+
+        <include layout="@layout/list_item_empty"/>
+
+        <com.ofalvai.aircard.util.EmptyRecyclerView
+            android:id="@+id/nearby_cards_list"
+            style="@style/card_list"
+            tools:context="com.ofalvai.aircard.presentation.nearbycards.NearbyCardsFragment"/>
+
+    </LinearLayout>
 
     <com.github.jorgecastilloprz.FABProgressCircle
         android:id="@+id/nearby_subscribe_progress_circle"
