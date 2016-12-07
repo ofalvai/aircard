@@ -68,25 +68,33 @@ public class CardColorFragment extends DialogFragment {
 
     @OnClick(R.id.card_color_preview_row_white)
     void clickDefault() {
-        mListener.cardColorChanged(mCardUuid, CardColor.DEFAULT);
+        if (mListener != null) {
+            mListener.cardColorChanged(mCardUuid, CardColor.DEFAULT);
+        }
         dismiss();
     }
 
     @OnClick(R.id.card_color_preview_row_yellow)
     void clickYellow() {
-        mListener.cardColorChanged(mCardUuid, CardColor.YELLOW);
+        if (mListener != null) {
+            mListener.cardColorChanged(mCardUuid, CardColor.YELLOW);
+        }
         dismiss();
     }
 
     @OnClick(R.id.card_color_preview_row_orange)
     void clickOrange() {
-        mListener.cardColorChanged(mCardUuid, CardColor.ORANGE);
+        if (mListener != null) {
+            mListener.cardColorChanged(mCardUuid, CardColor.ORANGE);
+        }
         dismiss();
     }
 
     @OnClick(R.id.card_color_preview_row_red)
     void clickRed() {
-        mListener.cardColorChanged(mCardUuid, CardColor.RED);
+        if (mListener != null) {
+            mListener.cardColorChanged(mCardUuid, CardColor.RED);
+        }
         dismiss();
     }
 }

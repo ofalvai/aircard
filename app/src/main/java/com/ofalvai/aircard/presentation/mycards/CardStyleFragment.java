@@ -68,19 +68,25 @@ public class CardStyleFragment extends DialogFragment {
 
     @OnClick(R.id.card_style_default)
     void clickDefault() {
-        mListener.cardStyleChanged(mCardUuid, CardStyle.NORMAL);
+        if (mListener != null) {
+            mListener.cardStyleChanged(mCardUuid, CardStyle.NORMAL);
+        }
         dismiss();
     }
 
     @OnClick(R.id.card_style_monospace)
     void clickYellow() {
-        mListener.cardStyleChanged(mCardUuid, CardStyle.MONOSPACE);
+        if (mListener != null) {
+            mListener.cardStyleChanged(mCardUuid, CardStyle.MONOSPACE);
+        }
         dismiss();
     }
 
     @OnClick(R.id.card_style_serif)
     void clickOrange() {
-        mListener.cardStyleChanged(mCardUuid, CardStyle.SERIF);
+        if (mListener != null) {
+            mListener.cardStyleChanged(mCardUuid, CardStyle.SERIF);
+        }
         dismiss();
     }
 }
