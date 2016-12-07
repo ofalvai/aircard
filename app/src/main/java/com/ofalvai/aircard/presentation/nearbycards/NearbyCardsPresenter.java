@@ -115,8 +115,10 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             public void run() {
                 mMessageListener = null;
 
-                checkViewAttached();
-                getView().setStateNotSubscribing();
+                if (isViewAttached()) {
+                    // View might have been recreated after this runnable was posted to the UI thread
+                    getView().setStateNotSubscribing();
+                }
             }
         });
     }
@@ -134,18 +136,20 @@ public class NearbyCardsPresenter extends BasePresenter<NearbyCardsContract.View
             public void run() {
                 mMessageListener = null;
 
-                checkViewAttached();
-                getView().setStateNotSubscribing();
+                if (isViewAttached()) {
+                    // View might have been recreated after this runnable was posted to the UI thread
+                    getView().setStateNotSubscribing();
 
-                String errorMessage;
-                if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
-                    errorMessage = mContext.getString(R.string.error_network);
-                } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
-                    errorMessage = mContext.getString(R.string.error_api_not_connected);
-                } else {
-                    errorMessage = mContext.getString(R.string.error_subscribe);
+                    String errorMessage;
+                    if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                        errorMessage = mContext.getString(R.string.error_network);
+                    } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
+                        errorMessage = mContext.getString(R.string.error_api_not_connected);
+                    } else {
+                        errorMessage = mContext.getString(R.string.error_subscribe);
+                    }
+                    getView().showSubscribeError(errorMessage);
                 }
-                getView().showSubscribeError(errorMessage);
             }
         });
     }

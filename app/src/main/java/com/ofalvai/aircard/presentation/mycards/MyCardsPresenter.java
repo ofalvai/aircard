@@ -138,8 +138,10 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
                 UUID uuid = Card.fromNearbyMessage(message).getUuid();
                 removeCardByUuid(uuid);
 
-                checkViewAttached();
-                getView().setCardStateUnpublished(uuid);
+                if (isViewAttached()) {
+                    // View might have been recreated after this runnable was posted to the UI thread
+                    getView().setCardStateUnpublished(uuid);
+                }
             }
         });
     }
@@ -150,8 +152,11 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
             @Override
             public void run() {
                 UUID uuid = Card.fromNearbyMessage(message).getUuid();
-                checkViewAttached();
-                getView().setCardStatePublished(uuid);
+
+                if (isViewAttached()) {
+                    // View might have been recreated after this runnable was posted to the UI thread
+                    getView().setCardStatePublished(uuid);
+                }
             }
         });
     }
@@ -164,18 +169,20 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
                 UUID uuid = Card.fromNearbyMessage(message).getUuid();
                 removeCardByUuid(uuid);
 
-                checkViewAttached();
-                getView().setCardStateUnpublished(uuid);
+                if (isViewAttached()) {
+                    // View might have been recreated after this runnable was posted to the UI thread
+                    getView().setCardStateUnpublished(uuid);
 
-                String errorMessage;
-                if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
-                    errorMessage = mContext.getString(R.string.error_network);
-                } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
-                    errorMessage = mContext.getString(R.string.error_api_not_connected);
-                } else {
-                    errorMessage = mContext.getString(R.string.error_publish);
+                    String errorMessage;
+                    if (statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                        errorMessage = mContext.getString(R.string.error_network);
+                    } else if (statusCode == CommonStatusCodes.API_NOT_CONNECTED) {
+                        errorMessage = mContext.getString(R.string.error_api_not_connected);
+                    } else {
+                        errorMessage = mContext.getString(R.string.error_publish);
+                    }
+                    getView().showPublishError(errorMessage);
                 }
-                getView().showPublishError(errorMessage);
             }
         });
     }
