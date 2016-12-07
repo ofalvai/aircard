@@ -4,4 +4,5 @@
     style="@style/card_list"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="16dp"
     tools:context="com.ofalvai.aircard.presentation.nearbycards.NearbyCardsFragment"/>

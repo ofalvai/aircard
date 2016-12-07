@@ -3,12 +3,14 @@ package com.ofalvai.aircard.presentation.mycards;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.github.jorgecastilloprz.FABProgressCircle;
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.presentation.base.BaseCardViewHolder;
+import com.ofalvai.aircard.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +55,9 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
         mPublishButtonCircle.hide();
 
         enableButtons();
+
+        final CardView cardItemView = (CardView) itemView.findViewById(R.id.card);
+        cardItemView.setCardElevation(Utils.convertDpToPx(itemView.getContext(), 2.0f));
     }
 
     public void setCardStatePublishing() {
@@ -62,6 +67,9 @@ public class MyCardsViewHolder extends BaseCardViewHolder {
         mPublishButtonCircle.show();
 
         disableButtons();
+
+        final CardView cardItemView = (CardView) itemView.findViewById(R.id.card);
+        cardItemView.setCardElevation(Utils.convertDpToPx(itemView.getContext(), 8.0f));
     }
 
     private void disableButtons() {
