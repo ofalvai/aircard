@@ -7,6 +7,9 @@
     <!-- Black with 87% opacity -->
     <color name="materialTitleText">#DE000000</color>
 
+    <!-- Black with 54% opacity -->
+    <color name="materialEmptyViewText">#737373</color>
+
     <color name="link">#2196F3</color>
 
     <color name="materialBackground">#EAEAEA</color>

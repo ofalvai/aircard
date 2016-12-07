@@ -5,13 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
@@ -19,12 +19,14 @@ import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.model.MyProfileInfo;
+import com.ofalvai.aircard.util.EmptyRecyclerView;
 
 import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class MyCardsFragment extends Fragment implements
@@ -39,7 +41,10 @@ public class MyCardsFragment extends Fragment implements
     private MyCardsAdapter mMyCardsAdapter;
 
     @BindView(R.id.my_cards_list)
-    RecyclerView mMyCardsList;
+    EmptyRecyclerView mMyCardsList;
+
+    @BindView(R.id.empty_view)
+    TextView mEmptyView;
 
     public static MyCardsFragment newInstance() {
         return new MyCardsFragment();
@@ -118,6 +123,8 @@ public class MyCardsFragment extends Fragment implements
             mMyCardsAdapter = new MyCardsAdapter(mPresenter, getActivity());
             mMyCardsList.setAdapter(mMyCardsAdapter);
             mMyCardsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mEmptyView.setText(R.string.empty_view_my_cards);
+            mMyCardsList.setEmptyView(mEmptyView);
         }
 
         if (mPresenter != null) {
@@ -224,5 +231,10 @@ public class MyCardsFragment extends Fragment implements
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.empty_view)
+    void clickEmptyView() {
+        showCreateDialog();
     }
 }
