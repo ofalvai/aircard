@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,10 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ofalvai.aircard.R;
 import com.ofalvai.aircard.model.Card;
+import com.ofalvai.aircard.util.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,10 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
     private SavedCardsAdapter mCardAdapter;
 
     @BindView(R.id.saved_cards_list)
-    RecyclerView mSavedCardsList;
+    EmptyRecyclerView mSavedCardsList;
+
+    @BindView(R.id.empty_view)
+    TextView mEmptyView;
 
     public static SavedCardsFragment newInstance() {
         return new SavedCardsFragment();
@@ -68,12 +72,13 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
         initSearchView(searchItem);
     }
 
-
     private void initCardList() {
         if (mCardAdapter == null) {
             mCardAdapter = new SavedCardsAdapter(mPresenter, getActivity());
             mSavedCardsList.setAdapter(mCardAdapter);
             mSavedCardsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mEmptyView.setText(R.string.empty_view_saved);
+            mSavedCardsList.setEmptyView(mEmptyView);
         }
 
         if (mPresenter != null) {
