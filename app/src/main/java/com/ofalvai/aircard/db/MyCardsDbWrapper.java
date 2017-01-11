@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
 import com.ofalvai.aircard.model.Card;
@@ -15,6 +16,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class MyCardsDbWrapper {
+
+    public interface GetMyCardsListener {
+
+        void onMyCardsLoaded(List<Card> cards);
+
+        void onError(Exception ex);
+    }
 
     private SQLiteDatabase mDatabase;
 
@@ -33,24 +41,38 @@ public class MyCardsDbWrapper {
         mDatabase.insert(DbSchema.MyCardsTable.TABLE_NAME, null, values);
     }
 
-    public List<Card> getMyCards() {
-        List<Card> cards = new ArrayList<>();
-
-        MyCardsCursorWrapper cursor = null;
-        try {
-            cursor = queryMyCards(null, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                cards.add(cursor.getMyCard());
-                cursor.moveToNext();
+    public void getMyCards(final @Nullable GetMyCardsListener listener) {
+        new AsyncTask<Void, Void, List<Card>>() {
+            @Override
+            protected List<Card> doInBackground(Void... params) {
+                List<Card> cards = new ArrayList<>();
+                MyCardsCursorWrapper cursor = null;
+                try {
+                    cursor = queryMyCards(null, null);
+                    cursor.moveToFirst();
+                    while (!cursor.isAfterLast()) {
+                        cards.add(cursor.getMyCard());
+                        cursor.moveToNext();
+                    }
+                } catch (Exception ex) {
+                    if (listener != null) {
+                        listener.onError(ex);
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+                return cards;
             }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
 
-        return cards;
+            @Override
+            protected void onPostExecute(List<Card> cards) {
+                if (listener != null) {
+                    listener.onMyCardsLoaded(cards);
+                }
+            }
+        }.execute();
     }
 
     @Nullable

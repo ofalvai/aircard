@@ -47,4 +47,5 @@
     <string name="empty_view_saved">You can save nearby cards for later here</string>
     <string name="empty_view_saved_searching">No results</string>
     <string name="card_edit_invalid_name">Name is required</string>
+    <string name="error_get_my_cards">Failed to display cards</string>
 </resources>

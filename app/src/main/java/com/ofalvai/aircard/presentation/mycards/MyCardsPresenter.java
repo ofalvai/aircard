@@ -21,11 +21,13 @@ import com.ofalvai.aircard.model.MyProfileInfo;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
-        implements MyCardsContract.Presenter, NearbyConnectionManager.PublishListener {
+        implements MyCardsContract.Presenter, NearbyConnectionManager.PublishListener,
+        MyCardsDbWrapper.GetMyCardsListener {
 
     private static final String TAG = "MyCardsPresenter";
 
@@ -61,9 +63,23 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     }
 
     @Override
+    public void onMyCardsLoaded(List<Card> cards) {
+        if (isViewAttached()) {
+            getView().showCards(cards);
+        }
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        if (isViewAttached()) {
+            getView().showError(mContext.getString(R.string.error_get_my_cards));
+        }
+    }
+
+    @Override
     public void getMyCards() {
         checkViewAttached();
-        getView().showCards(mDbWrapper.getMyCards());
+        mDbWrapper.getMyCards(this);
     }
 
     @Override
@@ -83,7 +99,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         checkViewAttached();
         try {
             mDbWrapper.addMyCard(card);
-            getView().showCards(mDbWrapper.getMyCards());
+            mDbWrapper.getMyCards(this);
         } catch (Exception ex) {
             getView().showError(mContext.getString(R.string.error_create_new_card));
         }
