@@ -4,7 +4,10 @@ import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +34,7 @@ import permissions.dispatcher.RuntimePermissions;
  * thrown.
  */
 @RuntimePermissions
-public class CardEditFragment extends DialogFragment {
+public class CardEditFragment extends DialogFragment implements TextWatcher {
 
     public static final String TAG = "CardEditFragment";
 
@@ -59,6 +62,9 @@ public class CardEditFragment extends DialogFragment {
 
     @Nullable
     private OnFragmentInteractionListener mListener;
+
+    @BindView(R.id.card_edit_name_wrapper)
+    TextInputLayout mInputNameWrapper;
 
     @BindView(R.id.card_edit_name)
     EditText mInputName;
@@ -109,6 +115,9 @@ public class CardEditFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_card_edit, container, false);
         ButterKnife.bind(this, view);
 
+        // Inputs to be validated:
+        mInputName.addTextChangedListener(this);
+
         displayExistingCard(mCurrentCard);
 
         return view;
@@ -121,17 +130,19 @@ public class CardEditFragment extends DialogFragment {
 
     @OnClick(R.id.card_edit_button_save)
     void clickSave() {
-        updateCurrentCardState();
+        if (validate()) {
+            updateCurrentCardState();
 
-        if (mListener != null) {
-            if (mInvokeMode == INVOKE_MODE_CREATE) {
-                mListener.onCardCreated(mCurrentCard);
-            } else if (mInvokeMode == INVOKE_MODE_EDIT) {
-                mListener.onCardEdited(mCurrentCard);
+            if (mListener != null) {
+                if (mInvokeMode == INVOKE_MODE_CREATE) {
+                    mListener.onCardCreated(mCurrentCard);
+                } else if (mInvokeMode == INVOKE_MODE_EDIT) {
+                    mListener.onCardEdited(mCurrentCard);
+                }
             }
-        }
 
-        dismiss();
+            dismiss();
+        }
     }
 
     /**
@@ -229,5 +240,37 @@ public class CardEditFragment extends DialogFragment {
         if (card.getAddress() != null) {
             mInputAddress.setText(card.getAddress());
         }
+    }
+
+    /**
+     * Validates text inputs
+     * @return true if valid, false otherwise
+     */
+    private boolean validate() {
+        boolean isValid = true;
+
+        if (mInputName.getText().length() == 0) {
+            isValid = false;
+            mInputNameWrapper.setErrorEnabled(true);
+            mInputNameWrapper.setError(getString(R.string.card_edit_invalid_name));
+        } else {
+            mInputNameWrapper.setErrorEnabled(false);
+        }
+        return isValid;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // NO OP
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        validate();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        // NO OP
     }
 }
