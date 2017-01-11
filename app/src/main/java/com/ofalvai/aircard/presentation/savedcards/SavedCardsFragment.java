@@ -118,19 +118,24 @@ public class SavedCardsFragment extends Fragment implements SavedCardsContract.V
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if (mPresenter != null) {
+                    mPresenter.searchSavedCards(newText);
+                }
+                return true;
             }
         });
 
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
+                mEmptyView.setText(R.string.empty_view_saved_searching);
                 showCards(new ArrayList<Card>());
             }
 
             @Override
             public void onViewDetachedFromWindow(View v) {
                 if (mPresenter != null) {
+                    mEmptyView.setText(R.string.empty_view_saved);
                     mPresenter.getSavedCards();
                 }
             }

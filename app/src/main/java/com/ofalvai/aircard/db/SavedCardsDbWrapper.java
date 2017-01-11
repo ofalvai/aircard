@@ -69,14 +69,18 @@ public class SavedCardsDbWrapper {
                 SavedCardsTable.Cols.MAIL + " LIKE ? OR " +
                 SavedCardsTable.Cols.PHONE + " LIKE ? OR " +
                 SavedCardsTable.Cols.ADDRESS + " LIKE ? OR " +
-                SavedCardsTable.Cols.URL + " LIKE ?";
+                SavedCardsTable.Cols.URL + " LIKE ? OR " +
+                SavedCardsTable.Cols.NOTE + " LIKE ? OR " +
+                SavedCardsTable.Cols.TIMESTAMP_SAVE + " LIKE ?";
 
         String[] whereArgs = new String[] {
                 "%" + query + "%", // NAME
                 "%" + query + "%", // MAIL
                 "%" + query + "%", // PHONE
                 "%" + query + "%", // ADDRESS
-                "%" + query + "%"  // URL
+                "%" + query + "%", // URL
+                "%" + query + "%", // NOTE
+                "%" + query + "%"  // TIMESTAMP_SAVE
         };
 
         SavedCardsCursorWrapper cursorWrapper = new SavedCardsCursorWrapper(

@@ -45,4 +45,5 @@
     <string name="empty_view_nearby_disabled">Tap the button below to see nearby cards</string>
     <string name="empty_view_nearby_searching">Searching for nearby cards…</string>
     <string name="empty_view_saved">You can save nearby cards for later here</string>
+    <string name="empty_view_saved_searching">No results</string>
 </resources>

@@ -80,7 +80,7 @@ public class NearbyConnectionManager implements GoogleApiClient.ConnectionCallba
     /**
      * Use this method to obtain an instance, and don't forget to call releaseInstance() afterwards
      *
-     * @param fragmentActivity activity that is in the forground when using Nearby Messages
+     * @param fragmentActivity activity that is in the foreground when using Nearby Messages
      * @return the single instance of the class
      */
     public static NearbyConnectionManager getInstanceForActivity(FragmentActivity fragmentActivity) {

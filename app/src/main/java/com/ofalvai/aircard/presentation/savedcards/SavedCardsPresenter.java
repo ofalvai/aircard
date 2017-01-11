@@ -66,6 +66,7 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
         } else {
             try {
                 cards = mDbWrapper.getSavedCards();
+                Collections.sort(cards, new CardTimestampComparator());
             } catch (Exception ex) {
                 getView().showError(mContext.getString(R.string.error_get_saved_cards));
             }
