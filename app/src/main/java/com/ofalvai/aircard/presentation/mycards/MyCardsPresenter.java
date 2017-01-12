@@ -20,6 +20,7 @@ import com.ofalvai.aircard.model.CardStyle;
 import com.ofalvai.aircard.model.MyProfileInfo;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
     @Override
     public void getMyCards() {
         checkViewAttached();
-        mDbWrapper.getMyCards(this);
+        mDbWrapper.getMyCards(new WeakReference<MyCardsDbWrapper.GetMyCardsListener>(this));
     }
 
     @Override
@@ -99,7 +100,7 @@ public class MyCardsPresenter extends BasePresenter<MyCardsContract.View>
         checkViewAttached();
         try {
             mDbWrapper.addMyCard(card);
-            mDbWrapper.getMyCards(this);
+            mDbWrapper.getMyCards(new WeakReference<MyCardsDbWrapper.GetMyCardsListener>(this));
         } catch (Exception ex) {
             getView().showError(mContext.getString(R.string.error_create_new_card));
         }

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,13 +42,14 @@ public class MyCardsDbWrapper {
         mDatabase.insert(DbSchema.MyCardsTable.TABLE_NAME, null, values);
     }
 
-    public void getMyCards(final @Nullable GetMyCardsListener listener) {
+    public void getMyCards(final WeakReference<GetMyCardsListener> listener) {
         new AsyncTask<Void, Void, List<Card>>() {
             @Override
             protected List<Card> doInBackground(Void... params) {
                 List<Card> cards = new ArrayList<>();
                 MyCardsCursorWrapper cursor = null;
                 try {
+                    Thread.sleep(3000);
                     cursor = queryMyCards(null, null);
                     cursor.moveToFirst();
                     while (!cursor.isAfterLast()) {
@@ -55,8 +57,8 @@ public class MyCardsDbWrapper {
                         cursor.moveToNext();
                     }
                 } catch (Exception ex) {
-                    if (listener != null) {
-                        listener.onError(ex);
+                    if (listener.get() != null) {
+                        listener.get().onError(ex);
                     }
                 } finally {
                     if (cursor != null) {
@@ -68,9 +70,11 @@ public class MyCardsDbWrapper {
 
             @Override
             protected void onPostExecute(List<Card> cards) {
-                if (listener != null) {
-                    listener.onMyCardsLoaded(cards);
+                if (listener.get() != null) {
+                    listener.get().onMyCardsLoaded(cards);
                 }
+
+                listener.clear(); // Avoiding leaking Activities
             }
         }.execute();
     }
