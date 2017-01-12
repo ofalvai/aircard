@@ -5,16 +5,26 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 
 import com.ofalvai.aircard.db.DbSchema.SavedCardsTable;
 import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.model.CardColor;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class SavedCardsDbWrapper {
+
+    public interface GetSavedCardsListener {
+
+        void onSavedCardsLoaded(List<Card> cards);
+
+        void onSavedCardsError(Exception ex);
+
+    }
 
     private SQLiteDatabase mDatabase;
 
@@ -33,24 +43,42 @@ public class SavedCardsDbWrapper {
         mDatabase.insert(SavedCardsTable.TABLE_NAME, null, values);
     }
 
-    public List<Card> getSavedCards() {
-        List<Card> cards = new ArrayList<>();
+    public void getSavedCards(final WeakReference<GetSavedCardsListener> listenerRef) {
+        new AsyncTask<Void, Void, List<Card>>() {
+            @Override
+            protected List<Card> doInBackground(Void... params) {
+                List<Card> cards = new ArrayList<>();
 
-        SavedCardsCursorWrapper cursor = null;
-        try {
-            cursor = querySavedCards(null, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                cards.add(cursor.getSavedCard());
-                cursor.moveToNext();
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
+                SavedCardsCursorWrapper cursor = null;
+                try {
+                    cursor = querySavedCards(null, null);
+                    cursor.moveToFirst();
+                    while (!cursor.isAfterLast()) {
+                        cards.add(cursor.getSavedCard());
+                        cursor.moveToNext();
+                    }
+                } catch(Exception ex) {
+                    if (listenerRef.get() != null) {
+                        listenerRef.get().onSavedCardsError(ex);
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
 
-        return cards;
+                return cards;
+            }
+
+            @Override
+            protected void onPostExecute(List<Card> cards) {
+                if (listenerRef.get() != null) {
+                    listenerRef.get().onSavedCardsLoaded(cards);
+                }
+
+                listenerRef.clear(); // Avoiding leaking Activities
+            }
+        }.execute();
     }
 
     public void deleteSavedCard(UUID uuid) {

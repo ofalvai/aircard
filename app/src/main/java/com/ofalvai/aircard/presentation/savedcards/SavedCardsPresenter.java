@@ -9,12 +9,12 @@ import com.ofalvai.aircard.model.Card;
 import com.ofalvai.aircard.presentation.base.BasePresenter;
 import com.ofalvai.aircard.util.CardTimestampComparator;
 
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
 
 public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
-        implements SavedCardsContract.Presenter {
+        implements SavedCardsContract.Presenter, SavedCardsDbWrapper.GetSavedCardsListener {
 
     private final static String TAG = "SavedCardsPresenter";
 
@@ -36,12 +36,21 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
     }
 
     @Override
+    public void onSavedCardsLoaded(List<Card> cards) {
+        Collections.sort(cards, new CardTimestampComparator());
+        getView().showCards(cards);
+    }
+
+    @Override
+    public void onSavedCardsError(Exception ex) {
+        getView().showError(mContext.getString(R.string.error_get_saved_cards));
+    }
+
+    @Override
     public void getSavedCards() {
         checkViewAttached();
         try {
-            List<Card> savedCards = mDbWrapper.getSavedCards();
-            Collections.sort(savedCards, new CardTimestampComparator());
-            getView().showCards(savedCards);
+            mDbWrapper.getSavedCards(new WeakReference<SavedCardsDbWrapper.GetSavedCardsListener>(this));
         } catch (Exception ex) {
             getView().showError(mContext.getString(R.string.error_get_saved_cards));
         }
@@ -55,23 +64,20 @@ public class SavedCardsPresenter extends BasePresenter<SavedCardsContract.View>
     @Override
     public void searchSavedCards(String query) {
         checkViewAttached();
-        List<Card> cards = new ArrayList<>();
 
         if (query.trim().length() > 0) {
             try {
-                cards = mDbWrapper.searchAnywhere(query);
+                List<Card> cards = mDbWrapper.searchAnywhere(query);
+                getView().showCards(cards);
             } catch (Exception ex) {
                 getView().showError(mContext.getString(R.string.error_search));
             }
         } else {
             try {
-                cards = mDbWrapper.getSavedCards();
-                Collections.sort(cards, new CardTimestampComparator());
+                mDbWrapper.getSavedCards(new WeakReference<SavedCardsDbWrapper.GetSavedCardsListener>(this));
             } catch (Exception ex) {
                 getView().showError(mContext.getString(R.string.error_get_saved_cards));
             }
         }
-
-        getView().showCards(cards);
     }
 }
